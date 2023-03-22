@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cuchi Darknet</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!-- https://codepen.io/gcazin/pen/bKbMQW -->
+        <div id="loader-container">
+            <div id="loader"></div>
+            <p id="loader-text"></p>
+        </div>
+        <div id="container">
+            <div id="desktop">
+                <button class="desktop-icon">
+                    <img src="assets/code.png">
+                    Code
+                </button>
+                <button id="console" class="desktop-icon">
+                    <img src="assets/console.png">
+                    Console
+                </button>
+                <button class="desktop-icon">
+                    <img src="assets/adresses.png">
+                    Adresses
+                </button>
+                <button class="desktop-icon">
+                    <img src="assets/informations.png">
+                    Informations
+                </button>
+
+                <div id="app-console" class="application">
+                    <h1 id="app-console-title"></button><button id="console-quit" class="app-exit"></button><button id="console-minimize" class="app-minimize"></button>Command Prompt</h1>
+                    <div id="console-text"></div>
+                </div>
+            </div>
+            <div id="taskbar">
+                <div id="left">
+                    <button id="exit" class="taskbar-icon">
+                        <img src="assets/exit.png">
+                    </button>
+                </div>
+                <div id="right">
+                    <div id="time">
+                        <p id="hours"></p>
+                        <p id="date"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="commands.js" type="text/javascript"></script>
+        <script src="script.js" type="text/javascript"></script>
+    </body>
+</html>

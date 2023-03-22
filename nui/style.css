@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap');
+
+:root {
+    --bg-color: #171730;
+    --taskbar-color: #1d1d3d;
+    --app-minimize-color: #80bdcf;
+    --app-exit-color: #e75656;
+}
+
+body {
+    display: none;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    background-color: var(--bg-color);
+    font-family: 'Ubuntu', sans-serif;
+    color: white;
+}
+
+::-webkit-scrollbar {
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    width: 5px;
+    height: 5px;
+    scroll-behavior: smooth !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.4);
+    border-radius: 10px;
+}
+    
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}
+
+input::selection {
+    background-color: rgba(255,255,255,0.2);
+    color: black;
+}
+
+#container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#desktop {
+    display: flex;
+    background-color: var(--bg-color);
+    height: 95%;
+}
+
+#taskbar {
+    background-color: var(--taskbar-color);
+    height: 5%;
+    font-weight: 300;
+    color: white;
+    font-size: 16px;
+}
+
+.taskbar-icon {
+    width: 50px;
+    height: 50px;
+    background: none;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    transition: background-color ease-in-out .1s;
+}
+
+.taskbar-icon:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.taskbar-icon img {
+    width: 40px;
+    height: 40px;
+}
+
+#taskbar * {
+    margin: 0;
+}
+
+#taskbar #left {
+    height: 5%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+}
+
+#taskbar #left img {
+    width: 32px;
+    height: 32px;
+}
+
+#taskbar #right {
+    height: 5%;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    right: 0;
+}
+
+.desktop-icon {
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 80px;
+    height: 80px;
+    font-weight: 300;
+    font-size: 12px;
+    color: white;
+    background: none;
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    transition: background-color ease-in-out .1s;
+}
+
+.desktop-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.desktop-icon:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+#time {
+    margin-right: 10px;
+    text-align: right;
+}
+
+#loader-container {
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#loader {
+    transform: rotate(0deg);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 6px solid rgb(255,255,255,.2);
+    border-top-color: transparent;
+    animation: loader 1s linear infinite;
+}
+
+#loader-text {
+    text-align: center;
+    font-weight: 400;
+    font-size: 24px;
+    color: white;
+}
+  
+@keyframes loader {
+    to {
+      transform: rotate(360deg);
+    }
+}
+
+.application {
+    position: absolute;
+    flex-direction: column;
+    justify-self: stretch;
+    border-radius: 8px;
+    top: 25%;
+    left: 25%;
+    background-color:#0d0d1d;
+    padding: 5px;
+}
+
+.application h1 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 400;
+    font-size: 18px;
+    color: white;
+    height: 5%;
+    margin: 2px;
+}
+
+.application p {
+    font-weight: 300;
+    font-size: 16px;
+    color: white;
+}
+
+.app-exit {
+    border-radius: 50%;
+    background-color: var(--app-exit-color);
+    outline: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+
+.app-minimize {
+    border-radius: 50%;
+    background-color: var(--app-minimize-color);
+    outline: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+
+#app-console {
+    display: none;
+    width: 640px;
+    height: 420px;
+}
+
+#app-console-title {
+    cursor: move;
+}
+
+#console-text {
+    height: inherit;
+    background-color: #0a0a1a;
+    border-radius: 8px;
+    overflow-y: auto;
+}
+
+#console-text p {
+    margin: 2px;
+}
+
+#console-input, #console-input:disabled {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+}
+
+#console-input:focus {
+    outline: none;
+}
+
+.console-line {
+    display: flex;
+    align-items: flex-start;
+}
+
+.entered-command {
+    overflow-wrap: anywhere;
+}
+
+.app-active {
+    background-color: rgba(255,255,255,0.2);
+}
