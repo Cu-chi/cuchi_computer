@@ -257,3 +257,24 @@ input::selection {
 .app-active {
     background-color: rgba(255,255,255,0.2);
 }
+
+.msg-box-btn-container {
+    display: flex;
+    justify-content: center;
+}
+
+.msg-box-btn {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+}
+
+.msg-box-text {
+    margin: 2px;
+}

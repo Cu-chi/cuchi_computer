@@ -1,4 +1,5 @@
 var apps = []
+var msgId = 0
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
@@ -23,31 +24,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000)
 
     document.getElementById("exit").onclick = () => {
-        Load(true, "Shutting down...", 150, () => {
-            document.body.style.display = "none"
-            Load(false)
-            fetch(`https://${GetParentResourceName()}/exit`,
-            {
-                method: "POST",
-                body: null
-            })
-        })
+        const buttons = [
+            {text: "Cancel"},
+            {text: "Shutdown", callback: () => {
+                Load(true, "Shutting down...", 150, () => {
+                    document.body.style.display = "none"
+                    Load(false)
+                    fetch(`https://${GetParentResourceName()}/exit`,
+                    {
+                        method: "POST",
+                        body: null
+                    })
+                })
+            }}
+        ]
+        MessageBox("info", "Shutdown", "You are about to shutdown the computer, are you sure?", buttons)
     }
 
     var desktop = document.getElementById("desktop")
+    var unusableApps = []
     Object.entries(Applications).forEach(entry => {
         const [appName, appData] = entry
         let appNameCapitalized = appName.charAt(0).toUpperCase() + appName.slice(1)
-        desktop.innerHTML += `<button ${appData.usable ? `id="${appName}"`: ""} class="desktop-icon"><img src="assets/${appName}.png">${appNameCapitalized}</button>`
+        desktop.innerHTML += `<button id="${appName}" class="desktop-icon"><img src="assets/${appName}.png">${appNameCapitalized}</button>`
 
         if (appData.usable) {
             apps.push(appName) // made an array since adding onclick event while be only applied for the last element with the object foreach (weird)
             desktop.innerHTML += appData.appCode
         }
+        else {
+            unusableApps.push(appName)
+        }
     })
 
     apps.forEach(app => {
-        console.log(document.getElementById(app))
         document.getElementById(app).onclick = () => OpenApp(app)
         document.getElementById(app+"-quit").onclick = () => CloseApp(app)
         document.getElementById(app+"-minimize").onclick = () => MinimizeApp(app)
@@ -56,6 +66,10 @@ document.addEventListener("DOMContentLoaded", () => {
         appElement.setAttribute("style", `display:none;width:${Applications[app].width}px;height:${Applications[app].height}px;`)
         MakeElementDraggable(appElement)
     });
+
+    unusableApps.forEach(app => {
+        document.getElementById(app).onclick = () => MessageBox("error", "Error", "Unknown error: can't open " + app + ".exe")
+    })
 
     fetch(`https://${GetParentResourceName()}/NUIOk`,
     {
@@ -80,7 +94,7 @@ const PlayAudio = (src) => {
     new Audio(src).play()
 }
 
-const OpenApp = (appName) => {
+const OpenApp = (appName, msgBox) => {
     let elem = document.getElementById("app-"+appName)
 
     elem.style.display = "flex"
@@ -93,7 +107,7 @@ const OpenApp = (appName) => {
         taskbarIcon = document.createElement("button")
         taskbarIcon.id = "taskbar-"+appName
         taskbarIcon.classList.add("taskbar-icon")
-        taskbarIcon.innerHTML = `<img src="assets/${appName}.png">`
+        taskbarIcon.innerHTML = `<img src="assets/${msgBox ? appName.split("_")[0] : appName}.png">`
         taskbarIcon.onclick = () => {
             if (elem.style.visibility === "hidden") {
                 FocusApp(false, appName)
@@ -225,4 +239,84 @@ const AddConsoleLine = (command, text) => {
     let newInput = document.getElementById("console-input")
     newInput.focus()
     newInput.onkeydown = (e) => OnConsoleCommand(e, newInput)
+}
+
+/**
+ * @typedef {Array} MessageBoxButtonsList
+ * @property {MessageBoxButton} button - button properties
+ */
+
+/**
+ * @typedef {Object} MessageBoxButton
+ * @property {string} text - Text
+ * @property {function} [callback] - specific callback for this button
+ */
+
+/**
+ * Display a message
+ * @param {"error" | "info"} type - The type of the message box
+ * @param {string} title - Title of the message box
+ * @param {string} message - Content of the message box
+ * @param {MessageBoxButtonsList} [buttons]
+ */
+const MessageBox = (type, title, message, buttons) => {
+    msgId += 1
+    let element = document.createElement("div")
+    element.style.display = "flex"
+    let appName = type + "_" + msgId
+    element.id = "app-" + appName
+    
+    element.style.top = "50%"
+    element.style.left = "50%"
+    element.style.transform = "translate(-50%, -50%)"
+
+    element.classList.add("application")
+
+    let h1 = document.createElement("h1")
+    h1.id = element.id+"-title"
+    h1.innerText = title
+    element.appendChild(h1)
+
+    let p = document.createElement("p")
+    p.innerText = message
+    p.classList.add("msg-box-text")
+    element.appendChild(p)
+
+    if (!buttons) {
+        let button = document.createElement("button")
+        button.classList.add("msg-box-btn")
+        button.innerText = "Close"
+        button.onclick = () => {
+            CloseApp(appName)
+            element.remove()
+        }
+    
+        element.appendChild(button)
+    }
+    else {
+        if (buttons.length > 1) {
+            var buttonsContainer = document.createElement("div")
+            buttonsContainer.classList.add("msg-box-btn-container")
+            element.appendChild(buttonsContainer)
+        }
+        
+        buttons.forEach(buttonData => {
+            let buttonElem = document.createElement("button")
+            buttonElem.classList.add("msg-box-btn")
+            buttonElem.innerText = buttonData.text
+            buttonElem.onclick = () => {
+                CloseApp(appName)
+                element.remove()
+                if (buttonData.callback) 
+                    buttonData.callback()
+            }
+        
+            (buttonsContainer || element).appendChild(buttonElem)
+        })
+    }
+    document.getElementById("desktop").appendChild(element)
+    OpenApp(appName, true)
+    MakeElementDraggable(element)
+
+    PlayAudio("assets/message.mp3")
 }
