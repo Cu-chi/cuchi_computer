@@ -1,7 +1,9 @@
+var apps = []
+
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
         document.body.style.display = "block"
-        Load(true, "Starting up...", 1500, () => {
+        Load(true, "Starting up...", 150, () => {
             PlayAudio("assets/boot.mp3")
             document.getElementById("container").style.display = "block"
             Load(false)
@@ -21,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000)
 
     document.getElementById("exit").onclick = () => {
-        Load(true, "Shutting down...", 1500, () => {
+        Load(true, "Shutting down...", 150, () => {
             document.body.style.display = "none"
             Load(false)
             fetch(`https://${GetParentResourceName()}/exit`,
@@ -32,11 +34,28 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    document.getElementById("console").onclick = () => OpenApp("console")
-    document.getElementById("console-quit").onclick = () => CloseApp("console")
-    document.getElementById("console-minimize").onclick = () => MinimizeApp("console")
+    var desktop = document.getElementById("desktop")
+    Object.entries(Applications).forEach(entry => {
+        const [appName, appData] = entry
+        let appNameCapitalized = appName.charAt(0).toUpperCase() + appName.slice(1)
+        desktop.innerHTML += `<button ${appData.usable ? `id="${appName}"`: ""} class="desktop-icon"><img src="assets/${appName}.png">${appNameCapitalized}</button>`
 
-    MakeElementDraggable(document.getElementById("app-console"))
+        if (appData.usable) {
+            apps.push(appName) // made an array since adding onclick event while be only applied for the last element with the object foreach (weird)
+            desktop.innerHTML += appData.appCode
+        }
+    })
+
+    apps.forEach(app => {
+        console.log(document.getElementById(app))
+        document.getElementById(app).onclick = () => OpenApp(app)
+        document.getElementById(app+"-quit").onclick = () => CloseApp(app)
+        document.getElementById(app+"-minimize").onclick = () => MinimizeApp(app)
+
+        var appElement = document.getElementById("app-"+app)
+        appElement.setAttribute("style", `display:none;width:${Applications[app].width}px;height:${Applications[app].height}px;`)
+        MakeElementDraggable(appElement)
+    });
 
     fetch(`https://${GetParentResourceName()}/NUIOk`,
     {
@@ -123,8 +142,18 @@ const FocusApp = (e, appName) => {
     if (e)
         e.stopPropagation() // stop the event from also being handled by the body
 
+    UnfocusAllApp()
+
     let taskbarIcon = document.getElementById("taskbar-"+appName)
     taskbarIcon.classList.add("app-active")
+
+    apps.forEach(app => {
+        if (app == appName)
+            document.getElementById("app-"+appName).style.zIndex = 9999
+        else
+            document.getElementById("app-"+app).style.zIndex = "unset"
+    })
+    
 
     if (appName == "console") {
         let consoleInput = document.getElementById("console-input")
@@ -139,7 +168,9 @@ const MinimizeApp = (appName) => {
 
 const MakeElementDraggable = (element) => {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0
-    document.getElementById(element.id + "-title").onmousedown = (e) => {
+    var movable = document.getElementById(element.id + "-title")
+    movable.style.cursor = "move"
+    movable.onmousedown = (e) => {
         e = e || window.event
         e.preventDefault()
 

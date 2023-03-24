@@ -21,5 +21,11 @@ const CommandsList = {
         "action": () => {
             AddConsoleLine("version", "version: <span style='color: #4d3dff'>" + ConsoleVersion + "</span> - Cuchi")
         }
+    },
+    "exit": {
+        "description": "exit command prompt",
+        "action": () => {
+            CloseApp("console")
+        }
     } 
 }

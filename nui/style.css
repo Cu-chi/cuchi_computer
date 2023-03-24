@@ -181,6 +181,7 @@ input::selection {
     left: 25%;
     background-color:#0d0d1d;
     padding: 5px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .application h1 {
@@ -218,16 +219,6 @@ input::selection {
     height: 16px;
     width: 16px;
     cursor: pointer;
-}
-
-#app-console {
-    display: none;
-    width: 640px;
-    height: 420px;
-}
-
-#app-console-title {
-    cursor: move;
 }
 
 #console-text {
