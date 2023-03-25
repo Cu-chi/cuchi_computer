@@ -32,4 +32,4 @@ const Applications = {
     <div id="informations-text"></div>
 </div>`
     },
-}
+};
