@@ -129,12 +129,7 @@ const OpenApp = (appName, msgBox) => {
     document.body.onmousedown = () => UnfocusAllApp();
     FocusApp(false, appName);
 
-    if (appName == "console") {
-        document.getElementById("console-text").innerHTML = "<div class='console-line'><p>" + ConsolePrefix + "</p><input id='console-input' type='text'></div>";
-        let consoleInput = document.getElementById("console-input");
-        consoleInput.focus();
-        consoleInput.onkeydown = (e) => OnConsoleCommand(e, consoleInput);
-    }
+    if (appName == "console") ClearConsole();
 };
 
 const CloseApp = (appName) => {
@@ -240,6 +235,13 @@ const AddConsoleLine = (command, text) => {
     let newInput = document.getElementById("console-input");
     newInput.focus();
     newInput.onkeydown = (e) => OnConsoleCommand(e, newInput);
+};
+
+const ClearConsole = () => {
+    document.getElementById("console-text").innerHTML = "<div class='console-line'><p>" + ConsolePrefix + "</p><input id='console-input' type='text'></div>";
+    let consoleInput = document.getElementById("console-input");
+    consoleInput.focus();
+    consoleInput.onkeydown = (e) => OnConsoleCommand(e, consoleInput);
 };
 
 /**
