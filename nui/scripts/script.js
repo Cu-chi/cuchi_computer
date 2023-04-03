@@ -1,4 +1,5 @@
 var apps = [];
+var openedApps = [];
 var msgId = 0;
 
 window.addEventListener("message", (event) => {
@@ -36,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         body: null
                     })
                 })
+                openedApps.forEach(appName => CloseApp(appName));
+                openedApps = [];
             }}
         ];
         MessageBox("info", "Shutdown", "You are about to shutdown the computer, are you sure?", buttons);
@@ -95,6 +98,8 @@ const PlayAudio = (soundName) => {
 };
 
 const OpenApp = (appName, msgBox) => {
+    openedApps.push(appName);
+
     let elem = document.getElementById("app-"+appName);
 
     elem.style.display = "flex";
@@ -133,7 +138,9 @@ const OpenApp = (appName, msgBox) => {
 };
 
 const CloseApp = (appName) => {
-    document.getElementById("app-"+appName).style.display = "none";
+    const app = document.getElementById("app-"+appName);
+    if (app)
+        app.style.display = "none";
 
     const taskbarIcon = document.getElementById("taskbar-"+appName);
     if (taskbarIcon)
