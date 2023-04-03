@@ -25,8 +25,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
 
     document.getElementById("exit").onclick = () => {
+        const exitBtn = document.getElementById("exit");
+        if (exitBtn.getAttribute("validation") === "1") 
+            return;
+
+        exitBtn.setAttribute("validation", "1");
+
         const buttons = [
-            {text: "Cancel"},
+            {text: "Cancel", callback: () => {
+                exitBtn.removeAttribute("validation");
+            }},
             {text: "Shutdown", callback: () => {
                 Load(true, "Shutting down...", 150, () => {
                     document.body.style.display = "none"
@@ -39,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 openedApps.forEach(appName => CloseApp(appName));
                 openedApps = [];
+                exitBtn.removeAttribute("validation");
             }}
         ];
         MessageBox("info", "Shutdown", "You are about to shutdown the computer, are you sure?", buttons);
