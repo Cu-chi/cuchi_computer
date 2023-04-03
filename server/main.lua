@@ -34,3 +34,7 @@ if Config.UseItem and Config.UseItem ~= "" then
         TriggerClientEvent("cuchi_computer:useItem", src)
     end)
 end
+
+CreateThread(function()
+    
+end)

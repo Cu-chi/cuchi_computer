@@ -29,26 +29,40 @@ SetTimeout(0, function()
     end
 end)
 
-RegisterNetEvent("cuchi_computer:useItem", function()
-    SendNUIMessage({
-        type = "show"
-    })
-    SetNuiFocus(true, true)
-end)
+if #Config.UsablePositions > 0 then
+    CreateThread(function()
+        while true do
+            if UIOpen then
+                Wait(500)
+                goto skip
+            end
 
-RegisterNUICallback("exit", function(_, cb)
-    SetNuiFocus(false, false)
-    cb("OK")
-end)
+            local playerPedId = PlayerPedId()
+            local playerCoords = GetEntityCoords(playerPedId)
 
-RegisterNUICallback("NUIOk", function(_, cb)
-    NUIOk = true
-    cb("OK")
-end)
+            local nearestDistance
+            local nearestIndex = 0
+            for i = 1, #Config.UsablePositions, 1 do
+                local currentDistance = #(playerCoords - Config.UsablePositions[i])
+                if not nearestDistance or currentDistance < nearestDistance then
+                    nearestDistance = currentDistance
+                    nearestIndex = i
+                end
+            end
 
-CreateThread(function()
-    SendNUIMessage({
-        type = "version",
-        version = GetResourceMetadata(GetCurrentResourceName(), "version", 0)
-    })
-end)
+            if nearestDistance and nearestDistance < 2.0 then
+                CustomDrawMarker(Config.UsablePositions[nearestIndex])
+                CustomHelpNotification("~INPUT_ENTER~ to start computer")
+
+                if IsControlJustPressed(0, 51) then
+                    OpenUI()
+                end
+                Wait(0)
+            else
+                Wait(500)
+            end
+
+            ::skip::
+        end
+    end)
+end
