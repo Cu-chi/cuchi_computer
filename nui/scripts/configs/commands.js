@@ -2,7 +2,7 @@ var ConsoleVersion = "0.0.0";
 const ConsolePrefix = "<span style='color: #6d6d9b'>user@laptop</span>:<span style='color: #4d3dff'>~</span># ";
 const CommandsList = {
     "help": {
-        "description": "display all available commands.",
+        "description": GetLocale("cmd_help_desc"),
         "action": () => {
             let finalText = "";
             let first = true;
@@ -17,19 +17,19 @@ const CommandsList = {
         }
     },
     "version": {
-        "description": "display current version.",
+        "description": GetLocale("cmd_version_desc"),
         "action": () => {
             AddConsoleLine("version", "version: <span style='color: #4d3dff'>" + ConsoleVersion + "</span> - Cuchi");
         }
     },
     "clear": {
-        "description": "clear console output.",
+        "description": GetLocale("cmd_clear_desc"),
         "action": () => {
             ClearConsole();
         }
     },
     "exit": {
-        "description": "exit command prompt.",
+        "description": GetLocale("cmd_exit_desc"),
         "action": () => {
             CloseApp("console");
         }
