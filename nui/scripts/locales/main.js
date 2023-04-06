@@ -1,4 +1,6 @@
-var Locale = "FR";
+var Locale = localStorage.getItem("locale");
+if (!Locale)
+    Locale = "EN";
 
 const GetLocale = (key) => {
     var locale = Locales[Locale][key];
@@ -9,3 +11,11 @@ const GetLocale = (key) => {
 
     return key + " doesn't exist"
 };
+
+const SetLocale = (key) => {
+    if (!Locales[key]) console.log("locale key " + key + " doesn't exist");
+
+    Locale = key;
+    localStorage.setItem("locale", key)
+    document.getElementById("locale-selection").innerText = GetLocale("os_lang");
+}

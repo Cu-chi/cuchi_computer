@@ -17,6 +17,23 @@ window.addEventListener("message", (event) => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+    SetLocale(Locale);
+
+    var localSelection = document.getElementById("locale-selection");
+    localSelection.onclick = () => {
+        const buttons = [];
+        Object.entries(Locales).forEach(locale => {
+            const [localeKey, localeData] = locale;
+            buttons.push({
+                text: localeData.os_lang, callback: () => {
+                    SetLocale(localeKey);
+                }
+            });
+        });
+
+        MessageBox("info", GetLocale("os_language"), GetLocale("os_language_selection"), buttons)
+    }
+
     setInterval(() => {
         var date = new Date();
 

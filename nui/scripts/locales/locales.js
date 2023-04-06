@@ -1,5 +1,8 @@
 const Locales = {
     EN: {
+        os_lang: "English",
+        os_language: "Language",
+        os_language_selection: "Select the language to set for the system.",
         os_cancel: "Cancel",
         os_close: "Close",
         os_boot: "Starting up...",
@@ -18,6 +21,9 @@ const Locales = {
         cmd_exit_desc: "exit command prompt.",
     },
     FR: {
+        os_lang: "Français",
+        os_language: "Langage",
+        os_language_selection: "Sélectionnez la langue à définir pour le système.",
         os_cancel: "Annuler",
         os_close: "Fermer",
         os_boot: "Démarrage...",
