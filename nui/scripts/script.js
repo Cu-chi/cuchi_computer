@@ -68,7 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 exitBtn.removeAttribute("validation");
             }}
         ];
-        MessageBox("info", GetLocale("os_shutdown"), GetLocale("os_shutdown_confirmation"), buttons);
+        MessageBox("info", GetLocale("os_shutdown"), GetLocale("os_shutdown_confirmation"), buttons, () => {
+            exitBtn.removeAttribute("validation");
+        });
     };
 
     var desktop = document.getElementById("desktop");
@@ -164,7 +166,7 @@ const OpenApp = (appName, msgBox) => {
     if (appName == "console") ClearConsole();
 };
 
-const CloseApp = (appName) => {
+const CloseApp = (appName, callback) => {
     const app = document.getElementById("app-"+appName);
     if (app)
         app.style.display = "none";
@@ -172,6 +174,8 @@ const CloseApp = (appName) => {
     const taskbarIcon = document.getElementById("taskbar-"+appName);
     if (taskbarIcon)
         document.getElementById("left").removeChild(taskbarIcon);
+
+    if (callback) callback();
 };
 
 const UnfocusAllApp = () => {
@@ -203,9 +207,11 @@ const FocusApp = (e, appName) => {
     }
 };
 
-const MinimizeApp = (appName) => {
+const MinimizeApp = (appName, callback) => {
     document.getElementById("taskbar-"+appName).classList.remove("app-active");
     document.getElementById("app-"+appName).style.visibility = "hidden";
+
+    if (callback) callback();
 };
 
 const MakeElementDraggable = (element) => {
@@ -295,8 +301,10 @@ const ClearConsole = () => {
  * @param {string} title - Title of the message box
  * @param {string} message - Content of the message box
  * @param {MessageBoxButtonsList} [buttons]
+ * @param {function} [onClose] function to execute when the close button is clicked
+ * @param {function} [onMinimize] function to execute when the minimize button is clicked
  */
-const MessageBox = (type, title, message, buttons) => {
+const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
     msgId += 1;
     let element = document.createElement("div");
     element.style.display = "flex";
@@ -311,7 +319,7 @@ const MessageBox = (type, title, message, buttons) => {
 
     let h1 = document.createElement("h1");
     h1.id = element.id+"-title";
-    h1.innerText = title;
+    h1.innerHTML = `<button id="${appName}-quit" class="app-exit"></button><button id="${appName}-minimize" class="app-minimize"></button>${title}`
     element.appendChild(h1);
 
     let p = document.createElement("p");
@@ -353,6 +361,8 @@ const MessageBox = (type, title, message, buttons) => {
     }
     document.getElementById("desktop").appendChild(element);
     OpenApp(appName, true);
+    document.getElementById(appName+"-quit").onclick = () => CloseApp(appName, onClose);
+    document.getElementById(appName+"-minimize").onclick = () => MinimizeApp(appName, onMinimize);
     MakeElementDraggable(element);
 
     PlayAudio("message");
