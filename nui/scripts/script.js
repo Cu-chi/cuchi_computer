@@ -5,7 +5,7 @@ var msgId = 0;
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
         document.body.style.display = "block";
-        Load(true, "Starting up...", 150, () => {
+        Load(true, GetLocale("os_boot"), 150, () => {
             PlayAudio("boot");
             document.getElementById("container").style.display = "block";
             Load(false);
@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
         var date = new Date();
 
-        document.getElementById("hours").innerText = date.toLocaleTimeString();
-        document.getElementById("date").innerText = date.toLocaleDateString();
+        const dateFormat = GetLocale("date_format");
+        document.getElementById("hours").innerText = date.toLocaleTimeString(dateFormat);
+        document.getElementById("date").innerText = date.toLocaleDateString(dateFormat);
     }, 1000);
 
     document.getElementById("exit").onclick = () => {
@@ -32,11 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
         exitBtn.setAttribute("validation", "1");
 
         const buttons = [
-            {text: "Cancel", callback: () => {
+            {text: GetLocale("os_cancel"), callback: () => {
                 exitBtn.removeAttribute("validation");
             }},
-            {text: "Shutdown", callback: () => {
-                Load(true, "Shutting down...", 150, () => {
+            {text: GetLocale("os_shutdown"), callback: () => {
+                Load(true, GetLocale("os_shuttingdown"), 150, () => {
                     document.body.style.display = "none"
                     Load(false)
                     fetch(`https://${GetParentResourceName()}/exit`,
@@ -50,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 exitBtn.removeAttribute("validation");
             }}
         ];
-        MessageBox("info", "Shutdown", "You are about to shutdown the computer, are you sure?", buttons);
+        MessageBox("info", GetLocale("os_shutdown"), GetLocale("os_shutdown_confirmation"), buttons);
     };
 
     var desktop = document.getElementById("desktop");
@@ -80,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     unusableApps.forEach(app => {
-        document.getElementById(app).onclick = () => MessageBox("error", "Error", "Unknown error: can't open " + app + ".exe");
+        document.getElementById(app).onclick = () => MessageBox("error", GetLocale("os_error"), GetLocale("os_fake_error").replace("{1}", app));
     });
 
     fetch(`https://${GetParentResourceName()}/NUIOk`,
@@ -233,7 +234,7 @@ const OnConsoleCommand = (e, consoleInput) => {
         if (command)
             command.action();
         else
-            AddConsoleLine(consoleInput.value, "This command does not exist.<br>Try 'help' to list all available commands");
+            AddConsoleLine(consoleInput.value, GetLocale("cmd_unknown"));
     };
 };
 
@@ -304,7 +305,7 @@ const MessageBox = (type, title, message, buttons) => {
     if (!buttons) {
         let button = document.createElement("button");
         button.classList.add("msg-box-btn");
-        button.innerText = "Close";
+        button.innerText = GetLocale("os_close");
         button.onclick = () => {
             CloseApp(appName);
             element.remove();
