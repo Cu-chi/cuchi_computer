@@ -19,6 +19,8 @@ const Locales = {
         cmd_version_desc: "display current version.",
         cmd_clear_desc: "clear console output.",
         cmd_exit_desc: "exit command prompt.",
+
+        info_ipv4: "IPv4:",
     },
     FR: {
         os_lang: "Français",
@@ -40,5 +42,7 @@ const Locales = {
         cmd_version_desc: "afficher la version actuelle.",
         cmd_clear_desc: "effacer la sortie de la console.",
         cmd_exit_desc: "quitter l'invite de commande.",
+
+        info_ipv4: "IPv4 :",
     },
 }

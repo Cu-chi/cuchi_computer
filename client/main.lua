@@ -55,7 +55,7 @@ if #Config.UsablePositions > 0 then
                 CustomHelpNotification("~INPUT_ENTER~ to start computer")
 
                 if IsControlJustPressed(0, 51) then
-                    OpenUI()
+                    OpenUI(Config.UsablePositions[nearestIndex])
                 end
                 Wait(0)
             else

@@ -35,6 +35,13 @@ if Config.UseItem and Config.UseItem ~= "" then
     end)
 end
 
-CreateThread(function()
-    
+Framework.RegisterServerCallback("ccmp:startComputer", function(_, cb, location)
+    cb(RegisterNewIP(location))
+end)
+
+RegisterNetEvent("ccmp:stopComputer", function(location)
+    local ip = GetIPFromLocation(location)
+    if ip then
+        SetIPState(ip, false)
+    end
 end)

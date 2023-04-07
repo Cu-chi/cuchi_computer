@@ -24,8 +24,6 @@ const Applications = {
     },
     "informations": {
         usable: true,
-        width: 380,
-        height: 640,
         appCode: `
 <div id="app-informations" class="application">
     <h1 id="app-informations-title"><button id="informations-quit" class="app-exit"></button><button id="informations-minimize" class="app-minimize"></button>Informations</h1>

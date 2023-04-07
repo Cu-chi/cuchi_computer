@@ -2,17 +2,22 @@ local RegisteredIPs = {}
 
 --- Add a new IP to the registered list
 ---@param location vector3
----@return string
+---@return boolean|string
 function RegisterNewIP(location)
     local existingIP = GetIPFromLocation(location)
+    print(location, existingIP)
     if not existingIP then
         local genIP = GenerateRandomIP()
-        RegisteredIPs[genIP] = location
-        print("registered "..genIP.. " for "..location)
+        RegisteredIPs[genIP] = {
+            state = true,
+            location = location
+        }
         return genIP
     else
-        print("already registered at "..existingIP.. " for "..location)
-        return existingIP
+        if not RegisteredIPs[existingIP].state then
+            return existingIP
+        end
+        return false
     end
 end
 
@@ -26,20 +31,29 @@ end
 ---@param ip string
 ---@return vector3
 function GetLocationFromIP(ip)
-    return RegisteredIPs[ip]
+    return RegisteredIPs[ip] and RegisteredIPs[ip].location
 end
 
 --- Get the IP adress from the location 
 ---@param targetLocation vector3
 ---@return nil|string
 function GetIPFromLocation(targetLocation)
-    for ip, location in pairs(RegisteredIPs) do
-        if location == targetLocation then
+    for ip, data in pairs(RegisteredIPs) do
+        if data.location == targetLocation then
             return ip
         end
     end
 
     return nil
+end
+
+---Define the state of an IP
+---@param ip string
+---@param used boolean
+function SetIPState(ip, used)
+    if RegisteredIPs[ip] then
+        RegisteredIPs[ip].state = used
+    end
 end
 
 --- Generate a random IP adress
@@ -48,6 +62,7 @@ function GenerateRandomIP()
     local ip = ""
 
     while ip == "" or GetLocationFromIP(ip) do
+        ip = ""
         for i = 1, 4 do
             local section = math.random(11, 200)
 

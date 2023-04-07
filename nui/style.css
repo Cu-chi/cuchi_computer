@@ -94,6 +94,7 @@ input::selection {
     align-items: center;
     position: absolute;
     left: 0;
+    gap: 5px;
 }
 
 #taskbar #left img {
@@ -293,4 +294,12 @@ input::selection {
 
 #lang button:hover {
     background-color: rgba(255,255,255,0.1);
+}
+
+#informations-text p {
+    margin: 4px 2px;
+}
+
+.info-label {
+    font-weight: 400;
 }

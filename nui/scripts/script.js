@@ -1,11 +1,16 @@
 var apps = [];
 var openedApps = [];
 var msgId = 0;
+var IP = "";
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
+        IP = event.data.ip
         document.body.style.display = "block";
-        Load(true, GetLocale("os_boot"), 150, () => {
+        setInterval(() => {
+            AddInformation(GetLocale("info_ipv4"), IP);
+        }, 750);
+        Load(true, GetLocale("os_boot"), 1500, () => {
             PlayAudio("boot");
             document.getElementById("container").style.display = "block";
             Load(false);
@@ -54,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 exitBtn.removeAttribute("validation");
             }},
             {text: GetLocale("os_shutdown"), callback: () => {
-                Load(true, GetLocale("os_shuttingdown"), 150, () => {
+                Load(true, GetLocale("os_shuttingdown"), 1500, () => {
                     document.body.style.display = "none"
                     Load(false)
                     fetch(`https://${GetParentResourceName()}/exit`,
@@ -283,6 +288,13 @@ const ClearConsole = () => {
     consoleInput.focus();
     consoleInput.onkeydown = (e) => OnConsoleCommand(e, consoleInput);
 };
+
+const AddInformation = (label, value) => {
+    var informations = document.getElementById("informations-text");
+    var newParagraph = document.createElement("p");
+    newParagraph.innerHTML = `<span class="info-label">${label}</span> ${value}`;
+    informations.appendChild(newParagraph);
+}
 
 /**
  * @typedef {Array} MessageBoxButtonsList
