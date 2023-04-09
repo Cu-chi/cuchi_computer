@@ -14,7 +14,7 @@ function OpenUI(location)
             UIOpen = true
         else
             Location = nil
-            CustomNotification("locale to define")
+            CustomNotification(GetLocale("already_in_use"))
         end
     end, location)
 end

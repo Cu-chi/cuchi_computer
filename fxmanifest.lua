@@ -6,6 +6,7 @@ version "0.0.1-beta"
 shared_script "config.lua"
 
 client_scripts {
+    "client/locales/*.lua",
     "client/*.lua"
 }
 

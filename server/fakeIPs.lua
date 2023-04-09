@@ -5,7 +5,6 @@ local RegisteredIPs = {}
 ---@return boolean|string
 function RegisterNewIP(location)
     local existingIP = GetIPFromLocation(location)
-    print(location, existingIP)
     if not existingIP then
         local genIP = GenerateRandomIP()
         RegisteredIPs[genIP] = {

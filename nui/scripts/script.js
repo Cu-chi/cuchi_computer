@@ -5,11 +5,9 @@ var IP = "";
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
-        IP = event.data.ip
+        IP = event.data.ip;
         document.body.style.display = "block";
-        setInterval(() => {
-            AddInformation(GetLocale("info_ipv4"), IP);
-        }, 750);
+        AddInformation(GetLocale("info_ipv4"), IP);
         Load(true, GetLocale("os_boot"), 1500, () => {
             PlayAudio("boot");
             document.getElementById("container").style.display = "block";
@@ -36,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        MessageBox("info", GetLocale("os_language"), GetLocale("os_language_selection"), buttons)
+        MessageBox("info", GetLocale("os_language"), GetLocale("os_language_selection"), buttons);
     }
 
     setInterval(() => {
@@ -60,17 +58,28 @@ document.addEventListener("DOMContentLoaded", () => {
             }},
             {text: GetLocale("os_shutdown"), callback: () => {
                 Load(true, GetLocale("os_shuttingdown"), 1500, () => {
-                    document.body.style.display = "none"
-                    Load(false)
+                    document.body.style.display = "none";
+                    Load(false);
                     fetch(`https://${GetParentResourceName()}/exit`,
                     {
                         method: "POST",
                         body: null
-                    })
-                })
+                    });
+                });
                 openedApps.forEach(appName => CloseApp(appName));
                 openedApps = [];
                 exitBtn.removeAttribute("validation");
+
+                apps.forEach(app => {
+                    var appElement = document.getElementById("app-"+app);
+                    appElement.style.top = "25%";
+                    appElement.style.left = "25%";
+
+                    var appTextElement = document.getElementById(app+"-text");
+                    if (appTextElement) {
+                        appTextElement.innerHTML = "";
+                    }
+                });
             }}
         ];
         MessageBox("info", GetLocale("os_shutdown"), GetLocale("os_shutdown_confirmation"), buttons, () => {
