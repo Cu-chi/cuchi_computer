@@ -11,6 +11,7 @@ const Locales = {
         os_shutdown_confirmation: "You are about to shutdown the computer, are you sure?",
         os_error: "Error",
         os_fake_error: "Unknown error: can't open {1}.exe",
+        os_session: "Initializing a new session...",
 
         date_format: "en-US",
 
@@ -34,6 +35,7 @@ const Locales = {
         os_shutdown_confirmation: "Vous êtes sur le point d'éteindre l'ordinateur, êtes-vous sûr ?",
         os_error: "Erreur",
         os_fake_error: "Erreur inconnue : impossible d'ouvrir {1}.exe",
+        os_session: "Initialisation d'une nouvelle session...",
 
         date_format: "fr-FR",
 

@@ -33,5 +33,5 @@ const CommandsList = {
         "action": () => {
             CloseApp("console");
         }
-    } 
+    }
 };

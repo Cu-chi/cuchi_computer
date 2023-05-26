@@ -8,10 +8,12 @@ window.addEventListener("message", (event) => {
         IP = event.data.ip;
         document.body.style.display = "block";
         AddInformation(GetLocale("info_ipv4"), IP);
-        Load(true, GetLocale("os_boot"), 1500, () => {
-            PlayAudio("boot");
-            document.getElementById("container").style.display = "block";
-            Load(false);
+        Load(true, GetLocale("os_session"), 1000, () => {
+            Load(true, GetLocale("os_boot"), 1500, () => {
+                PlayAudio("boot");
+                document.getElementById("container").style.display = "block";
+                Load(false);
+            });
         });
     }
     else if (event.data.type === "version") {
