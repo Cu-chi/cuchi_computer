@@ -42,5 +42,11 @@ const CommandsList = {
         "action": () => {
             CloseApp("console");
         }
+    },
+    "shutdown": {
+        "description": GetLocale("cmd_shutdown_desc"),
+        "action": () => {
+            ShutdownComputer();
+        }
     }
 };

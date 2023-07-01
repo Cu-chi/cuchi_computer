@@ -32,6 +32,95 @@ RegisterNUICallback("NUIOk", function(_, cb)
     cb("OK")
 end)
 
+local dataWaiting = false
+local appsData = {}
+RegisterNUICallback("getApplicationsData", function(data, cb)
+    if dataWaiting then
+        cb("")
+        return
+    end
+
+    dataWaiting = true
+    TriggerServerEvent("cuchi_computer:getApplicationsData", data and data.application or nil)
+
+    while dataWaiting do
+        Wait(10)
+    end
+    cb(appsData)
+end)
+
+local waiting = {
+    market = false
+}
+RegisterNUICallback("appAction", function(data, cb)
+    if data.app == "market" then
+        if  data.type == "create" then
+            if not data.title or not data.description or IsStringBlank(data.title) or IsStringBlank(data.description) then
+                cb("error_market_empty_arg")
+                return
+            end
+
+            local title = Sanitize(data.title)
+            local description = Sanitize(data.description)
+            if #title > 16 or #description > 512 then
+                cb("error_market_arg_overflow")
+                return
+            end
+
+            waiting.market = "waiting"
+            TriggerServerEvent("cuchi_computer:postMarket", title, description)
+            while waiting.market == "waiting" do
+                Wait(50)
+            end
+
+            if waiting.market == "delay" then
+                cb("error_market_delay")
+            elseif waiting.market == "max" then
+                cb("error_market_max")
+            else
+                cb("OK")
+            end
+
+            waiting.market = false
+        elseif data.type == "delete" then
+            local id = tonumber(data.id)
+            if id and id > 0 and math.type(id) == "integer" then
+                waiting.market = "waiting"
+                TriggerServerEvent("cuchi_computer:delete", id)
+                while waiting.market == "waiting" do
+                    Wait(50)
+                end
+
+                if waiting.market == "not_yours" then
+                    cb("error_market_id_not_yours")
+                else
+                    cb("OK")
+                end
+
+                waiting.market = false
+            else
+                cb("error_market_id")
+            end
+        end
+    end
+end)
+
+RegisterNetEvent("cuchi_computer:response", function(app, res)
+    waiting[app] = res
+end)
+
+RegisterNetEvent("cuchi_computer:getApplicationsData", function(app, data, identifier)
+    if identifier then
+        SendNUIMessage({
+            type = "identifier",
+            identifier = identifier
+        })
+    end
+
+    appsData[app] = data
+    dataWaiting = false
+end)
+
 CreateThread(function()
     SendNUIMessage({
         type = "version",

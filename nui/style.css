@@ -186,7 +186,7 @@ input::selection {
     border: 1px solid rgba(255,255,255,0.05);
 }
 
-.application h1 {
+.application > h1 {
     display: flex;
     align-items: center;
     gap: 5px;
@@ -274,7 +274,12 @@ input::selection {
     margin: 4px 2px;
     border: none;
     outline: none;
-    border-radius: 8px;
+    border-radius: 4px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.msg-box-btn:hover {
+    background-color: rgba(255,255,255,0.2);
 }
 
 .msg-box-text {
@@ -302,4 +307,114 @@ input::selection {
 
 .info-label {
     font-weight: 400;
+}
+
+#market-wrapper {
+    overflow: hidden;
+}
+
+#market-container {
+    overflow: auto;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 80%;
+}
+
+.market-elem {
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    user-select: text;
+    height: 20vh;
+    width: 10vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.market-desc {
+    text-align: left;
+    padding: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.market-elem h1 {
+    font-size: 18px;
+    text-align: center;
+}
+
+#market-top {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.market-btn {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    margin: 4px 2px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.market-btn:disabled {
+    color: grey;
+    background-color: rgba(100,100,100,0.8);
+}
+
+.market-btn:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+#market-creation, #market-deletion {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    max-width: fit-content;
+    padding: 10px;
+    padding-bottom: 6px;
+
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#market-creation input, #market-deletion input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-left: 4px;
+}
+
+#market-creation input:focus, #market-deletion input:focus {
+    outline: none;
+}
+
+#market-loader {
+    display: none;
+    transform: rotate(0deg);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 6px solid rgb(255,255,255,.2);
+    border-top-color: transparent;
+    animation: loader 1s linear infinite;
+}
+
+.market-post-id {
+    color: rgba(255,255,255,0.2) !important;
+    font-size: 10px !important;
 }

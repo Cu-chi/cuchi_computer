@@ -11,6 +11,20 @@ Config.Locale = "EN"
 
 if IsDuplicityVersion() then
     Config.UseItem = "laptop" -- set the item that will be used to display the interface (to disable it, let it empty)
+
+    Config.Functions = {
+        ---Function that will return an identifier for the specified player
+        ---@param src string
+        ---@param playerObj table equals xPlayer for ESX and Player for QBCore
+        ---@return string
+        GetIdentifier = function(src, playerObj)
+            local license, _ = string.gsub(GetPlayerIdentifierByType(src, "license"), "license:", "")
+            return license
+
+            -- example using multichar on QBCore (identifier based on the charid)
+            -- return playerObj.PlayerData.citizenid
+        end
+    }
 else
     Config.UsablePositions = { -- if you want to use positions where players can open the computer
         vector3(1275.5, -1710.7, 54.8),

@@ -3,7 +3,10 @@ game "gta5"
 lua54 "yes"
 version "0.0.1-beta"
 
-shared_script "config.lua"
+shared_scripts {
+    "config.lua",
+    "app_config.lua"
+}
 
 client_scripts {
     "client/locales/*.lua",
@@ -11,6 +14,7 @@ client_scripts {
 }
 
 server_scripts {
+    "@oxmysql/lib/MySQL.lua",
     "server/*.lua"
 }
 

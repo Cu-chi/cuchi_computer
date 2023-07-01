@@ -2,22 +2,54 @@ var apps = [];
 var openedApps = [];
 var msgId = 0;
 var IP = "";
+var identifier = null;
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
         IP = event.data.ip;
         document.body.style.display = "block";
         AddInformation(GetLocale("info_ipv4"), IP);
-        Load(true, GetLocale("os_session"), 1000, () => {
-            Load(true, GetLocale("os_boot"), 1500, () => {
-                PlayAudio("boot");
-                document.getElementById("container").style.display = "block";
-                Load(false);
+        Load(true, GetLocale("os_session"), 100, () => {
+            Load(true, GetLocale("os_boot"), 150, () => {
+                fetch(`https://${GetParentResourceName()}/getApplicationsData`,
+                {
+                    method: "POST",
+                    body: null
+                }).then(response => response.json()).then(data => {
+                    for (const [appName, appData] of Object.entries(data)) {
+                        if (Applications[appName].usable && !Applications[appName].hide) {
+                            let container = document.getElementById(appName+"-container");
+                            container.innerHTML = ""; // reset so we don't re-add data at each boot
+
+                            appData.forEach(row => {
+                                let newElement = document.createElement("div")
+                                newElement.classList = appName+"-elem"
+    
+                                if (appName == "market") {
+                                    newElement.id = "market-id-"+row.id
+                                    newElement.innerHTML = `
+                                    <h1>${row.title}</h1>
+                                    <div class="market-desc">${row.description}</div>
+                                    <p class="market-post-id">ID: ${row.id} ${identifier == row.identifier ? "(yours)" : ""}</p>
+                                    `
+                                }
+    
+                                container.appendChild(newElement)
+                            });
+                        }
+                    }
+                    PlayAudio("boot");
+                    document.getElementById("container").style.display = "block";
+                    Load(false);
+                });
             });
         });
     }
     else if (event.data.type === "version") {
         ConsoleVersion = event.data.version;
+    }
+    else if (event.data.type === "identifier") {
+        identifier = event.data.identifier
     }
 });
 
@@ -55,34 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
         exitBtn.setAttribute("validation", "1");
 
         const buttons = [
-            {text: GetLocale("os_cancel"), callback: () => {
-                exitBtn.removeAttribute("validation");
-            }},
-            {text: GetLocale("os_shutdown"), callback: () => {
-                Load(true, GetLocale("os_shuttingdown"), 1500, () => {
-                    document.body.style.display = "none";
-                    Load(false);
-                    fetch(`https://${GetParentResourceName()}/exit`,
-                    {
-                        method: "POST",
-                        body: null
-                    });
-                });
-                openedApps.forEach(appName => CloseApp(appName));
-                openedApps = [];
-                exitBtn.removeAttribute("validation");
-
-                apps.forEach(app => {
-                    var appElement = document.getElementById("app-"+app);
-                    appElement.style.top = "25%";
-                    appElement.style.left = "25%";
-
-                    var appTextElement = document.getElementById(app+"-text");
-                    if (appTextElement) {
-                        appTextElement.innerHTML = "";
-                    }
-                });
-            }}
+            {text: GetLocale("os_cancel"), callback: () => exitBtn.removeAttribute("validation")},
+            {text: GetLocale("os_shutdown"), callback: () => ShutdownComputer(exitBtn)}
         ];
         MessageBox("info", GetLocale("os_shutdown"), GetLocale("os_shutdown_confirmation"), buttons, () => {
             exitBtn.removeAttribute("validation");
@@ -93,6 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     var unusableApps = [];
     Object.entries(Applications).forEach(entry => {
         const [appName, appData] = entry;
+        if (Applications[appName].hide)
+            return;
+
         let appNameCapitalized = appName.charAt(0).toUpperCase() + appName.slice(1);
         desktop.innerHTML += `<button id="${appName}" class="desktop-icon"><img src="assets/images/${appName}.png">${appNameCapitalized}</button>`;
 
@@ -124,6 +133,133 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: null
     });
+
+    if (Applications["market"].usable && !Applications["market"].hide) {
+        document.getElementById("market-create").onclick = () => {
+            document.getElementById("market-creation").style.display = "flex";
+            document.getElementById("market-deletion").style.display = "none";
+            document.getElementById("market-deletion-id").value = "";
+        };
+
+        document.getElementById("market-delete").onclick = () => {
+            document.getElementById("market-deletion").style.display = "flex";
+            document.getElementById("market-creation").style.display = "none";
+            document.getElementById("market-creation-title").value = "";
+            document.getElementById("market-creation-desc").value = "";
+        };
+
+        document.getElementById("market-creation-post").onclick = () => {
+            document.getElementById("market-loader").style.display = "block"
+            document.getElementById("market-creation-post").disabled = true
+            document.getElementById("market-creation-cancel").disabled = true
+
+            fetch(`https://${GetParentResourceName()}/appAction`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    app: "market",
+                    type: "create",
+                    title: document.getElementById("market-creation-title").value,
+                    description: document.getElementById("market-creation-desc").value
+                })
+            }).then(response => response.json()).then(data => {
+                document.getElementById("market-loader").style.display = "none"
+
+                if (data == "OK") {
+                    document.getElementById("market-creation").style.display = "none";
+                    document.getElementById("market-creation-title").value = "";
+                    document.getElementById("market-creation-desc").value = "";
+                    MessageBox("info", GetLocale("error_market_creation_success"),  GetLocale("error_market_creation_success_desc"))
+                }
+                else {
+                    MessageBox("error", GetLocale("error_market_title"),  GetLocale(data))
+                }
+
+                document.getElementById("market-creation-post").disabled = false
+                document.getElementById("market-creation-cancel").disabled = false
+            });
+        };
+
+        document.getElementById("market-creation-cancel").onclick = () => {
+            document.getElementById("market-creation").style.display = "none";
+            document.getElementById("market-creation-title").value = "";
+            document.getElementById("market-creation-desc").value = "";
+        };
+
+        document.getElementById("market-deletion-delete").onclick = () => {
+            document.getElementById("market-deletion-delete").disabled = true
+            document.getElementById("market-deletion-cancel").disabled = true
+
+            fetch(`https://${GetParentResourceName()}/appAction`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    app: "market",
+                    type: "delete",
+                    id: document.getElementById("market-deletion-id").value
+                })
+            }).then(response => response.json()).then(data => {
+                if (data == "OK") {
+                    document.getElementById("market-deletion").style.display = "none";
+                    document.getElementById("market-deletion-id").value = "";
+                    MessageBox("info", GetLocale("error_market_deletion_success"),  GetLocale("error_market_deletion_success_desc"))
+                }
+                else {
+                    MessageBox("error", GetLocale("error_market_deletion_title"),  GetLocale(data))
+                }
+
+                document.getElementById("market-deletion-delete").disabled = false
+                document.getElementById("market-deletion-cancel").disabled = false
+            });
+        };
+
+        document.getElementById("market-deletion-cancel").onclick = () => {
+            document.getElementById("market-deletion").style.display = "none";
+            document.getElementById("market-deletion-id").value = "";
+        };
+
+        document.getElementById("market-refresh").onclick = () => {
+            document.getElementById("market-refresh").disabled = true
+
+            let container = document.getElementById("market-container");
+            container.innerHTML = '<div style="display: flex !important;" id="market-loader"></div>';
+
+            fetch(`https://${GetParentResourceName()}/getApplicationsData`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    application: "market",
+                })
+            }).then(response => response.json()).then(data => {
+                let container = document.getElementById("market-container");
+                container.innerHTML = "";
+                for (const [appName, appData] of Object.entries(data)) {
+                    if (Applications[appName].usable && !Applications[appName].hide) {
+
+                        appData.forEach(row => {
+                            let newElement = document.createElement("div")
+                            newElement.classList = appName+"-elem"
+
+                            if (appName == "market") {
+                                newElement.id = "market-id-"+row.id
+                                newElement.innerHTML = `
+                                <h1>${row.title}</h1>
+                                <div class="market-desc">${row.description}</div>
+                                <p class="market-post-id">ID: ${row.id} ${identifier == row.identifier ? "(yours)" : ""}</p>
+                                `
+                            }
+
+                            container.appendChild(newElement)
+                        });
+                    }
+                }
+
+                setTimeout(() => {
+                    document.getElementById("market-refresh").disabled = false
+                }, 3000)
+            });
+        }
+    }
 })
 
 const Load = (load, text, timeout, callback) => {
@@ -390,3 +526,31 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
 
     PlayAudio("message");
 };
+
+const ShutdownComputer = (exitBtn) => {
+    Load(true, GetLocale("os_shuttingdown"), 1500, () => {
+        document.body.style.display = "none";
+        Load(false);
+        fetch(`https://${GetParentResourceName()}/exit`,
+        {
+            method: "POST",
+            body: null
+        });
+    });
+    openedApps.forEach(appName => CloseApp(appName));
+    openedApps = [];
+
+    if (exitBtn)
+        exitBtn.removeAttribute("validation");
+
+    apps.forEach(app => {
+        var appElement = document.getElementById("app-"+app);
+        appElement.style.top = "25%";
+        appElement.style.left = "25%";
+
+        var appTextElement = document.getElementById(app+"-text");
+        if (appTextElement) {
+            appTextElement.innerHTML = "";
+        }
+    });
+}

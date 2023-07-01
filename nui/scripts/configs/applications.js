@@ -39,4 +39,40 @@ const Applications = {
     <div id="informations-text"></div>
 </div>`
     },
+    "market": {
+        usable: true,
+        width: 800,
+        height: 600,
+        appCode: `
+<div id="app-market" class="application">
+    <h1 id="app-market-title"><button id="market-quit" class="app-exit"></button><button id="market-minimize" class="app-minimize"></button>Market</h1>
+    <div id="market-wrapper">
+        <div id="market-top">
+            <h1>Market</h1>
+            <div id="market-actions">
+                <button class="market-btn" id="market-create">Create</button>
+                <button class="market-btn" id="market-delete">Delete</button>
+                <button class="market-btn" id="market-refresh">Refresh</button>
+            </div>
+        </div>
+        <div id="market-creation">
+            <input id="market-creation-title" placeholder="Title" type="text" maxlength="16">
+            <input id="market-creation-desc" placeholder="Description" type="text" maxlength="512">
+            <div>
+                <button class="market-btn" id="market-creation-post">Post</button>
+                <button class="market-btn" id="market-creation-cancel">Cancel</button>
+            </div>
+            <div id="market-loader"></div>
+        </div>
+        <div id="market-deletion">
+            <input id="market-deletion-id" placeholder="ID" type="number" min="1" max="2000000000">
+            <div>
+                <button class="market-btn" id="market-deletion-delete">Delete</button>
+                <button class="market-btn" id="market-deletion-cancel">Cancel</button>
+            </div>
+        </div>
+        <div id="market-container"></div>
+    </div>
+</div>`
+    },
 };
