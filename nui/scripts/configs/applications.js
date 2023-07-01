@@ -1,3 +1,12 @@
+/*
+ * ⚠️ WARNING ⚠️
+ * Modifying this code without 
+ * proper knowledge can result 
+ * in its failure. 
+ * 
+ * Handle with care to avoid breaking it.
+*/
+
 const Applications = {
     "code": {
         usable: false

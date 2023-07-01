@@ -1,3 +1,12 @@
+/*
+ * ⚠️ WARNING ⚠️
+ * Modifying this code without 
+ * proper knowledge can result 
+ * in its failure. 
+ * 
+ * Handle with care to avoid breaking it.
+*/
+
 var ConsoleVersion = "0.0.0";
 const ConsolePrefix = "<span style='color: #6d6d9b'>user@laptop</span>:<span style='color: #4d3dff'>~</span># ";
 const CommandsList = {
