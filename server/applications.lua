@@ -50,11 +50,6 @@ RegisterNetEvent("cuchi_computer:delete", function(id)
     local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
 
     MySQL.query("DELETE FROM computers_market WHERE id = ? AND seller = ?", {id, identifier}, function(result)
-        print(result.affectedRows)
-        if result.affectedRows > 0 then
-            TriggerClientEvent("cuchi_computer:response", _source, "market", false)
-        else
-            TriggerClientEvent("cuchi_computer:response", _source, "market", "not_yours")
-        end
+        TriggerClientEvent("cuchi_computer:response", _source, "market", result.affectedRows ==  0 and "not_yours" or false)
     end)
 end)
