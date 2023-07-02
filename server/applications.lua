@@ -3,6 +3,14 @@ local appQueries = {
     ["market"] = "*"
 }
 
+CreateThread(function()
+    MySQL.query("DELETE FROM computers_market WHERE (UNIX_TIMESTAMP() - timestamp) > ?", {AppConfig.Market.timeBeforeAutomaticDeletion}, function(result)
+        if result.affectedRows > 0 then
+            print("^4[INFO > MARKET]^7 Deleted ^4"..result.affectedRows.." post(s)^7 from database: time before automatic deletion exceed.")
+        end
+    end)
+end)
+
 RegisterNetEvent("cuchi_computer:getApplicationsData", function(specifiedApplication)
     local _source = source
     local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
