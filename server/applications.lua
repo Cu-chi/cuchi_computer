@@ -1,6 +1,12 @@
+local appCache = {
+    ["market"] = {
+        needsRefresh = true,
+        result = nil
+    }
+}
 local appQueries = {
     -- ["app name"] = "selection(s)"
-    ["market"] = "*"
+    ["market"] = "id, seller, title, description"
 }
 
 CreateThread(function()
@@ -16,16 +22,26 @@ RegisterNetEvent("cuchi_computer:getApplicationsData", function(specifiedApplica
     local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
     if not specifiedApplication then
         for app, selections in pairs(appQueries) do
-            MySQL.query("SELECT "..selections.." FROM computers_"..app, {}, function(result)
-                TriggerClientEvent("cuchi_computer:getApplicationsData", _source, app, result)
-            end)
+            if appCache[app].needsRefresh then
+                MySQL.query("SELECT "..selections.." FROM computers_"..app, {}, function(result)
+                    appCache[app] = { needsRefresh = false, result = result }
+                    TriggerClientEvent("cuchi_computer:getApplicationsData", _source, app, result)
+                end)
+            else
+                TriggerClientEvent("cuchi_computer:getApplicationsData", _source, app, appCache[app].result)
+            end
         end
     else
         local knownAppQuery = appQueries[specifiedApplication]
         if knownAppQuery then -- prevent SQL injection
-            MySQL.query("SELECT "..knownAppQuery.." FROM computers_"..specifiedApplication, {}, function(result)
-                TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, result, identifier)
-            end)
+            if appCache[specifiedApplication].needsRefresh then
+                MySQL.query("SELECT "..knownAppQuery.." FROM computers_"..specifiedApplication, {}, function(result)
+                    appCache[specifiedApplication] = { needsRefresh = false, result = result }
+                    TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, result, identifier)
+                end)
+            else
+                TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, appCache[specifiedApplication].result, identifier)
+            end
         end
     end
 end)
@@ -47,6 +63,7 @@ RegisterNetEvent("cuchi_computer:postMarket", function(title, description)
             TriggerClientEvent("cuchi_computer:response", _source, "market", "max")
         else
             MySQL.insert("INSERT INTO computers_market (seller, title, description) VALUES (?,?,?)", {identifier, title, description}, function()
+                appCache["market"].needsRefresh = true
                 TriggerClientEvent("cuchi_computer:response", _source, "market", false)
             end)
         end
@@ -58,6 +75,9 @@ RegisterNetEvent("cuchi_computer:delete", function(id)
     local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
 
     MySQL.query("DELETE FROM computers_market WHERE id = ? AND seller = ?", {id, identifier}, function(result)
+        if result.affectedRows > 0 then
+            appCache["market"].needsRefresh = true
+        end
         TriggerClientEvent("cuchi_computer:response", _source, "market", result.affectedRows ==  0 and "not_yours" or false)
     end)
 end)
