@@ -1,5 +1,7 @@
 var apps = [];
 var openedApps = [];
+var cmdHistIndex = 0;
+var cmdHistory = [];
 var msgId = 0;
 var IP = "";
 var identifier = null;
@@ -416,7 +418,23 @@ const OnConsoleCommand = (e, consoleInput) => {
             command.action(args);
         else
             AddConsoleLine(consoleInput.value, GetLocale("cmd_unknown"));
-    };
+
+        cmdHistory.push(consoleInput.value);
+    }
+    else if (e.key === "ArrowUp") {
+        let newIndex = cmdHistory.length - (cmdHistIndex + 1);
+        if (newIndex > 0) cmdHistIndex += 1;
+
+        let cmd = cmdHistory[newIndex > 0 ? newIndex : 0];
+        consoleInput.value = cmd || "";
+    }
+    else if (e.key === "ArrowDown") {
+        let newIndex = cmdHistory.length - 1 - (cmdHistIndex - 1);
+        if (newIndex < cmdHistory.length) cmdHistIndex -= 1;
+
+        let cmd = cmdHistory[newIndex < cmdHistory.length ? newIndex : cmdHistory.length];
+        consoleInput.value = cmd || "";
+    }
 };
 
 const AddConsoleLine = (command, text) => {
