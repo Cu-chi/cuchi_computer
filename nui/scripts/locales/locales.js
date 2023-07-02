@@ -21,6 +21,10 @@ const Locales = {
         cmd_clear_desc: "clear console output.",
         cmd_exit_desc: "exit command prompt.",
         cmd_shutdown_desc: "shutdown computer.",
+        cmd_start_desc: "start an application.<br>    Usage: start [app]",
+        cmd_started: "Application '{1}.exe' has been started.",
+        cmd_start_error: "Unknown application '{1}.exe'.",
+        cmd_start_not_specified: "You have to specify an application.<br>    Usage: start [app]",
 
         error_market_title: "Error creating post",
         error_market_deletion_title: "Deletion error",
@@ -59,6 +63,10 @@ const Locales = {
         cmd_clear_desc: "effacer la sortie de la console.",
         cmd_exit_desc: "quitter l'invite de commande.",
         cmd_shutdown_desc: "éteindre l'ordinateur.",
+        cmd_start_desc: "démarrer une application.<br>    Usage: start [app]",
+        cmd_started: "L'application '{1}.exe' a été démarrée.",
+        cmd_start_error: "Application inconnue '{1}.exe'",
+        cmd_start_not_specified: "Vous devez spécifier une application.<br>    Usage: start [app]",
 
         error_market_title: "Erreur de création du poste",
         error_market_deletion_title: "Erreur de suppression",

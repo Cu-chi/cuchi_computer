@@ -282,7 +282,9 @@ const OpenApp = (appName, msgBox) => {
     openedApps.push(appName);
 
     let elem = document.getElementById("app-"+appName);
-
+    if (!elem) {
+        return false;
+    }
     elem.style.display = "flex";
     elem.style.visibility = "visible";
 
@@ -316,6 +318,8 @@ const OpenApp = (appName, msgBox) => {
     FocusApp(false, appName);
 
     if (appName == "console") ClearConsole();
+
+    return true;
 };
 
 const CloseApp = (appName, callback) => {
@@ -404,10 +408,12 @@ const MakeElementDraggable = (element) => {
 
 const OnConsoleCommand = (e, consoleInput) => {
     if (e.key === "Enter") {
-        let command = CommandsList[consoleInput.value];
+        const [cmd, ...args] = consoleInput.value.split(" ");
+
+        let command = CommandsList[cmd];
 
         if (command)
-            command.action();
+            command.action(args);
         else
             AddConsoleLine(consoleInput.value, GetLocale("cmd_unknown"));
     };
