@@ -26,6 +26,10 @@ const Locales = {
         cmd_start_error: "Unknown application '{1}.exe'.",
         cmd_start_not_specified: "You have to specify an application.<br>    Usage: start [app]",
         cmd_start_already: "Application '{1}.exe' is already running.",
+        cmd_taskkill_desc: "kill an application.<br>    Usage: taskkill [app]",
+        cmd_taskkilled: "Application '{1}.exe' has been killed.",
+        cmd_taskkill_error: "Application '{1}.exe' isn't running.",
+        cmd_taskkill_not_specified: "You have to specify an application.<br>    Usage: taskkill [app]",
 
         error_market_title: "Error creating post",
         error_market_deletion_title: "Deletion error",
@@ -69,6 +73,10 @@ const Locales = {
         cmd_start_error: "Application inconnue '{1}.exe'",
         cmd_start_not_specified: "Vous devez spécifier une application.<br>    Usage: start [app]",
         cmd_start_already: "L'application '{1}.exe' est déjà en cours d'exécution.",
+        cmd_taskkill_desc: "tuer une application.<br>    Usage: taskkill [app]",
+        cmd_taskkilled: "L'application '{1}.exe' a été tuée.",
+        cmd_taskkill_error: "L'application '{1}.exe' n'est pas en cours d'exécution.",
+        cmd_taskkill_not_specified: "Vous devez spécifier une application.<br>    Usage: taskkill [app]",
 
         error_market_title: "Erreur de création du poste",
         error_market_deletion_title: "Erreur de suppression",

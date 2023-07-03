@@ -342,11 +342,16 @@ const CloseApp = (appName, callback) => {
     if (app)
         app.style.display = "none";
 
+    var wasRunning = true;
     const taskbarIcon = document.getElementById("taskbar-"+appName);
     if (taskbarIcon)
         document.getElementById("left").removeChild(taskbarIcon);
+    else
+        wasRunning = false;
 
     if (callback) callback();
+
+    return wasRunning;
 };
 
 const UnfocusAllApp = () => {

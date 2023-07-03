@@ -63,5 +63,17 @@ const CommandsList = {
             else 
                 AddConsoleLine("start", GetLocale("cmd_start_not_specified"));
         }
+    },
+    "taskkill": {
+        "description": GetLocale("cmd_taskkill_desc"),
+        "action": (args) => {
+            if (args.length > 0) {
+                let appSpecified = args[0].replace(".exe", "")
+                let wasRunnning = CloseApp(appSpecified);
+                AddConsoleLine("taskkill "+args[0], GetLocale(wasRunnning ? "cmd_taskkilled" : "cmd_taskkill_error").replace("{1}", appSpecified));
+            }
+            else 
+                AddConsoleLine("taskkill", GetLocale("cmd_taskkill_not_specified"));
+        }
     }
 };
