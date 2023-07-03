@@ -54,8 +54,11 @@ const CommandsList = {
         "action": (args) => {
             if (args.length > 0) {
                 let appSpecified = args[0].replace(".exe", "")
-                let opened = OpenApp(appSpecified);
-                AddConsoleLine("start "+args[0], GetLocale(opened ? "cmd_started" : "cmd_start_error").replace("{1}", appSpecified));
+                let openResult = OpenApp(appSpecified);
+                if (openResult != 2)
+                    AddConsoleLine("start "+args[0], GetLocale(openResult == 1 ? "cmd_started" : "cmd_start_error").replace("{1}", appSpecified));
+                else
+                    AddConsoleLine("start "+args[0], GetLocale("cmd_start_already").replace("{1}", appSpecified));
             }
             else 
                 AddConsoleLine("start", GetLocale("cmd_start_not_specified"));

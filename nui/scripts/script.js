@@ -280,19 +280,32 @@ const PlayAudio = (soundName) => {
     new Audio("assets/sounds/"+soundName+".mp3").play();
 };
 
+/**
+ * 
+ * @param {string} appName the application name
+ * @param {boolean} [msgBox] is it a message box 
+ * @returns {0 | 1 | 2} 0 -> app doesn't exist, 1 -> app opened, 2 -> app was already opened
+ */
 const OpenApp = (appName, msgBox) => {
     openedApps.push(appName);
 
     let elem = document.getElementById("app-"+appName);
     if (!elem) {
-        return false;
+        if (Applications[appName] && !Applications[appName].usable) {
+            MessageBox("error", GetLocale("os_error"), GetLocale("os_fake_error").replace("{1}", appName));
+            return 1;
+        }
+
+        return 0;
     }
     elem.style.display = "flex";
     elem.style.visibility = "visible";
 
+    let wasOpen = true;
     let taskbarIcon = document.getElementById("taskbar-"+appName);
 
     if (!taskbarIcon) {
+        wasOpen = false;
         let taskbar = document.getElementById("left");
         taskbarIcon = document.createElement("button");
         taskbarIcon.id = "taskbar-"+appName;
@@ -321,7 +334,7 @@ const OpenApp = (appName, msgBox) => {
 
     if (appName == "console") ClearConsole();
 
-    return true;
+    return wasOpen ? 2 : 1;
 };
 
 const CloseApp = (appName, callback) => {

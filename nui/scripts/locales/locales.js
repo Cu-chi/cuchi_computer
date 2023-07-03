@@ -25,6 +25,7 @@ const Locales = {
         cmd_started: "Application '{1}.exe' has been started.",
         cmd_start_error: "Unknown application '{1}.exe'.",
         cmd_start_not_specified: "You have to specify an application.<br>    Usage: start [app]",
+        cmd_start_already: "Application '{1}.exe' is already running.",
 
         error_market_title: "Error creating post",
         error_market_deletion_title: "Deletion error",
@@ -67,6 +68,7 @@ const Locales = {
         cmd_started: "L'application '{1}.exe' a été démarrée.",
         cmd_start_error: "Application inconnue '{1}.exe'",
         cmd_start_not_specified: "Vous devez spécifier une application.<br>    Usage: start [app]",
+        cmd_start_already: "L'application '{1}.exe' est déjà en cours d'exécution.",
 
         error_market_title: "Erreur de création du poste",
         error_market_deletion_title: "Erreur de suppression",
