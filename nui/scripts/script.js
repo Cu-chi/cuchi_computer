@@ -137,23 +137,35 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (Applications["market"].usable && !Applications["market"].hide) {
+        const marketCreationDiv = document.getElementById("market-creation");
+        const marketLoader = document.getElementById("market-loader");
+        const marketCreationTitleElem = document.getElementById("market-creation-title");
+        const marketCreationDescElem = document.getElementById("market-creation-desc");
+        const marketCreationPostButton = document.getElementById("market-creation-post");
+        const marketCreationCancelButton = document.getElementById("market-creation-cancel");
+
+        const marketDeletionDiv = document.getElementById("market-deletion");
+        const marketDeletionIdInput = document.getElementById("market-deletion-id");
+        const marketDeletionDeleteButton = document.getElementById("market-deletion-delete");
+        const marketDeletionCancelButton = document.getElementById("market-deletion-cancel");
+
         document.getElementById("market-create").onclick = () => {
-            document.getElementById("market-creation").style.display = "flex";
-            document.getElementById("market-deletion").style.display = "none";
-            document.getElementById("market-deletion-id").value = "";
+            marketCreationDiv.style.display = "flex";
+            marketDeletionDiv.style.display = "none";
+            marketDeletionIdInput.value = "";
         };
 
         document.getElementById("market-delete").onclick = () => {
-            document.getElementById("market-deletion").style.display = "flex";
-            document.getElementById("market-creation").style.display = "none";
-            document.getElementById("market-creation-title").value = "";
-            document.getElementById("market-creation-desc").value = "";
+            marketDeletionDiv.style.display = "flex";
+            marketCreationDiv.style.display = "none";
+            marketCreationTitleElem.value = "";
+            marketCreationDescElem.value = "";
         };
 
         document.getElementById("market-creation-post").onclick = () => {
-            document.getElementById("market-loader").style.display = "block"
-            document.getElementById("market-creation-post").disabled = true
-            document.getElementById("market-creation-cancel").disabled = true
+            marketLoader.style.display = "block"
+            marketCreationPostButton.disabled = true
+            marketCreationCancelButton.disabled = true
 
             fetch(`https://${GetParentResourceName()}/appAction`,
             {
@@ -161,36 +173,36 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({
                     app: "market",
                     type: "create",
-                    title: document.getElementById("market-creation-title").value,
-                    description: document.getElementById("market-creation-desc").value
+                    title: marketCreationTitleElem.value,
+                    description: marketCreationDescElem.value
                 })
             }).then(response => response.json()).then(data => {
-                document.getElementById("market-loader").style.display = "none"
+                marketLoader.style.display = "none"
 
                 if (data == "OK") {
-                    document.getElementById("market-creation").style.display = "none";
-                    document.getElementById("market-creation-title").value = "";
-                    document.getElementById("market-creation-desc").value = "";
+                    marketCreationDiv.style.display = "none";
+                    marketCreationTitleElem.value = "";
+                    marketCreationDescElem.value = "";
                     MessageBox("info", GetLocale("error_market_creation_success"),  GetLocale("error_market_creation_success_desc"))
                 }
                 else {
                     MessageBox("error", GetLocale("error_market_title"),  GetLocale(data))
                 }
 
-                document.getElementById("market-creation-post").disabled = false
-                document.getElementById("market-creation-cancel").disabled = false
+                marketCreationPostButton.disabled = false
+                marketCreationCancelButton.disabled = false
             });
         };
 
         document.getElementById("market-creation-cancel").onclick = () => {
-            document.getElementById("market-creation").style.display = "none";
-            document.getElementById("market-creation-title").value = "";
-            document.getElementById("market-creation-desc").value = "";
+            marketCreationDiv.style.display = "none";
+            marketCreationTitleElem.value = "";
+            marketCreationDescElem.value = "";
         };
 
         document.getElementById("market-deletion-delete").onclick = () => {
-            document.getElementById("market-deletion-delete").disabled = true
-            document.getElementById("market-deletion-cancel").disabled = true
+            marketDeletionDeleteButton.disabled = true
+            marketDeletionCancelButton.disabled = true
 
             fetch(`https://${GetParentResourceName()}/appAction`,
             {
@@ -198,30 +210,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({
                     app: "market",
                     type: "delete",
-                    id: document.getElementById("market-deletion-id").value
+                    id: marketDeletionIdInput.value
                 })
             }).then(response => response.json()).then(data => {
                 if (data == "OK") {
-                    document.getElementById("market-deletion").style.display = "none";
-                    document.getElementById("market-deletion-id").value = "";
+                    marketDeletionDiv.style.display = "none";
+                    marketDeletionIdInput.value = "";
                     MessageBox("info", GetLocale("error_market_deletion_success"),  GetLocale("error_market_deletion_success_desc"))
                 }
                 else {
                     MessageBox("error", GetLocale("error_market_deletion_title"),  GetLocale(data))
                 }
 
-                document.getElementById("market-deletion-delete").disabled = false
-                document.getElementById("market-deletion-cancel").disabled = false
+                marketDeletionDeleteButton.disabled = false
+                marketDeletionCancelButton.disabled = false
             });
         };
 
         document.getElementById("market-deletion-cancel").onclick = () => {
-            document.getElementById("market-deletion").style.display = "none";
-            document.getElementById("market-deletion-id").value = "";
+            marketDeletionDiv.style.display = "none";
+            marketDeletionIdInput.value = "";
         };
 
-        document.getElementById("market-refresh").onclick = () => {
-            document.getElementById("market-refresh").disabled = true
+        const marketRefreshButton = document.getElementById("market-refresh");
+        marketRefreshButton.onclick = () => {
+            marketRefreshButton.disabled = true
 
             let container = document.getElementById("market-container");
             container.innerHTML = '<div style="display: flex !important;" id="market-loader"></div>';
@@ -233,7 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     application: "market",
                 })
             }).then(response => response.json()).then(data => {
-                let container = document.getElementById("market-container");
                 container.innerHTML = "";
                 for (const [appName, appData] of Object.entries(data)) {
                     if (Applications[appName].usable && !Applications[appName].hide) {
@@ -257,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 setTimeout(() => {
-                    document.getElementById("market-refresh").disabled = false
+                    marketRefreshButton.disabled = false
                 }, 3000)
             });
         }
@@ -281,7 +293,7 @@ const PlayAudio = (soundName) => {
 };
 
 /**
- * 
+ * Opens Application
  * @param {string} appName the application name
  * @param {boolean} [msgBox] is it a message box 
  * @returns {0 | 1 | 2} 0 -> app doesn't exist, 1 -> app opened, 2 -> app was already opened
@@ -337,6 +349,12 @@ const OpenApp = (appName, msgBox) => {
     return wasOpen ? 2 : 1;
 };
 
+/**
+ * Closes Application
+ * @param {string} appName the application name
+ * @param {function} [callback] function callback
+ * @returns {boolean} true or false if the app was or wasn't running
+ */
 const CloseApp = (appName, callback) => {
     const app = document.getElementById("app-"+appName);
     if (app)
@@ -354,12 +372,20 @@ const CloseApp = (appName, callback) => {
     return wasRunning;
 };
 
+/**
+ * Unfocuses all applications
+ */
 const UnfocusAllApp = () => {
     const focused = document.getElementsByClassName("app-active");
     while (focused.length > 0)
         focused[0].classList.remove("app-active");
 };
 
+/**
+ * Focuses application
+ * @param {MouseEvent | false} e 
+ * @param {string} appName the application to focus
+ */
 const FocusApp = (e, appName) => {
     if (e)
         e.stopPropagation(); // stop the event from also being handled by the body
@@ -383,6 +409,11 @@ const FocusApp = (e, appName) => {
     }
 };
 
+/**
+ * Minimizes application
+ * @param {string} appName the application to minimize
+ * @param {function} [callback] function callback
+ */
 const MinimizeApp = (appName, callback) => {
     document.getElementById("taskbar-"+appName).classList.remove("app-active");
     document.getElementById("app-"+appName).style.visibility = "hidden";
@@ -390,6 +421,10 @@ const MinimizeApp = (appName, callback) => {
     if (callback) callback();
 };
 
+/**
+ * Makes an element draggable
+ * @param {HTMLDivElement} element the element to make draggable
+ */
 const MakeElementDraggable = (element) => {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     var movable = document.getElementById(element.id + "-title");
@@ -426,6 +461,11 @@ const MakeElementDraggable = (element) => {
     };
 };
 
+/**
+ * Event called when a command is entered in the console
+ * @param {KeyboardEvent} e 
+ * @param {HTMLElement} consoleInput the console input element
+ */
 const OnConsoleCommand = (e, consoleInput) => {
     if (e.key === "Enter") {
         const [cmd, ...args] = consoleInput.value.split(" ");
@@ -455,6 +495,11 @@ const OnConsoleCommand = (e, consoleInput) => {
     }
 };
 
+/**
+ * Adds a line in the console
+ * @param {string} command the command string that triggered the addition of this line
+ * @param {string} text the result string of the command
+ */
 const AddConsoleLine = (command, text) => {
     let consoleText = document.getElementById("console-text");
     let oldInput = document.getElementById("console-input");
@@ -471,6 +516,9 @@ const AddConsoleLine = (command, text) => {
     newInput.onkeydown = (e) => OnConsoleCommand(e, newInput);
 };
 
+/**
+ * Clears console output
+ */
 const ClearConsole = () => {
     document.getElementById("console-text").innerHTML = "<div class='console-line'><p>" + ConsolePrefix + "</p><input id='console-input' type='text'></div>";
     let consoleInput = document.getElementById("console-input");
@@ -478,6 +526,11 @@ const ClearConsole = () => {
     consoleInput.onkeydown = (e) => OnConsoleCommand(e, consoleInput);
 };
 
+/**
+ * Adds an information in the application informations
+ * @param {string} label label of information
+ * @param {string | any} value its value
+ */
 const AddInformation = (label, value) => {
     var informations = document.getElementById("informations-text");
     var newParagraph = document.createElement("p");
@@ -569,6 +622,10 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
     PlayAudio("message");
 };
 
+/**
+ * Closes the interface
+ * @param {HTMLElement} [exitBtn] if triggered from the exit button
+ */
 const ShutdownComputer = (exitBtn) => {
     Load(true, GetLocale("os_shuttingdown"), 1500, () => {
         document.body.style.display = "none";
