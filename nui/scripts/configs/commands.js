@@ -11,14 +11,14 @@ var ConsoleVersion = "0.0.0";
 const ConsolePrefix = "<span style='color: #6d6d9b'>user@laptop</span>:<span style='color: #4d3dff'>~</span># ";
 const CommandsList = {
     "help": {
-        "description": GetLocale("cmd_help_desc"),
+        "description": () => { return GetLocale("cmd_help_desc"); },
         "action": () => {
             let finalText = "";
             let first = true;
             Object.entries(CommandsList).forEach(entry => {
                 const [key, value] = entry;
 
-                finalText += (!first ? "<br>" : "") + " - " + key + ": " + value.description;
+                finalText += (!first ? "<br>" : "") + " - " + key + ": " + value.description();
                 first = false;
             });
 
@@ -26,31 +26,31 @@ const CommandsList = {
         }
     },
     "version": {
-        "description": GetLocale("cmd_version_desc"),
+        "description": () => { return GetLocale("cmd_version_desc") },
         "action": () => {
             AddConsoleLine("version", "version: <span style='color: #4d3dff'>" + ConsoleVersion + "</span> - Cuchi");
         }
     },
     "clear": {
-        "description": GetLocale("cmd_clear_desc"),
+        "description": () => { return GetLocale("cmd_clear_desc") },
         "action": () => {
             ClearConsole();
         }
     },
     "exit": {
-        "description": GetLocale("cmd_exit_desc"),
+        "description": () => { return GetLocale("cmd_exit_desc") },
         "action": () => {
             CloseApp("console");
         }
     },
     "shutdown": {
-        "description": GetLocale("cmd_shutdown_desc"),
+        "description": () => { return GetLocale("cmd_shutdown_desc") },
         "action": () => {
             ShutdownComputer();
         }
     },
     "start": {
-        "description": GetLocale("cmd_start_desc"),
+        "description": () => { return GetLocale("cmd_start_desc") },
         "action": (args) => {
             if (args.length > 0) {
                 let appSpecified = args[0].replace(".exe", "")
@@ -65,7 +65,7 @@ const CommandsList = {
         }
     },
     "taskkill": {
-        "description": GetLocale("cmd_taskkill_desc"),
+        "description": () => { return GetLocale("cmd_taskkill_desc") },
         "action": (args) => {
             if (args.length > 0) {
                 let appSpecified = args[0].replace(".exe", "")
