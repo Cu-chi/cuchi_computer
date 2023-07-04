@@ -39,8 +39,8 @@ window.addEventListener("message", (event) => {
                                 }
                                 else if (appName == "themes") {
                                     newElement.innerHTML = `<div id="theme-${row["--main-color"]}" style="background-color: ${row["--main-color"]};" class="themes-square">${currentTheme == row["--main-color"].toLowerCase() ? "•":""}</div>`;
+                                    newElement.onclick = () => editTheme(row);
                                 }
-                                newElement.onclick = () => editTheme(row);
                                 container.appendChild(newElement);
                             });
                         }
