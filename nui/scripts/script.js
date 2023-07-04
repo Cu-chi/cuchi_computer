@@ -489,6 +489,7 @@ const OnConsoleCommand = (e, consoleInput) => {
             AddConsoleLine(consoleInput.value, GetLocale("cmd_unknown"));
 
         cmdHistory.push(consoleInput.value);
+        cmdHistIndex = 0;
     }
     else if (e.key === "ArrowUp") {
         let newIndex = cmdHistory.length - (cmdHistIndex + 1);
