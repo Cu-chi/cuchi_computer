@@ -18,25 +18,32 @@ window.addEventListener("message", (event) => {
                     method: "POST",
                     body: null
                 }).then(response => response.json()).then(data => {
+                    const currentTheme = getComputedStyle(document.querySelector(":root")).getPropertyValue("--main-color");
+
                     for (const [appName, appData] of Object.entries(data)) {
                         if (Applications[appName].usable && !Applications[appName].hide) {
                             let container = document.getElementById(appName+"-container");
                             container.innerHTML = ""; // reset so we don't re-add data at each boot
 
                             appData.forEach(row => {
-                                let newElement = document.createElement("div")
-                                newElement.classList = appName+"-elem"
+                                let newElement = document.createElement("div");
+                                newElement.classList = appName+"-elem";
     
                                 if (appName == "market") {
-                                    newElement.id = "market-id-"+row.id
+                                    newElement.id = "market-id-"+row.id;
                                     newElement.innerHTML = `
                                     <h1>${row.title}</h1>
                                     <div class="market-desc">${row.description}</div>
                                     <p class="market-post-id">ID: ${row.id} ${identifier == row.identifier ? "(yours)" : ""}</p>
-                                    `
+                                    `;
                                 }
-    
-                                container.appendChild(newElement)
+                                else if (appName == "themes") {
+                                    newElement.innerHTML = `
+                                    <div id="theme-${row["--main-color"]}" style="background-color: ${row["--main-color"]};" class="themes-square">${currentTheme == row["--main-color"].toLowerCase() ? "•":""}</div>
+                                    `;
+                                }
+                                newElement.onclick = () => editTheme(row);
+                                container.appendChild(newElement);
                             });
                         }
                     }
@@ -72,6 +79,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         MessageBox("info", GetLocale("os_language"), GetLocale("os_language_selection"), buttons);
     }
+
+    var mainColor = localStorage.getItem("--main-color");
+    if (!mainColor) {
+        var rootStyle = getComputedStyle(document.querySelector(":root"));
+        editTheme({
+            "--main-color": rootStyle.getPropertyValue("--main-color"),
+            "--lighter-color": rootStyle.getPropertyValue("--lighter-color"),
+            "--darker-color": rootStyle.getPropertyValue("--darker-color"),
+            "--darkest-color": rootStyle.getPropertyValue("--darkest-color"),
+            "--app-minimize-color": rootStyle.getPropertyValue("--app-minimize-color"),
+            "--app-exit-color": rootStyle.getPropertyValue("--app-exit-color"),
+        });
+    }
+    else {
+        editTheme({
+            "--main-color": mainColor,
+            "--lighter-color": localStorage.getItem("--lighter-color"),
+            "--darker-color": localStorage.getItem("--darker-color"),
+            "--darkest-color": localStorage.getItem("--darkest-color"),
+            "--app-minimize-color": localStorage.getItem("--app-minimize-color"),
+            "--app-exit-color": localStorage.getItem("--app-exit-color"),
+        });
+    }
+        
 
     setInterval(() => {
         var date = new Date();
@@ -664,4 +695,21 @@ const ShutdownComputer = (exitBtn) => {
             appTextElement.innerHTML = "";
         }
     });
+}
+
+/**
+ * Edit theme
+ * @param {object} themeData object containing theme data
+ */
+const editTheme = (themeData) => {
+    let oldTheme = document.getElementById("theme-"+localStorage.getItem("--main-color"));
+    if (oldTheme) {
+        oldTheme.innerHTML = "";
+        document.getElementById("theme-"+themeData["--main-color"]).innerHTML = "•";
+    }
+
+    for (const [key, value] of Object.entries(themeData)) {
+        localStorage.setItem(key, value);
+        document.querySelector(":root").style.setProperty(key, value);
+    }
 }

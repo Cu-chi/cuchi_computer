@@ -33,7 +33,9 @@ RegisterNUICallback("NUIOk", function(_, cb)
 end)
 
 local dataWaiting = false
-local appsData = {}
+local appsData = {
+    themes = AppConfig.Themes
+}
 RegisterNUICallback("getApplicationsData", function(data, cb)
     if dataWaiting then
         cb("")

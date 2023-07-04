@@ -75,4 +75,12 @@ const Applications = {
     </div>
 </div>`
     },
+    "themes": {
+        usable: true,
+        appCode: `
+<div id="app-themes" class="application">
+    <h1 id="app-themes-title"><button id="themes-quit" class="app-exit"></button><button id="themes-minimize" class="app-minimize"></button>Themes</h1>
+    <div id="themes-container"></div>
+</div>`
+    },
 };
