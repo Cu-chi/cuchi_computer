@@ -8,7 +8,7 @@
 */
 
 var ConsoleVersion = "0.0.0";
-const ConsolePrefix = "<span style='color: #6d6d9b'>user@laptop</span>:<span style='color: #4d3dff'>~</span># ";
+const ConsolePrefix = "<span style='color: grey'>user@laptop</span>:<span style='color: green'>~</span># ";
 const CommandsList = {
     "help": {
         "description": () => { return GetLocale("cmd_help_desc"); },
