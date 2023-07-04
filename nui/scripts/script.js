@@ -38,9 +38,7 @@ window.addEventListener("message", (event) => {
                                     `;
                                 }
                                 else if (appName == "themes") {
-                                    newElement.innerHTML = `
-                                    <div id="theme-${row["--main-color"]}" style="background-color: ${row["--main-color"]};" class="themes-square">${currentTheme == row["--main-color"].toLowerCase() ? "•":""}</div>
-                                    `;
+                                    newElement.innerHTML = `<div id="theme-${row["--main-color"]}" style="background-color: ${row["--main-color"]};" class="themes-square">${currentTheme == row["--main-color"].toLowerCase() ? "•":""}</div>`;
                                 }
                                 newElement.onclick = () => editTheme(row);
                                 container.appendChild(newElement);
@@ -102,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
             "--app-exit-color": localStorage.getItem("--app-exit-color"),
         });
     }
-        
 
     setInterval(() => {
         var date = new Date();
@@ -193,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
             marketCreationDescElem.value = "";
         };
 
-        document.getElementById("market-creation-post").onclick = () => {
+        marketCreationPostButton.onclick = () => {
             marketLoader.style.display = "block"
             marketCreationPostButton.disabled = true
             marketCreationCancelButton.disabled = true
@@ -225,13 +222,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        document.getElementById("market-creation-cancel").onclick = () => {
+        marketCreationCancelButton.onclick = () => {
             marketCreationDiv.style.display = "none";
             marketCreationTitleElem.value = "";
             marketCreationDescElem.value = "";
         };
 
-        document.getElementById("market-deletion-delete").onclick = () => {
+        marketDeletionDeleteButton.onclick = () => {
             marketDeletionDeleteButton.disabled = true
             marketDeletionCancelButton.disabled = true
 
@@ -258,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        document.getElementById("market-deletion-cancel").onclick = () => {
+        marketDeletionCancelButton.onclick = () => {
             marketDeletionDiv.style.display = "none";
             marketDeletionIdInput.value = "";
         };
