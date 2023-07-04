@@ -27,6 +27,8 @@ SetTimeout(0, function()
     else
         print("^1Error loading the framework.\n-> Check if you entered the good framework value and its resource name in ^7"..GetCurrentResourceName().."/config.lua")
     end
+
+    TriggerServerEvent("cuchi_computer:getIdentifier")
 end)
 
 if #Config.UsablePositions > 0 then
@@ -66,3 +68,10 @@ if #Config.UsablePositions > 0 then
         end
     end)
 end
+
+RegisterNetEvent("cuchi_computer:getIdentifier", function(identifier)
+    SendNUIMessage({
+        type = "identifier",
+        identifier = identifier
+    })
+end)

@@ -45,3 +45,9 @@ RegisterNetEvent("ccmp:stopComputer", function(location)
         SetIPState(ip, false)
     end
 end)
+
+RegisterNetEvent("cuchi_computer:getIdentifier", function()
+    local _source = source
+    local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
+    TriggerClientEvent("cuchi_computer:getIdentifier", _source, identifier)
+end)

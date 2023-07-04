@@ -19,7 +19,6 @@ end)
 
 RegisterNetEvent("cuchi_computer:getApplicationsData", function(specifiedApplication)
     local _source = source
-    local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
     if not specifiedApplication then
         for app, selections in pairs(appQueries) do
             if appCache[app].needsRefresh then
@@ -37,10 +36,10 @@ RegisterNetEvent("cuchi_computer:getApplicationsData", function(specifiedApplica
             if appCache[specifiedApplication].needsRefresh then
                 MySQL.query("SELECT "..knownAppQuery.." FROM computers_"..specifiedApplication, {}, function(result)
                     appCache[specifiedApplication] = { needsRefresh = false, result = result }
-                    TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, result, identifier)
+                    TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, result)
                 end)
             else
-                TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, appCache[specifiedApplication].result, identifier)
+                TriggerClientEvent("cuchi_computer:getApplicationsData", _source, specifiedApplication, appCache[specifiedApplication].result)
             end
         end
     end

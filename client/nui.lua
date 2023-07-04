@@ -111,14 +111,7 @@ RegisterNetEvent("cuchi_computer:response", function(app, res)
     waiting[app] = res
 end)
 
-RegisterNetEvent("cuchi_computer:getApplicationsData", function(app, data, identifier)
-    if identifier then
-        SendNUIMessage({
-            type = "identifier",
-            identifier = identifier
-        })
-    end
-
+RegisterNetEvent("cuchi_computer:getApplicationsData", function(app, data)
     appsData[app] = data
     dataWaiting = false
 end)

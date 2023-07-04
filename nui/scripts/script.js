@@ -34,7 +34,7 @@ window.addEventListener("message", (event) => {
                                     newElement.innerHTML = `
                                     <h1>${row.title}</h1>
                                     <div class="market-desc">${row.description}</div>
-                                    <p class="market-post-id">ID: ${row.id} ${identifier == row.identifier ? "(yours)" : ""}</p>
+                                    <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "(yours)" : ""}</p>
                                     `;
                                 }
                                 else if (appName == "themes") {
@@ -276,20 +276,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }).then(response => response.json()).then(data => {
                 container.innerHTML = "";
                 for (const [appName, appData] of Object.entries(data)) {
-                    if (Applications[appName].usable && !Applications[appName].hide) {
-
+                    if (appName == "market") {
                         appData.forEach(row => {
                             let newElement = document.createElement("div")
                             newElement.classList = appName+"-elem"
-
-                            if (appName == "market") {
-                                newElement.id = "market-id-"+row.id
-                                newElement.innerHTML = `
-                                <h1>${row.title}</h1>
-                                <div class="market-desc">${row.description}</div>
-                                <p class="market-post-id">ID: ${row.id} ${identifier == row.identifier ? "(yours)" : ""}</p>
-                                `
-                            }
+                            newElement.id = "market-id-"+row.id
+                            newElement.innerHTML = `
+                            <h1>${row.title}</h1>
+                            <div class="market-desc">${row.description}</div>
+                            <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "(yours)" : ""}</p>
+                            `
 
                             container.appendChild(newElement)
                         });
