@@ -45,6 +45,9 @@ const Locales = {
         error_market_deletion_success_desc: "The post has been deleted with success.\nRefresh the market.",
 
         info_ipv4: "IPv4:",
+        info_type: "Computer type:",
+        info_desktop: "Desktop",
+        info_laptop: "Laptop",
     },
     FR: {
         os_lang: "Français",
@@ -88,5 +91,8 @@ const Locales = {
         error_market_id_not_yours: "Cette ID n'est pas l'une de vos postes.",
 
         info_ipv4: "IPv4 :",
+        info_type: "Type d'ordinateur:",
+        info_desktop: "Fixe",
+        info_laptop: "Portable",
     },
 }

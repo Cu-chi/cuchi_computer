@@ -1,14 +1,16 @@
 UIOpen = false
-Location = nil
-RegisterNetEvent("cuchi_computer:useItem", OpenUI)
+local Location = nil
+local isLaptop = false
 
 function OpenUI(location)
     Location = location or GetEntityCoords(PlayerPedId())
+    isLaptop = location == nil
     Framework.TriggerServerCallback("ccmp:startComputer", function(ip)
         if ip then
             SendNUIMessage({
                 type = "show",
-                ip = ip
+                ip = ip,
+                laptop = isLaptop
             })
             SetNuiFocus(true, true)
             UIOpen = true
@@ -16,14 +18,17 @@ function OpenUI(location)
             Location = nil
             CustomNotification(GetLocale("already_in_use"))
         end
-    end, location)
+    end, Location)
 end
+
+RegisterNetEvent("cuchi_computer:useItem", OpenUI)
 
 RegisterNUICallback("exit", function(_, cb)
     SetNuiFocus(false, false)
     UIOpen = false
-    TriggerServerEvent("ccmp:stopComputer", Location)
+    TriggerServerEvent("ccmp:stopComputer", Location, isLaptop)
     Location = nil
+    isLaptop = false
     cb("OK")
 end)
 

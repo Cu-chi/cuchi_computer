@@ -39,10 +39,15 @@ Framework.RegisterServerCallback("ccmp:startComputer", function(_, cb, location)
     cb(RegisterNewIP(location))
 end)
 
-RegisterNetEvent("ccmp:stopComputer", function(location)
+RegisterNetEvent("ccmp:stopComputer", function(location, laptop)
     local ip = GetIPFromLocation(location)
+    print(ip)
     if ip then
-        SetIPState(ip, false)
+        if not laptop then
+            SetIPState(ip, false)
+        else
+            RemoveIP(ip)
+        end
     end
 end)
 

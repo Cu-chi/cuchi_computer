@@ -11,6 +11,7 @@ window.addEventListener("message", (event) => {
         IP = event.data.ip;
         document.body.style.display = "block";
         AddInformation(GetLocale("info_ipv4"), IP);
+        AddInformation(GetLocale("info_type"), (event.data.laptop ? GetLocale("info_laptop") : GetLocale("info_desktop")));
         Load(true, GetLocale("os_session"), 100, () => {
             Load(true, GetLocale("os_boot"), 150, () => {
                 fetch(`https://${GetParentResourceName()}/getApplicationsData`,
