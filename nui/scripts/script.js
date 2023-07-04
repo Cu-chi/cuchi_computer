@@ -38,7 +38,8 @@ window.addEventListener("message", (event) => {
                                     `;
                                 }
                                 else if (appName == "themes") {
-                                    newElement.innerHTML = `<div id="theme-${row["--main-color"]}" style="background-color: ${row["--main-color"]};" class="themes-square">${currentTheme == row["--main-color"].toLowerCase() ? "•":""}</div>`;
+                                    const mainColorLowerCase = row["--main-color"].toLowerCase();
+                                    newElement.innerHTML = `<div id="theme-${mainColorLowerCase}" style="background-color: ${mainColorLowerCase};" class="themes-square">${currentTheme == mainColorLowerCase ? "•":""}</div>`;
                                     newElement.onclick = () => editTheme(row);
                                 }
                                 container.appendChild(newElement);
@@ -78,9 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
         MessageBox("info", GetLocale("os_language"), GetLocale("os_language_selection"), buttons);
     }
 
-    var mainColor = localStorage.getItem("--main-color");
+    const mainColor = localStorage.getItem("--main-color");
     if (!mainColor) {
-        var rootStyle = getComputedStyle(document.querySelector(":root"));
+        const rootStyle = getComputedStyle(document.querySelector(":root"));
         editTheme({
             "--main-color": rootStyle.getPropertyValue("--main-color"),
             "--lighter-color": rootStyle.getPropertyValue("--lighter-color"),
@@ -698,10 +699,11 @@ const editTheme = (themeData) => {
     let oldTheme = document.getElementById("theme-"+localStorage.getItem("--main-color"));
     if (oldTheme) {
         oldTheme.innerHTML = "";
-        document.getElementById("theme-"+themeData["--main-color"]).innerHTML = "•";
+        document.getElementById("theme-"+themeData["--main-color"].toLowerCase()).innerHTML = "•";
     }
 
-    for (const [key, value] of Object.entries(themeData)) {
+    for (var [key, value] of Object.entries(themeData)) {
+        value = value.toLowerCase();
         localStorage.setItem(key, value);
         document.querySelector(":root").style.setProperty(key, value);
     }

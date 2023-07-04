@@ -31,7 +31,7 @@ AppConfig = {
         },
         {
             ["--main-color"] = "#6E7B8D",
-            ["--lighter-color"] = "#939ca9",
+            ["--lighter-color"] = "#939CA9",
             ["--darker-color"] = "#566171",
             ["--darkest-color"] = "#39414D",
             ["--app-minimize-color"] = "#80BDCF",
