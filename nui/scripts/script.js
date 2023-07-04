@@ -276,6 +276,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 })
 
+/**
+ * Displays a loading page
+ * @param {boolean} load create or destroy loading
+ * @param {string} text text to display under the loading icon
+ * @param {number} timeout time wait before calling the callback function
+ * @param {function} callback callback function that is triggered after the loading
+ */
 const Load = (load, text, timeout, callback) => {
     if (load) {
         document.getElementById("loader-text").innerText = text;
@@ -288,6 +295,10 @@ const Load = (load, text, timeout, callback) => {
     }
 };
 
+/**
+ * Plays mp3 audio file
+ * @param {string} soundName file name of the audio (must be .mp3)
+ */
 const PlayAudio = (soundName) => {
     new Audio("assets/sounds/"+soundName+".mp3").play();
 };
