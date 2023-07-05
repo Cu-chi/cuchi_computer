@@ -49,6 +49,7 @@ const Applications = {
     <div id="market-wrapper">
         <div id="market-top">
             <h1>Market</h1>
+            <p id="market-description"></p>
             <div id="market-actions">
                 <button class="market-btn" id="market-create">Create</button>
                 <button class="market-btn" id="market-delete">Delete</button>

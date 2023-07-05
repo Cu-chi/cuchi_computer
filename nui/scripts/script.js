@@ -23,6 +23,15 @@ window.addEventListener("message", (event) => {
 
                     for (const [appName, appData] of Object.entries(data)) {
                         if (Applications[appName].usable && !Applications[appName].hide) {
+                            if (appName == "market") {
+                                let marketConfig = event.data.market;
+
+                                document.getElementById("market-description").innerText = GetLocale("market_description")
+                                    .replace("{1}", marketConfig.delayBetweenEachPost)
+                                    .replace("{2}", marketConfig.maxPosts)
+                                    .replace("{3}", marketConfig.timeBeforeAutomaticDeletion / 24 / 60 / 60)
+                            }
+
                             let container = document.getElementById(appName+"-container");
                             container.innerHTML = ""; // reset so we don't re-add data at each boot
 

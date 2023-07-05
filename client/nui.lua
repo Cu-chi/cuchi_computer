@@ -10,7 +10,8 @@ function OpenUI(location)
             SendNUIMessage({
                 type = "show",
                 ip = ip,
-                laptop = isLaptop
+                laptop = isLaptop,
+                market = AppConfig.Market
             })
             SetNuiFocus(true, true)
             UIOpen = true

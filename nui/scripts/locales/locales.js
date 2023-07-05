@@ -48,6 +48,8 @@ const Locales = {
         info_type: "Computer type:",
         info_desktop: "Desktop",
         info_laptop: "Laptop",
+
+        market_description: "You can create a post every {1} seconds, you can create a maximum of {2} posts. Each post will be active for {3} days.",
     },
     FR: {
         os_lang: "Français",
