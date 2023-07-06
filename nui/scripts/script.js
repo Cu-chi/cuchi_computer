@@ -11,7 +11,9 @@ window.addEventListener("message", (event) => {
         IP = event.data.ip;
         document.body.style.display = "block";
         AddInformation(GetLocale("info_ipv4"), IP);
-        AddInformation(GetLocale("info_type"), (event.data.laptop ? GetLocale("info_laptop") : GetLocale("info_desktop")));
+        ComputerType = event.data.laptop ? GetLocale("info_laptop") : GetLocale("info_desktop");
+        AddInformation(GetLocale("info_type"), ComputerType);
+        ComputerType = ComputerType.toLowerCase();
         Load(true, GetLocale("os_session"), 100, () => {
             Load(true, GetLocale("os_boot"), 150, () => {
                 fetch(`https://${GetParentResourceName()}/getApplicationsData`,
@@ -557,7 +559,7 @@ const AddConsoleLine = (command, text) => {
     oldInput.replaceWith(enteredCommand);
 
     consoleText.innerHTML += "<div class='console-line'>" + text + "</div>";
-    consoleText.innerHTML += "<div class='console-line'><p>" + ConsolePrefix + "</p><input id='console-input' type='text'></div>";
+    consoleText.innerHTML += "<div class='console-line'><p>" + ConsolePrefix() + "</p><input id='console-input' type='text'></div>";
     let newInput = document.getElementById("console-input");
     newInput.focus();
     newInput.onkeydown = (e) => OnConsoleCommand(e, newInput);
@@ -567,7 +569,7 @@ const AddConsoleLine = (command, text) => {
  * Clears console output
  */
 const ClearConsole = () => {
-    document.getElementById("console-text").innerHTML = "<div class='console-line'><p>" + ConsolePrefix + "</p><input id='console-input' type='text'></div>";
+    document.getElementById("console-text").innerHTML = "<div class='console-line'><p>" + ConsolePrefix() + "</p><input id='console-input' type='text'></div>";
     let consoleInput = document.getElementById("console-input");
     consoleInput.focus();
     consoleInput.onkeydown = (e) => OnConsoleCommand(e, consoleInput);

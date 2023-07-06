@@ -8,7 +8,8 @@
 */
 
 var ConsoleVersion = "0.0.0";
-const ConsolePrefix = "<span style='color: grey'>user@laptop</span>:<span style='color: green'>~</span># ";
+var ComputerType = "desktop";
+const ConsolePrefix = () => { return "<span style='color: grey'>user@"+ComputerType+"</span>:<span style='color: green'>~</span># "; };
 const CommandsList = {
     "help": {
         "description": () => { return GetLocale("cmd_help_desc"); },
@@ -26,31 +27,31 @@ const CommandsList = {
         }
     },
     "version": {
-        "description": () => { return GetLocale("cmd_version_desc") },
+        "description": () => { return GetLocale("cmd_version_desc"); },
         "action": () => {
             AddConsoleLine("version", "version: <span style='color: #4d3dff'>" + ConsoleVersion + "</span> - Cuchi");
         }
     },
     "clear": {
-        "description": () => { return GetLocale("cmd_clear_desc") },
+        "description": () => { return GetLocale("cmd_clear_desc"); },
         "action": () => {
             ClearConsole();
         }
     },
     "exit": {
-        "description": () => { return GetLocale("cmd_exit_desc") },
+        "description": () => { return GetLocale("cmd_exit_desc"); },
         "action": () => {
             CloseApp("console");
         }
     },
     "shutdown": {
-        "description": () => { return GetLocale("cmd_shutdown_desc") },
+        "description": () => { return GetLocale("cmd_shutdown_desc"); },
         "action": () => {
             ShutdownComputer();
         }
     },
     "start": {
-        "description": () => { return GetLocale("cmd_start_desc") },
+        "description": () => { return GetLocale("cmd_start_desc"); },
         "action": (args) => {
             if (args.length > 0) {
                 let appSpecified = args[0].replace(".exe", "")
@@ -65,10 +66,10 @@ const CommandsList = {
         }
     },
     "taskkill": {
-        "description": () => { return GetLocale("cmd_taskkill_desc") },
+        "description": () => { return GetLocale("cmd_taskkill_desc"); },
         "action": (args) => {
             if (args.length > 0) {
-                let appSpecified = args[0].replace(".exe", "")
+                let appSpecified = args[0].replace(".exe", "");
                 let wasRunnning = CloseApp(appSpecified);
                 AddConsoleLine("taskkill "+args[0], GetLocale(wasRunnning ? "cmd_taskkilled" : "cmd_taskkill_error").replace("{1}", appSpecified));
             }
