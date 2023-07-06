@@ -558,7 +558,7 @@ const AddConsoleLine = (command, text) => {
     oldInput.onkeydown = null;
     oldInput.replaceWith(enteredCommand);
 
-    consoleText.innerHTML += "<div class='console-line'>" + text + "</div>";
+    consoleText.innerHTML += "<div>" + text + "</div>";
     consoleText.innerHTML += "<div class='console-line'><p>" + ConsolePrefix() + "</p><input id='console-input' type='text'></div>";
     let newInput = document.getElementById("console-input");
     newInput.focus();
