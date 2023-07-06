@@ -76,5 +76,38 @@ const CommandsList = {
             else 
                 AddConsoleLine("taskkill", GetLocale("cmd_taskkill_not_specified"));
         }
+    },
+    "ip-tracer": {
+        "description": () => { return GetLocale("cmd_iptracer_desc"); },
+        "action": (args) => {
+            if (args.length > 0) {
+                var ipOK = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(args[0]);  
+                if (ipOK) {
+                    fetch(`https://${GetParentResourceName()}/ipTracer`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            ip: args[0],
+                        })
+                    }).then(response => response.json()).then(data => {
+                        if (data == "DISCONNECTED")
+                            AddConsoleLine("ip-tracer "+args[0], GetLocale("cmd_iptracer_disconnected").replace("{1}", args[0]));
+                        else
+                            AddConsoleLine("ip-tracer "+args[0], GetLocale("cmd_iptracer_result")
+                                .replace("{1}", args[0])
+                                .replace("{2}", new Date(Date.now()).toUTCString())
+                                .replace("{3}", data.zone)
+                                .replace("{4}", data.latitude)
+                                .replace("{5}", data.longitude)
+                                .replace("{6}", data.location));
+                    });
+                }
+                else {
+                    AddConsoleLine("ip-tracer "+args[0], GetLocale("cmd_iptracer_error").replace("{1}", args[0]));
+                }
+            }
+            else
+                AddConsoleLine("ip-tracer", GetLocale("cmd_iptracer_not_specified"));
+        }
     }
 };

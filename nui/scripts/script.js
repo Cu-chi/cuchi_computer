@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const marketRefreshButton = document.getElementById("market-refresh");
         marketRefreshButton.onclick = () => {
-            marketRefreshButton.disabled = true
+            marketRefreshButton.disabled = true;
 
             let container = document.getElementById("market-container");
             container.innerHTML = '<div style="display: flex !important;" id="market-loader"></div>';
@@ -291,23 +291,23 @@ document.addEventListener("DOMContentLoaded", () => {
                 for (const [appName, appData] of Object.entries(data)) {
                     if (appName == "market") {
                         appData.forEach(row => {
-                            let newElement = document.createElement("div")
-                            newElement.classList = appName+"-elem"
-                            newElement.id = "market-id-"+row.id
+                            let newElement = document.createElement("div");
+                            newElement.classList = appName+"-elem";
+                            newElement.id = "market-id-"+row.id;
                             newElement.innerHTML = `
                             <h1>${row.title}</h1>
                             <div class="market-desc">${row.description}</div>
                             <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "(yours)" : ""}</p>
-                            `
+                            `;
 
-                            container.appendChild(newElement)
+                            container.appendChild(newElement);
                         });
                     }
                 }
 
                 setTimeout(() => {
-                    marketRefreshButton.disabled = false
-                }, 3000)
+                    marketRefreshButton.disabled = false;
+                }, 3000);
             });
         }
     }

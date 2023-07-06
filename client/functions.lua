@@ -15,3 +15,7 @@ function Sanitize(txt)
     txt = txt:gsub('[&<>\n]', replacements):gsub(' +', function(s) return ' '..('&nbsp;'):rep(#s-1) end)
     return txt
 end
+
+function Round(number, x)
+    return tonumber(string.format("%."..x.."f", number))
+end

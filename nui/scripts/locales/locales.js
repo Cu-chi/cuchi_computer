@@ -30,6 +30,17 @@ const Locales = {
         cmd_taskkilled: "Application '{1}.exe' has been killed.",
         cmd_taskkill_error: "Application '{1}.exe' isn't running.",
         cmd_taskkill_not_specified: "You have to specify an application.<br>    Usage: taskkill [app]",
+        cmd_iptracer_desc: "get information about specified IP address.<br>    Usage: ip-tracer [IPv4]",
+        cmd_iptracer_not_specified: "You have to specify an IP address.<br>    Usage: ip-tracer [IPv4]",
+        cmd_iptracer_error: "The IP address is incorrect, it should look like 11.22.33.44.",
+        cmd_iptracer_result: `IP address > <span style='color:green'>{1}</span>
+        <br>Date & Time > <span style='color:green'>{2}</span>
+        <br>Zone > <span style='color:green'>{3}</span>
+        <br>Latitude > <span style='color:green'>{4}</span>
+        <br>Longitude > <span style='color:green'>{5}</span>
+        <br>Location > <span style='color:green'>{6}</span>
+        <br><span style='color:red'>GPS set.</span>`,
+        cmd_iptracer_disconnected: "IP address {1} has <span style='color:red'>disconnected</span> from the network.",
 
         error_market_title: "Error creating post",
         error_market_deletion_title: "Deletion error",
@@ -82,6 +93,17 @@ const Locales = {
         cmd_taskkilled: "L'application '{1}.exe' a été tuée.",
         cmd_taskkill_error: "L'application '{1}.exe' n'est pas en cours d'exécution.",
         cmd_taskkill_not_specified: "Vous devez spécifier une application.<br>    Usage: taskkill [app]",
+        cmd_iptracer_desc: "obtenir des informations sur l'addresse IP spécifiée.<br>    Usage: ip-tracer [IPv4]",
+        cmd_iptracer_not_specified: "Vous devez spécifier une addresse IP.<br>    Usage: ip-tracer [IPv4]",
+        cmd_iptracer_error: "L'addresse IP est incorrecte, elle doit ressembler à 11.22.33.44.",
+        cmd_iptracer_result: `addresse IP > <span style='color:green'>{1}</span>
+        <br>Date & Heure > <span style='color:green'>{2}</span>
+        <br>Zone > <span style='color:green'>{3}</span>
+        <br>Latitude > <span style='color:green'>{4}</span>
+        <br>Longitude > <span style='color:green'>{5}</span>
+        <br>Position > <span style='color:green'>{6}</span>
+        <br><span style='color:red'>GPS réglé.</span>`,
+        cmd_iptracer_disconnected: "L'addresse IP {1} s'est <span style='color:red'>déconnectée</span> du réseau.",
 
         error_market_title: "Erreur de création du poste",
         error_market_deletion_title: "Erreur de suppression",

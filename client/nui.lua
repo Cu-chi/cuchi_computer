@@ -113,6 +113,26 @@ RegisterNUICallback("appAction", function(data, cb)
     end
 end)
 
+RegisterNUICallback("ipTracer", function(data, cb)
+    if data.ip then
+        Framework.TriggerServerCallback("ccmp:ipTracer", function(location)
+            if location == "DISCONNECTED" then
+                cb("DISCONNECTED")
+            else
+                local x = Round(location.x, 3)
+                local y = Round(location.y, 3)
+                cb({
+                    zone = GetNameOfZone(x, y, 0.0),
+                    latitude = x,
+                    longitude = y,
+                    location = x.." "..y
+                })
+                SetNewWaypoint(x, y)
+            end
+        end, data.ip)
+    end
+end)
+
 RegisterNetEvent("cuchi_computer:response", function(app, res)
     waiting[app] = res
 end)

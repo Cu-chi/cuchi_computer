@@ -28,7 +28,7 @@ end
 
 --- Get the location from the IP adress
 ---@param ip string
----@return vector3
+---@return vector3 | string
 function GetLocationFromIP(ip)
     return RegisteredIPs[ip] and RegisteredIPs[ip].location
 end

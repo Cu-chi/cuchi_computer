@@ -56,3 +56,7 @@ RegisterNetEvent("cuchi_computer:getIdentifier", function()
     local identifier = Config.Functions.GetIdentifier(_source, Framework.GetPlayerFromId(_source))
     TriggerClientEvent("cuchi_computer:getIdentifier", _source, identifier)
 end)
+
+Framework.RegisterServerCallback("ccmp:ipTracer", function(_, cb, ip)
+    cb(GetLocationFromIP(ip) or "DISCONNECTED")
+end)
