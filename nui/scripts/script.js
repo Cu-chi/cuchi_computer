@@ -525,7 +525,8 @@ const OnConsoleCommand = (e, consoleInput) => {
         else
             AddConsoleLine(consoleInput.value, GetLocale("cmd_unknown"));
 
-        cmdHistory.push(consoleInput.value);
+        if (consoleInput.value != "")
+            cmdHistory.push(consoleInput.value);
         cmdHistIndex = 0;
     }
     else if (e.key === "ArrowUp") {
