@@ -133,6 +133,12 @@ RegisterNUICallback("ipTracer", function(data, cb)
     end
 end)
 
+RegisterNUICallback("netscan", function(_, cb)
+    Framework.TriggerServerCallback("ccmp:netscan", function(addresses)
+        cb(addresses)
+    end)
+end)
+
 RegisterNetEvent("cuchi_computer:response", function(app, res)
     waiting[app] = res
 end)

@@ -71,3 +71,13 @@ function GenerateRandomIP()
 
     return ip
 end
+
+---Get all the IP addresses
+---@return table
+function GetAllIPAddresses()
+    local table = {}
+    for ip, _ in pairs(RegisteredIPs) do
+        table[#table+1] = ip
+    end
+    return table
+end

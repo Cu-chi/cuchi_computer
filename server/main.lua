@@ -60,3 +60,7 @@ end)
 Framework.RegisterServerCallback("ccmp:ipTracer", function(_, cb, ip)
     cb(GetLocationFromIP(ip) or "DISCONNECTED")
 end)
+
+Framework.RegisterServerCallback("ccmp:netscan", function(_, cb)
+    cb(GetAllIPAddresses())
+end)

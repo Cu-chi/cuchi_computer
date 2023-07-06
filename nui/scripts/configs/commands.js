@@ -19,7 +19,7 @@ const CommandsList = {
             Object.entries(CommandsList).forEach(entry => {
                 const [key, value] = entry;
 
-                finalText += (!first ? "<br>" : "") + " - " + key + ": " + value.description();
+                finalText += (!first ? "<br>" : "") + " - <span style='text-decoration: underline'>" + key + "</span>: " + value.description();
                 first = false;
             });
 
@@ -109,5 +109,24 @@ const CommandsList = {
             else
                 AddConsoleLine("ip-tracer", GetLocale("cmd_iptracer_not_specified"));
         }
-    }
+    },
+    "netscan": {
+        "description": () => { return GetLocale("cmd_netscan_desc"); },
+        "action": () => {
+            fetch(`https://${GetParentResourceName()}/netscan`,
+            {
+                method: "POST",
+                body: null
+            }).then(response => response.json()).then(data => {
+                let finalText = "";
+                let first = true;
+                for (let i = 0; i < data.length; i++) {
+                    finalText += (!first ? "<br>" : "") + data[i];
+                    first = false;
+                }
+
+                AddConsoleLine("netscan", finalText);
+            });
+        }
+    },
 };
