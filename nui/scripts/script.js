@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     marketCreationDiv.style.display = "none";
                     marketCreationTitleElem.value = "";
                     marketCreationDescElem.value = "";
-                    MessageBox("info", GetLocale("error_market_creation_success"),  GetLocale("error_market_creation_success_desc"))
+                    MessageBox("info", GetLocale("info_market_creation_success"),  GetLocale("info_market_creation_success_desc"))
                 }
                 else {
                     MessageBox("error", GetLocale("error_market_title"),  GetLocale(data))
@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (data == "OK") {
                     marketDeletionDiv.style.display = "none";
                     marketDeletionIdInput.value = "";
-                    MessageBox("info", GetLocale("error_market_deletion_success"),  GetLocale("error_market_deletion_success_desc"))
+                    MessageBox("info", GetLocale("info_market_deletion_success"),  GetLocale("info_market_deletion_success_desc"))
                 }
                 else {
                     MessageBox("error", GetLocale("error_market_deletion_title"),  GetLocale(data))

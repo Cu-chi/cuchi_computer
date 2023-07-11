@@ -373,6 +373,7 @@ input::selection {
     margin: 4px 2px;
     border: none;
     outline: none;
+    cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.1s ease-in-out;
 }
