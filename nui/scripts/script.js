@@ -478,9 +478,6 @@ const MakeElementDraggable = (element) => {
     var movable = document.getElementById(element.id + "-title");
     movable.style.cursor = "move";
     movable.onmousedown = (e) => {
-        e = e || window.event;
-        e.preventDefault();
-
         pos3 = e.clientX;
         pos4 = e.clientY;
         document.onmouseup = () => {
@@ -489,9 +486,6 @@ const MakeElementDraggable = (element) => {
         };
 
         document.onmousemove = (e) => {
-            e = e || window.event;
-            e.preventDefault();
-
             pos1 = pos3 - e.clientX;
             pos2 = pos4 - e.clientY;
             pos3 = e.clientX;
