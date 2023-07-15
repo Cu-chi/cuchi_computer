@@ -11,7 +11,8 @@ function OpenUI(location)
                 type = "show",
                 ip = ip,
                 laptop = isLaptop,
-                market = AppConfig.Market
+                market = AppConfig.Market,
+                mailDomain = AppConfig.Mail.domain
             })
             SetNuiFocus(true, true)
             UIOpen = true
@@ -58,7 +59,8 @@ RegisterNUICallback("getApplicationsData", function(data, cb)
 end)
 
 local waiting = {
-    market = false
+    market = false,
+    mail = false
 }
 RegisterNUICallback("appAction", function(data, cb)
     if data.app == "market" then
@@ -109,6 +111,114 @@ RegisterNUICallback("appAction", function(data, cb)
             else
                 cb("error_market_id")
             end
+        end
+    elseif data.app == "mail" then
+        if data.type == "create-acc" then
+            if not data.username or IsStringBlank(data.username) or not data.password or IsStringBlank(data.password) then
+                cb("mail_empty")
+                return
+            end
+
+            local username = Sanitize(data.username)
+            if #username > 16 or #data.password > 32 then
+                cb("mail_input_overflow")
+                return
+            end
+
+            waiting.mail = "waiting"
+            TriggerServerEvent("ccmp:createAccount", username, data.password)
+            while waiting.mail == "waiting" do
+                Wait(50)
+            end
+
+            if waiting.mail == "used" then
+                cb("mail_username_taken")
+            else
+                cb("OK")
+            end
+
+            waiting.market = false
+        elseif data.type == "connect" then
+            waiting.mail = "waiting"
+            TriggerServerEvent("ccmp:mailConnect", data.username, data.password)
+            while waiting.mail == "waiting" do
+                Wait(50)
+            end
+
+            if waiting.mail == "wrong" then
+                cb("mail_connect_wrong")
+            else
+                cb("OK")
+            end
+
+            waiting.mail = false
+        elseif data.type == "send" then
+            waiting.mail = "waiting"
+
+            local address, count = string.gsub(data.to, AppConfig.Mail.domain, "")
+            if count ~= 1 then
+                cb("mail_send_error_address")
+                return
+            end
+
+            if ((not data.object or IsStringBlank(data.object)) and not data.answerTo) or not data.text or IsStringBlank(data.text) then
+                cb("mail_send_error_empty")
+                return
+            end
+
+            local object
+            if not data.answerTo then
+                address = Sanitize(address)
+                object = Sanitize(data.object)
+                if #object > 32 then
+                    cb("mail_send_error_overflow")
+                    return
+                end
+            end
+
+            local text = Sanitize(data.text)
+            if #text > 4096 then
+                cb("mail_send_error_overflow")
+                return
+            end
+
+            TriggerServerEvent("ccmp:mailSend", address, object, text, data.answerTo)
+            while waiting.mail == "waiting" do
+                Wait(50)
+            end
+
+            if waiting.mail == "mail_error" then
+                cb("mail_send_error_address")
+            else
+                cb("OK")
+            end
+
+            waiting.mail = false
+        elseif data.type == "refresh" then
+            appsData["mail"] = false
+            TriggerServerEvent("ccmp:mailRefresh")
+
+            while not appsData["mail"] do
+                Wait(50)
+            end
+
+            local mailsLength = #appsData["mail"]
+            local sortedMails = {}
+            if mailsLength > 0 then
+                for i = 1, mailsLength, 1 do
+                    local mailData = appsData["mail"][i]
+                    if mailData.answer_to == nil then
+                        sortedMails[mailData.id] = {mailData}
+                    else
+                        sortedMails[mailData.answer_to][#sortedMails[mailData.answer_to]+1] = mailData
+                        table.sort(sortedMails[mailData.answer_to], function(a,b) return a.timestamp > b.timestamp end)
+                    end
+                end
+            end
+            cb(sortedMails)
+        elseif data.type == "readed" then
+            TriggerServerEvent("ccmp:readMail", data.id)
+            cb("OK")
         end
     end
 end)

@@ -84,4 +84,64 @@ const Applications = {
     <div id="themes-container"></div>
 </div>`
     },
+    "mail": {
+        usable: true,
+        width: 800,
+        height: 600,
+        appCode: `
+<div id="app-mail" class="application">
+    <h1 id="app-mail-title"><button id="mail-quit" class="app-exit"></button><button id="mail-minimize" class="app-minimize"></button>Mail</h1>
+    <div id="mail-connection">
+        <h1 id="mail-connection-title">Sign in</h1>
+        <p id="mail-connection-info"></p>
+        <input id="mail-connection-username" placeholder="Username" type="text" maxlength="16">
+        <input id="mail-connection-password" placeholder="Password" type="password" maxlength="32">
+        <label id="mail-connection-checkbox">
+            <input id="mail-connection-save" type="checkbox"><span id="mail-checkbox-text">Save inputs for next time.</span>
+        </label>
+        <div class="mail-connection-actions">
+            <button id="mail-connection-signin">Sign in</button>
+            <button id="mail-connection-signup">No account? Sign up</button>
+        </div>
+    </div>
+    <div id="mail-signup">
+        <h1 id="mail-signup-title">Sign up</h1>
+        <p id="mail-signup-error"></p>
+        <input id="mail-signup-username" placeholder="Username" type="text" maxlength="16">
+        <p id="mail-signup-preview">You mail address will be: </p>
+        <input id="mail-signup-password" placeholder="Password" type="password" maxlength="32">
+        <input id="mail-signup-password-confirmation" placeholder="Confirm Password" type="password" maxlength="32">
+        <p id="mail-signup-warning">WARNING: Don't put a real password!</p>
+        <div class="mail-connection-actions">
+            <button id="mail-signup-signup">Sign up</button>
+            <button id="mail-signup-signin">Already have an account? Sign in</button>
+        </div>
+    </div>
+    <div id="mail-loader"></div>
+    <div id="mail-wrapper">
+        <div id="mail-top">
+            <h1>mail@mail.com</h1>
+            <div>
+                <button id="mail-create">New mail</button>
+                <button id="mail-refresh">Refresh</button>
+                <button id="mail-signout">Disconnect</button>
+            </div>
+        </div>
+        <div id="mail-container">
+
+        </div>
+        <div id="mail-reader">
+            <h1 id="mail-reader-object"></h1>
+            <div id="mail-reader-container"></div>
+            <button id="mail-reader-answer">ANSWER</button>
+        </div>
+        <div id="mail-creator">
+            <input id="mail-creator-to" placeholder="mail@" type="text">
+            <input id="mail-creator-object" placeholder="Mail object" type="text" maxlength="32">
+            <textarea rows='10' data-min-rows='10' id="mail-creator-text" placeholder="Text..." maxlength="4096"></textarea>
+            <button id="mail-creator-send">Send</button>
+        </div>
+    </div>
+</div>`
+    },
 };

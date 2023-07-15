@@ -5,15 +5,53 @@ var cmdHistory = [];
 var msgId = 0;
 var IP = "";
 var identifier = null;
+let mailDomain = "";
+let mailCreation = false;
+let mailsList = null;
+let mailAccount = "";
+let answeringTo = null;
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
-        IP = event.data.ip;
         document.body.style.display = "block";
+
+        IP = event.data.ip;
         AddInformation(GetLocale("info_ipv4"), IP);
         ComputerType = event.data.laptop ? GetLocale("info_laptop") : GetLocale("info_desktop");
         AddInformation(GetLocale("info_type"), ComputerType);
         ComputerType = ComputerType.toLowerCase();
+        mailDomain = event.data.mailDomain;
+
+        // Mail
+        setupMail();
+        document.getElementById("mail-connection-title").innerText = GetLocale("mail_signin");
+        document.getElementById("mail-connection-signin").innerText = GetLocale("mail_signin");
+        document.getElementById("mail-connection-signup").innerText = GetLocale("mail_signup_message");
+        document.getElementById("mail-checkbox-text").innerText = GetLocale("mail_save");
+        document.getElementById("mail-signout").innerText = GetLocale("mail_signout");
+        document.getElementById("mail-refresh").innerText = GetLocale("os_refresh");
+
+        document.getElementById("mail-connection-username").placeholder = GetLocale("mail_username");
+        document.getElementById("mail-connection-password").placeholder = GetLocale("mail_password");
+        
+        document.getElementById("mail-signup-username").placeholder = GetLocale("mail_username");
+        document.getElementById("mail-signup-password").placeholder = GetLocale("mail_password");
+        document.getElementById("mail-signup-password-confirmation").placeholder = GetLocale("mail_confirm_password");
+        
+
+        document.getElementById("mail-create").innerText = GetLocale("mail_create");
+        document.getElementById("mail-creator-to").placeholder = "ex123" + mailDomain;
+        document.getElementById("mail-creator-object").placeholder = GetLocale("mail_object");
+        document.getElementById("mail-creator-text").placeholder = GetLocale("mail_text");
+        document.getElementById("mail-creator-send").innerText = GetLocale("mail_send");
+
+        document.getElementById("mail-signup-title").innerText = GetLocale("mail_signup");
+        document.getElementById("mail-signup-warning").innerText = GetLocale("mail_password_warning");
+        document.getElementById("mail-signup-signup").innerText = GetLocale("mail_signup");
+        document.getElementById("mail-signup-signin").innerText = GetLocale("mail_signin_message");
+
+        document.getElementById("mail-reader-answer").innerText = GetLocale("mail_answer");
+
         Load(true, GetLocale("os_session"), 100, () => {
             Load(true, GetLocale("os_boot"), 150, () => {
                 fetch(`https://${GetParentResourceName()}/getApplicationsData`,
@@ -176,6 +214,261 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: null
     });
+
+    if (Applications["mail"].usable && !Applications["mail"].hide) {
+        document.getElementById("mail-connection-signup").onclick = () => {
+            document.getElementById("mail-connection").style.display = "none";
+            document.getElementById("mail-signup").style.display = "flex";
+        };
+
+        let signUpBtn = document.getElementById("mail-signup-signup")
+        signUpBtn.onclick = () => {
+            document.getElementById("mail-signup").style.display = "none";
+            document.getElementById("mail-loader").style.display = "block";
+
+            let signupError = document.getElementById("mail-signup-error");
+            signupError.style.display = "none";
+            signUpBtn.disabled = true;
+            let pwdElem = document.getElementById("mail-signup-password");
+            let pwdConfirmationElem = document.getElementById("mail-signup-password-confirmation");
+
+            if (pwdElem.value == "") {
+                signupError.style.display = "block";
+                signupError.innerText = GetLocale("mail_password_empty");
+                signUpBtn.disabled = false;
+                document.getElementById("mail-signup").style.display = "flex";
+                document.getElementById("mail-loader").style.display = "none";
+                return;
+            }
+
+            if (pwdElem.value != pwdConfirmationElem.value) {
+                signupError.style.display = "block";
+                signupError.innerText = GetLocale("mail_passwords_different");
+                signUpBtn.disabled = false;
+                document.getElementById("mail-signup").style.display = "flex";
+                document.getElementById("mail-loader").style.display = "none";
+                return;
+            }
+
+            fetch(`https://${GetParentResourceName()}/appAction`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    app: "mail",
+                    type: "create-acc",
+                    username: document.getElementById("mail-signup-username").value,
+                    password: pwdElem.value
+                })
+            }).then(response => response.json()).then(data => {
+                if (data == "OK") {
+                    let connectionInfo = document.getElementById("mail-connection-info");
+                    connectionInfo.style.display = "block";
+                    connectionInfo.innerText = GetLocale("mail_account_created");
+                    document.getElementById("mail-connection").style.display = "flex";
+                    document.getElementById("mail-signup").style.display = "none";
+                    document.getElementById("mail-loader").style.display = "none";
+                }
+                else {
+                    signupError.style.display = "block";
+                    signupError.innerText = GetLocale(data);
+                    document.getElementById("mail-signup").style.display = "flex";
+                    document.getElementById("mail-loader").style.display = "none";
+                    signUpBtn.disabled = false;
+                }
+            });
+        };
+
+        document.getElementById("mail-connection-signin").onclick = () => {
+            document.getElementById("mail-connection").style.display = "none";
+            document.getElementById("mail-loader").style.display = "block";
+            let usernameInput = document.getElementById("mail-connection-username");
+            let passwordInput = document.getElementById("mail-connection-password");
+            fetch(`https://${GetParentResourceName()}/appAction`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    app: "mail",
+                    type: "connect",
+                    username: usernameInput.value,
+                    password: passwordInput.value
+                })
+            }).then(response => response.json()).then(data => {
+                let connectionInfo = document.getElementById("mail-connection-info");
+
+                if (data == "OK") { 
+                    connectionInfo.style.display = "none";
+                    document.getElementById("mail-connection").style.display = "none";
+
+                    mailAccount = usernameInput.value;
+                    let saveInputs = document.getElementById("mail-connection-save").checked;
+                    if (saveInputs) {
+                        localStorage.setItem("mail", JSON.stringify({
+                            username: mailAccount,
+                            password: passwordInput.value
+                        }));
+                    }
+                    else
+                        localStorage.removeItem("mail")
+
+                    refreshMails();
+                    usernameInput.value = "";
+                    passwordInput.value = "";
+                }
+                else {
+                    connectionInfo.style.display = "block";
+                    connectionInfo.innerText = GetLocale(data);
+
+                    document.getElementById("mail-connection").style.display = "flex";
+                    document.getElementById("mail-loader").style.display = "none";
+                }
+            });
+        };
+
+        document.getElementById("mail-signup-signin").onclick = () => {
+            document.getElementById("mail-connection").style.display = "flex";
+            document.getElementById("mail-signup").style.display = "none";
+        };
+
+        let usernameSignUpInput = document.getElementById("mail-signup-username");
+        usernameSignUpInput.oninput = () => {
+            let previewElem = document.getElementById("mail-signup-preview");
+            if (usernameSignUpInput.value != "") {
+                previewElem.style.display = "block";
+                previewElem.innerHTML = GetLocale("mail_preview").replace("{1}", "<span>" + usernameSignUpInput.value + mailDomain + "</span>");
+            }
+            else previewElem.style.display = "none";
+        };
+
+        // In app buttons
+        let mailSignoutBtn =  document.getElementById("mail-signout");
+        mailSignoutBtn.onclick = () => setupMail();
+
+        let mailCreateBtn =  document.getElementById("mail-create");
+        mailCreateBtn.onclick = () => {
+            mailCreation = !mailCreation
+
+            if (mailCreation) {
+                mailCreateBtn.innerText = GetLocale("os_cancel");
+                mailSignoutBtn.style.display = "none";
+                document.getElementById("mail-refresh").style.display = "none";
+                document.getElementById("mail-creator").style.display = "flex";
+                document.getElementById("mail-container").style.display = "none";
+            }
+            else {
+                mailCreateBtn.innerText = GetLocale("mail_create");
+                mailSignoutBtn.style.display = "initial";
+                document.getElementById("mail-refresh").style.display = "initial";
+                document.getElementById("mail-creator").style.display = "none";
+                document.getElementById("mail-container").style.display = "flex";
+
+                // if we were answering
+                document.getElementById("mail-reader").style.display = "none";
+                document.getElementById("mail-creator-to").style.display = "initial";
+                document.getElementById("mail-creator-object").style.display = "initial";
+            }
+        };
+
+        document.getElementById("mail-creator-send").onclick = () => {
+            document.getElementById("mail-wrapper").style.display = "none";
+            document.getElementById("mail-loader").style.display = "block";
+
+            if (answeringTo) {
+                let mailsData = mailsList[answeringTo];
+                let firstMail = mailsData[mailsData.length - 1];
+                let creatorTextInput = document.getElementById("mail-creator-text");
+
+                fetch(`https://${GetParentResourceName()}/appAction`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        app: "mail",
+                        type: "send",
+                        to: (firstMail.from == mailAccount ? firstMail.to : firstMail.from) + mailDomain,
+                        object: null,
+                        text: creatorTextInput.value,
+                        answerTo: firstMail.id,
+                    })
+                }).then(response => response.json()).then(data => {
+                    if (data == "OK") {
+                        mailCreation = !mailCreation;
+                        mailCreateBtn.innerText = GetLocale("mail_create");
+                        document.getElementById("mail-creator").style.display = "none";
+                        document.getElementById("mail-creator-to").style.display = "initial";
+                        document.getElementById("mail-creator-object").style.display = "initial";
+
+                        mailSignoutBtn.style.display = "initial";
+                        document.getElementById("mail-refresh").style.display = "initial";
+                        document.getElementById("mail-create").style.display = "initial";
+
+                        document.getElementById("mail-container").style.display = "flex";
+    
+                        creatorTextInput.value = "";
+                        document.getElementById("mail-reader").style.display = "none";
+                        answeringTo = null;
+
+                        refreshMails();
+                    }
+                    else {
+                        document.getElementById("mail-loader").style.display = "none";
+                        document.getElementById("mail-wrapper").style.display = "block";
+                        MessageBox("error", GetLocale("os_error"), GetLocale(data));
+                    }
+                });
+                return;
+            }
+
+            let creatorToInput = document.getElementById("mail-creator-to");
+            let creatorObjectInput = document.getElementById("mail-creator-object");
+            let creatorTextInput = document.getElementById("mail-creator-text");
+            fetch(`https://${GetParentResourceName()}/appAction`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    app: "mail",
+                    type: "send",
+                    to: creatorToInput.value,
+                    object: creatorObjectInput.value,
+                    text: creatorTextInput.value,
+                })
+            }).then(response => response.json()).then(data => {
+                let creator = document.getElementById("mail-creator");
+
+                if (data == "OK") { 
+                    creator.style.display = "none";
+
+                    mailCreation = false;
+                    mailCreateBtn.innerText = GetLocale("mail_create");
+                    mailSignoutBtn.style.display = "initial";
+                    document.getElementById("mail-refresh").style.display = "initial";
+                    creator.style.display = "none";
+                    document.getElementById("mail-container").style.display = "flex";
+
+                    creatorToInput.value = "";
+                    creatorObjectInput.value = "";
+                    creatorTextInput.value = "";
+
+                    refreshMails();
+                }
+                else {
+                    document.getElementById("mail-loader").style.display = "none";
+                    creator.style.display = "flex";
+                    document.getElementById("mail-wrapper").style.display = "block";
+                    MessageBox("error", GetLocale("os_error"), GetLocale(data));
+                }
+            });
+        }
+
+        let mailRefreshBtn = document.getElementById("mail-refresh");
+        mailRefreshBtn.onclick = () => {
+            mailRefreshBtn.disabled = true;
+            document.getElementById("mail-wrapper").style.display = "none";
+            document.getElementById("mail-loader").style.display = "block";
+            refreshMails();
+            setTimeout(() => {
+                mailRefreshBtn.disabled = false;
+            }, 3000)
+        }
+    }
 
     if (Applications["market"].usable && !Applications["market"].hide) {
         const marketCreationDiv = document.getElementById("market-creation");
@@ -393,6 +686,15 @@ const OpenApp = (appName, msgBox) => {
     FocusApp(false, appName);
 
     if (appName == "console") ClearConsole();
+    else if (appName == "mail") {
+        mailCreation = false;
+        document.getElementById("mail-create").innerText = GetLocale("mail_create");
+        document.getElementById("mail-signout").style.display = "initial";
+        document.getElementById("mail-refresh").style.display = "initial";
+        document.getElementById("mail-creator").style.display = "none";
+        document.getElementById("mail-reader").style.display = "none";
+        document.getElementById("mail-container").style.display = "flex";
+    }
 
     return wasOpen ? 2 : 1;
 };
@@ -714,4 +1016,127 @@ const editTheme = (themeData) => {
         localStorage.setItem(key, value);
         document.querySelector(":root").style.setProperty(key, value);
     }
+}
+
+/**
+ * Setup the Mail app
+ */
+const setupMail = () => {
+    document.getElementById("mail-connection").style.display = "flex";
+    document.getElementById("mail-wrapper").style.display = "none";
+    document.getElementById("mail-container").style.display = "flex";
+    document.getElementById("mail-refresh").style.display = "initial";
+    document.getElementById("mail-signout").style.display = "initial";
+    document.getElementById("mail-create").style.display = "initial";
+    document.getElementById("mail-reader").style.display = "none";
+
+    const mailString = localStorage.getItem("mail");
+    var mailConnection = null
+    if (mailString)
+        mailConnection = JSON.parse(mailString);
+    
+    if (mailConnection) {
+        document.getElementById("mail-connection-username").value = mailConnection.username;
+        document.getElementById("mail-connection-password").value = mailConnection.password;
+        document.getElementById("mail-connection-save").checked = true;
+    }
+
+    mailsList = null;
+    answeringTo = null;
+    document.getElementById("mail-creator-to").style.display = "initial";
+    document.getElementById("mail-creator-object").style.display = "initial";
+    document.getElementById("mail-creator").style.display = "none";
+}
+
+/**
+ * Refresh mails
+ * @param {function} [callback] function callback 
+ */
+const refreshMails = (callback) => {
+    fetch(`https://${GetParentResourceName()}/appAction`,
+    {
+        method: "POST",
+        body: JSON.stringify({
+            app: "mail",
+            type: "refresh"
+        })
+    }).then(response => response.json()).then(data => {
+        mailsList = data;
+        let container = document.getElementById("mail-container");
+        container.innerHTML = "";
+        const dateFormat = GetLocale("date_format");
+
+        let newElements = [];
+        for (const [key, mails] of Object.entries(mailsList)) {
+            let date = new Date(mails[0].timestamp*1000);
+            let dateString = date.toLocaleTimeString(dateFormat) + " " + date.toLocaleDateString(dateFormat)
+            let newElement = document.createElement("div");
+            newElement.classList = "mail" + (!mails[0].read && mails[0].to == mailAccount ? " new" : "");
+            newElement.innerHTML = `${!mails[0].read && mails[0].to == mailAccount ? `<div>${GetLocale("mail_new")}</div><div class="separator"></div>` : ""}
+            <div class="object">${mails[mails.length-1].object}</div>
+            <div class="separator"></div>
+            <div>${(mails[0].from == mailAccount ? mails[0].to : mails[0].from) + mailDomain}</div>
+            <div class="separator"></div>
+            <div>${dateString}</div>`;
+
+            newElement.onclick = () => {
+                document.getElementById("mail-refresh").style.display = "none";
+                document.getElementById("mail-signout").style.display = "none";
+                document.getElementById("mail-create").innerText = GetLocale("os_cancel");
+                mailCreation = !mailCreation;
+
+                // we edit the state only if the last mail isn't ours
+                if (mailAccount == mails[0].to && !mails[0].read) {
+                    fetch(`https://${GetParentResourceName()}/appAction`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            app: "mail",
+                            type: "readed",
+                            id: mails[0].answer_to ? mails[0].answer_to : mails[0].id
+                        })
+                    })
+                }
+
+                // reversed order so we go from oldest to newest
+                document.getElementById("mail-reader-object").innerText = GetLocale("mail_object")+": " + mails[mails.length - 1].object;
+                let readerContainer = document.getElementById("mail-reader-container");
+                document.getElementById("mail-container").style.display = "none";
+                readerContainer.innerHTML = "";
+
+                for (i = mails.length - 1; i >= 0; i--) {
+                    let newElement = document.createElement("div");
+                    newElement.innerHTML = `<div class="mail-reader-info">${mails[i].from + mailDomain}${!mails[i].read && mails[0].to == mailAccount ? `<div class="mail-new">${GetLocale("mail_new")}</div>` : ""}</div>
+                    <div class="mail-reader-text">${mails[i].text}<div class="mail-reader-date">${dateString}</div></div>`
+                    readerContainer.appendChild(newElement);
+                }
+
+                let wrapper = document.getElementById("mail-wrapper");
+                document.getElementById("mail-reader").style.display = "flex";
+                document.getElementById("mail-reader-answer").onclick = () => {
+                    answeringTo = key;
+                    document.getElementById("mail-creator").style.display = "flex";
+                    document.getElementById("mail-creator-to").style.display = "none";
+                    document.getElementById("mail-creator-object").style.display = "none";
+                    document.getElementById("mail-creator-text").focus();
+
+                    wrapper.scrollTo(0, wrapper.scrollHeight);
+                }
+
+                wrapper.scrollTo(0, wrapper.scrollHeight);
+            }
+
+            newElements.push([mails[0].timestamp, newElement]);
+        }
+
+        newElements.sort((a, b) => b[0] - a[0]);
+        newElements.forEach(data => {
+            container.appendChild(data[1]);
+        });
+
+        document.getElementById("mail-loader").style.display = "none";
+        document.getElementById("mail-wrapper").style.display = "block";
+
+        if (callback) callback();
+    });
 }
