@@ -120,7 +120,7 @@ const Applications = {
     <div id="mail-loader"></div>
     <div id="mail-wrapper">
         <div id="mail-top">
-            <h1>mail@mail.com</h1>
+            <h1 id="mail-indication">mail@mail.com</h1>
             <div>
                 <button id="mail-create">New mail</button>
                 <button id="mail-refresh">Refresh</button>

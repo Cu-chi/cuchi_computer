@@ -300,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("mail-connection").style.display = "none";
 
                     mailAccount = usernameInput.value;
+                    document.getElementById("mail-indication").innerText = mailAccount + mailDomain;
                     let saveInputs = document.getElementById("mail-connection-save").checked;
                     if (saveInputs) {
                         localStorage.setItem("mail", JSON.stringify({
