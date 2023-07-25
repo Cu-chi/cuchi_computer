@@ -324,7 +324,7 @@ input::selection {
 }
 
 #market-wrapper {
-    overflow: hidden;
+    overflow: auto;
 }
 
 #market-container {
@@ -333,7 +333,6 @@ input::selection {
     justify-content: space-evenly;
     flex-wrap: wrap;
     gap: 10px;
-    max-height: 80%;
 }
 
 .market-elem {

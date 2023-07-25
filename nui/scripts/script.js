@@ -23,34 +23,50 @@ window.addEventListener("message", (event) => {
         mailDomain = event.data.mailDomain;
 
         // Mail
-        setupMail();
-        document.getElementById("mail-connection-title").innerText = GetLocale("mail_signin");
-        document.getElementById("mail-connection-signin").innerText = GetLocale("mail_signin");
-        document.getElementById("mail-connection-signup").innerText = GetLocale("mail_signup_message");
-        document.getElementById("mail-checkbox-text").innerText = GetLocale("mail_save");
-        document.getElementById("mail-signout").innerText = GetLocale("mail_signout");
-        document.getElementById("mail-refresh").innerText = GetLocale("os_refresh");
+        if (Applications["mail"].usable && !Applications["mail"].hide) {
+            setupMail();
+            document.getElementById("mail-connection-title").innerText = GetLocale("mail_signin");
+            document.getElementById("mail-connection-signin").innerText = GetLocale("mail_signin");
+            document.getElementById("mail-connection-signup").innerText = GetLocale("mail_signup_message");
+            document.getElementById("mail-checkbox-text").innerText = GetLocale("mail_save");
+            document.getElementById("mail-signout").innerText = GetLocale("mail_signout");
+            document.getElementById("mail-refresh").innerText = GetLocale("os_refresh");
+    
+            document.getElementById("mail-connection-username").placeholder = GetLocale("mail_username");
+            document.getElementById("mail-connection-password").placeholder = GetLocale("mail_password");
+            
+            document.getElementById("mail-signup-username").placeholder = GetLocale("mail_username");
+            document.getElementById("mail-signup-password").placeholder = GetLocale("mail_password");
+            document.getElementById("mail-signup-password-confirmation").placeholder = GetLocale("mail_confirm_password");
+            
+    
+            document.getElementById("mail-create").innerText = GetLocale("mail_create");
+            document.getElementById("mail-creator-to").placeholder = "ex123" + mailDomain;
+            document.getElementById("mail-creator-object").placeholder = GetLocale("mail_object");
+            document.getElementById("mail-creator-text").placeholder = GetLocale("mail_text");
+            document.getElementById("mail-creator-send").innerText = GetLocale("mail_send");
+    
+            document.getElementById("mail-signup-title").innerText = GetLocale("mail_signup");
+            document.getElementById("mail-signup-warning").innerText = GetLocale("mail_password_warning");
+            document.getElementById("mail-signup-signup").innerText = GetLocale("mail_signup");
+            document.getElementById("mail-signup-signin").innerText = GetLocale("mail_signin_message");
+    
+            document.getElementById("mail-reader-answer").innerText = GetLocale("mail_answer");
+        }
 
-        document.getElementById("mail-connection-username").placeholder = GetLocale("mail_username");
-        document.getElementById("mail-connection-password").placeholder = GetLocale("mail_password");
-        
-        document.getElementById("mail-signup-username").placeholder = GetLocale("mail_username");
-        document.getElementById("mail-signup-password").placeholder = GetLocale("mail_password");
-        document.getElementById("mail-signup-password-confirmation").placeholder = GetLocale("mail_confirm_password");
-        
+        if (Applications["market"].usable && !Applications["market"].hide) {
+            document.getElementById("market-create").innerText = GetLocale("os_create");
+            document.getElementById("market-delete").innerText = GetLocale("os_delete");
+            document.getElementById("market-refresh").innerText = GetLocale("os_refresh");
 
-        document.getElementById("mail-create").innerText = GetLocale("mail_create");
-        document.getElementById("mail-creator-to").placeholder = "ex123" + mailDomain;
-        document.getElementById("mail-creator-object").placeholder = GetLocale("mail_object");
-        document.getElementById("mail-creator-text").placeholder = GetLocale("mail_text");
-        document.getElementById("mail-creator-send").innerText = GetLocale("mail_send");
+            document.getElementById("market-creation-post").innerText = GetLocale("market_post");
+            document.getElementById("market-creation-title").placeholder = GetLocale("os_title"); 
+            document.getElementById("market-creation-desc").placeholder = GetLocale("os_description");
+            document.getElementById("market-creation-cancel").innerText = GetLocale("os_cancel");
 
-        document.getElementById("mail-signup-title").innerText = GetLocale("mail_signup");
-        document.getElementById("mail-signup-warning").innerText = GetLocale("mail_password_warning");
-        document.getElementById("mail-signup-signup").innerText = GetLocale("mail_signup");
-        document.getElementById("mail-signup-signin").innerText = GetLocale("mail_signin_message");
-
-        document.getElementById("mail-reader-answer").innerText = GetLocale("mail_answer");
+            document.getElementById("market-deletion-delete").innerText = GetLocale("os_delete");
+            document.getElementById("market-deletion-cancel").innerText = GetLocale("os_cancel");
+        }
 
         Load(true, GetLocale("os_session"), 100, () => {
             Load(true, GetLocale("os_boot"), 150, () => {
@@ -84,7 +100,7 @@ window.addEventListener("message", (event) => {
                                     newElement.innerHTML = `
                                     <h1>${row.title}</h1>
                                     <div class="market-desc">${row.description}</div>
-                                    <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "(yours)" : ""}</p>
+                                    <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "("+GetLocale("market_yours")+")" : ""}</p>
                                     `;
                                 }
                                 else if (appName == "themes") {
@@ -591,7 +607,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             newElement.innerHTML = `
                             <h1>${row.title}</h1>
                             <div class="market-desc">${row.description}</div>
-                            <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "(yours)" : ""}</p>
+                            <p class="market-post-id">ID: ${row.id} ${identifier == row.seller ? "("+GetLocale("market_yours")+")" : ""}</p>
                             `;
 
                             container.appendChild(newElement);

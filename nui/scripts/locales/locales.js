@@ -13,6 +13,10 @@ const Locales = {
         os_fake_error: "Unknown error: can't open {1}.exe",
         os_session: "Initializing a new session...",
         os_refresh: "Refresh",
+        os_create: "Create",
+        os_delete: "Delete",
+        os_title: "Title",
+        os_description: "Description",
 
         date_format: "en-US",
 
@@ -56,6 +60,8 @@ const Locales = {
         info_market_creation_success_desc: "The post has been created with success.\nRefresh the market.",
         info_market_deletion_success: "Deleted with success!",
         info_market_deletion_success_desc: "The post has been deleted with success.\nRefresh the market.",
+        market_yours: "yours",
+        market_post: "Post",
 
         info_ipv4: "IPv4:",
         info_type: "Computer type:",
@@ -107,6 +113,10 @@ const Locales = {
         os_fake_error: "Erreur inconnue : impossible d'ouvrir {1}.exe",
         os_session: "Initialisation d'une nouvelle session...",
         os_refresh: "Rafraîchir",
+        os_create: "Créer",
+        os_delete: "Supprimer",
+        os_title: "Titre",
+        os_description: "Description",
 
         date_format: "fr-FR",
 
@@ -150,6 +160,8 @@ const Locales = {
         info_market_creation_success_desc: "Le poste à été créé avec succès.\nRafraîchissez le market.",
         info_market_deletion_success: "Supprimé avec succès !",
         info_market_deletion_success_desc: "Le poste à été supprimé avec succès.\nRafraîchissez le market.",
+        market_yours: "le vôtre",
+        market_post: "Poster",
 
         info_ipv4: "IPv4 :",
         info_type: "Type d'ordinateur:",
