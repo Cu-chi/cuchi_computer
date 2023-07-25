@@ -10,6 +10,7 @@ let mailCreation = false;
 let mailsList = null;
 let mailAccount = "";
 let answeringTo = null;
+let AppsZIndex = {};
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
@@ -682,7 +683,7 @@ const OpenApp = (appName, msgBox) => {
         taskbarIcon.classList.add("taskbar-icon");
         taskbarIcon.innerHTML = `<img src="assets/images/${msgBox ? appName.split("_")[0] : appName}.png">`;
         taskbarIcon.onclick = () => {
-            if (elem.style.visibility === "hidden") {
+            if (elem.style.visibility === "hidden" || elem.style.zIndex < 9999999) {
                 FocusApp(false, appName);
                 elem.style.visibility = "visible";
     
@@ -763,12 +764,17 @@ const FocusApp = (e, appName) => {
     taskbarIcon.classList.add("app-active");
 
     apps.forEach(app => {
-        if (app == appName)
-            document.getElementById("app-"+appName).style.zIndex = 9999;
-        else
-            document.getElementById("app-"+app).style.zIndex = "unset";
+        if (app == appName) {
+            document.getElementById("app-"+appName).style.zIndex = 9999999;
+            AppsZIndex[app] = 9999999;
+        }
+        else {
+            if (AppsZIndex[app]) {
+                AppsZIndex[app] -= 1;
+            }
+            document.getElementById("app-"+app).style.zIndex = AppsZIndex[app];
+        }
     });
-    
 
     if (appName == "console") {
         let consoleInput = document.getElementById("console-input");
