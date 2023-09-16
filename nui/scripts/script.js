@@ -1,10 +1,10 @@
-var apps = [];
-var openedApps = [];
-var cmdHistIndex = 0;
-var cmdHistory = [];
-var msgId = 0;
-var IP = "";
-var identifier = null;
+let apps = [];
+let openedApps = [];
+let cmdHistIndex = 0;
+let cmdHistory = [];
+let msgId = 0;
+let IP = "";
+let identifier = null;
 let mailDomain = "";
 let mailCreation = false;
 let mailsList = null;
@@ -131,7 +131,7 @@ window.addEventListener("message", (event) => {
 document.addEventListener("DOMContentLoaded", () => {
     SetLocale(Locale);
 
-    var localSelection = document.getElementById("locale-selection");
+    let localSelection = document.getElementById("locale-selection");
     localSelection.onclick = () => {
         const buttons = [];
         Object.entries(Locales).forEach(locale => {
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setInterval(() => {
-        var date = new Date();
+        let date = new Date();
 
         const dateFormat = GetLocale("date_format");
         document.getElementById("hours").innerText = date.toLocaleTimeString(dateFormat);
@@ -193,8 +193,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    var desktop = document.getElementById("desktop");
-    var unusableApps = [];
+    let desktop = document.getElementById("desktop");
+    let unusableApps = [];
     Object.entries(Applications).forEach(entry => {
         const [appName, appData] = entry;
         if (Applications[appName].hide)
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById(app+"-quit").onclick = () => CloseApp(app);
         document.getElementById(app+"-minimize").onclick = () => MinimizeApp(app);
 
-        var appElement = document.getElementById("app-"+app);
+        let appElement = document.getElementById("app-"+app);
         appElement.setAttribute("style", `display:none;width:${Applications[app].width}px;height:${Applications[app].height}px;`);
         MakeElementDraggable(appElement);
     });
@@ -728,7 +728,7 @@ const CloseApp = (appName, callback) => {
     if (app)
         app.style.display = "none";
 
-    var wasRunning = true;
+    let wasRunning = true;
     const taskbarIcon = document.getElementById("taskbar-"+appName);
     if (taskbarIcon)
         document.getElementById("left").removeChild(taskbarIcon);
@@ -799,8 +799,8 @@ const MinimizeApp = (appName, callback) => {
  * @param {HTMLDivElement} element the element to make draggable
  */
 const MakeElementDraggable = (element) => {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    var movable = document.getElementById(element.id + "-title");
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let movable = document.getElementById(element.id + "-title");
     movable.style.cursor = "move";
     movable.onmousedown = (e) => {
         pos3 = e.clientX;
@@ -901,8 +901,8 @@ const ClearConsole = () => {
  * @param {string | any} value its value
  */
 const AddInformation = (label, value) => {
-    var informations = document.getElementById("informations-text");
-    var newParagraph = document.createElement("p");
+    let informations = document.getElementById("informations-text");
+    let newParagraph = document.createElement("p");
     newParagraph.innerHTML = `<span class="info-label">${label}</span> ${value}`;
     informations.appendChild(newParagraph);
 }
@@ -963,7 +963,7 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
     }
     else {
         if (buttons.length > 1) {
-            var buttonsContainer = document.createElement("div");
+            let buttonsContainer = document.createElement("div");
             buttonsContainer.classList.add("msg-box-btn-container");
             element.appendChild(buttonsContainer);
         }
@@ -1012,11 +1012,11 @@ const ShutdownComputer = (exitBtn) => {
         exitBtn.removeAttribute("validation");
 
     apps.forEach(app => {
-        var appElement = document.getElementById("app-"+app);
+        let appElement = document.getElementById("app-"+app);
         appElement.style.top = "25%";
         appElement.style.left = "25%";
 
-        var appTextElement = document.getElementById(app+"-text");
+        let appTextElement = document.getElementById(app+"-text");
         if (appTextElement) {
             appTextElement.innerHTML = "";
         }
@@ -1034,7 +1034,7 @@ const editTheme = (themeData) => {
         document.getElementById("theme-"+themeData["--main-color"].toLowerCase()).innerHTML = "•";
     }
 
-    for (var [key, value] of Object.entries(themeData)) {
+    for (let [key, value] of Object.entries(themeData)) {
         value = value.toLowerCase();
         localStorage.setItem(key, value);
         document.querySelector(":root").style.setProperty(key, value);
@@ -1054,7 +1054,7 @@ const setupMail = () => {
     document.getElementById("mail-reader").style.display = "none";
 
     const mailString = localStorage.getItem("mail");
-    var mailConnection = null
+    let mailConnection = null
     if (mailString)
         mailConnection = JSON.parse(mailString);
     

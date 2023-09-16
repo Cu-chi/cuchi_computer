@@ -1,4 +1,4 @@
-var Locale = localStorage.getItem("locale");
+let Locale = localStorage.getItem("locale");
 if (!Locale)
     Locale = "EN";
 
@@ -8,7 +8,7 @@ if (!Locale)
  * @returns {string} locale string
  */
 const GetLocale = (key) => {
-    var locale = Locales[Locale][key];
+    let locale = Locales[Locale][key];
     if (locale) return locale;
 
     locale = Locales["en"][key];
