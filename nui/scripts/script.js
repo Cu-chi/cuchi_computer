@@ -703,15 +703,18 @@ const OpenApp = (appName, msgBox) => {
     document.body.onmousedown = () => UnfocusAllApp();
     FocusApp(false, appName);
 
-    if (appName == "console") ClearConsole();
-    else if (appName == "mail") {
-        mailCreation = false;
-        document.getElementById("mail-create").innerText = GetLocale("mail_create");
-        document.getElementById("mail-signout").style.display = "initial";
-        document.getElementById("mail-refresh").style.display = "initial";
-        document.getElementById("mail-creator").style.display = "none";
-        document.getElementById("mail-reader").style.display = "none";
-        document.getElementById("mail-container").style.display = "flex";
+    if (!wasOpen) {
+        if (appName == "console") 
+            ClearConsole();
+        else if (appName == "mail") {
+            mailCreation = false;
+            document.getElementById("mail-create").innerText = GetLocale("mail_create");
+            document.getElementById("mail-signout").style.display = "initial";
+            document.getElementById("mail-refresh").style.display = "initial";
+            document.getElementById("mail-creator").style.display = "none";
+            document.getElementById("mail-reader").style.display = "none";
+            document.getElementById("mail-container").style.display = "flex";
+        }
     }
 
     return wasOpen ? 2 : 1;
