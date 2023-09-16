@@ -45,7 +45,7 @@ const Locales = {
         <br>Longitude > <span style='color:green'>{5}</span>
         <br>Location > <span style='color:green'>{6}</span>
         <br><span style='color:red'>GPS set.</span>`,
-        cmd_iptracer_disconnected: "IP address {1} has <span style='color:red'>disconnected</span> from the network.",
+        cmd_iptracer_disconnected: "IP address {1} is <span style='color:red'>disconnected</span> from the network.",
         cmd_netscan_desc: "scan network.",
 
         error_market_title: "Error creating post",
@@ -145,7 +145,7 @@ const Locales = {
         <br>Longitude > <span style='color:green'>{5}</span>
         <br>Position > <span style='color:green'>{6}</span>
         <br><span style='color:red'>GPS réglé.</span>`,
-        cmd_iptracer_disconnected: "L'addresse IP {1} s'est <span style='color:red'>déconnectée</span> du réseau.",
+        cmd_iptracer_disconnected: "L'addresse IP {1} est <span style='color:red'>déconnectée</span> du réseau.",
         cmd_netscan_desc: "scanner le réseau.",
 
         error_market_title: "Erreur de création du poste",
