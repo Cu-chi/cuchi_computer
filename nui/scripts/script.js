@@ -965,8 +965,9 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
         element.appendChild(button);
     }
     else {
+        let buttonsContainer;
         if (buttons.length > 1) {
-            let buttonsContainer = document.createElement("div");
+            buttonsContainer = document.createElement("div");
             buttonsContainer.classList.add("msg-box-btn-container");
             element.appendChild(buttonsContainer);
         }
