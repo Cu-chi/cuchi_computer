@@ -23,7 +23,9 @@ function OpenUI(location)
     end, Location)
 end
 
-RegisterNetEvent("cuchi_computer:useItem", OpenUI)
+if Config.UseItem and Config.UseItem ~= "" then
+    RegisterNetEvent("cuchi_computer:useItem", OpenUI)
+end
 
 RegisterNUICallback("exit", function(_, cb)
     SetNuiFocus(false, false)
