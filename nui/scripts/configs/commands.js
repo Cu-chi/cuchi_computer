@@ -7,8 +7,8 @@
  * Handle with care to avoid breaking it.
 */
 
-var ConsoleVersion = "0.0.0";
-var ComputerType = "desktop";
+let ConsoleVersion = "0.0.0";
+let ComputerType = "desktop";
 const ConsolePrefix = () => { return "<span style='color: grey'>user@"+ComputerType+"</span>:<span style='color: green'>~</span># "; };
 const CommandsList = {
     "help": {
@@ -81,7 +81,7 @@ const CommandsList = {
         "description": () => { return GetLocale("cmd_iptracer_desc"); },
         "action": (args) => {
             if (args.length > 0) {
-                var ipOK = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(args[0]);  
+                let ipOK = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(args[0]);  
                 if (ipOK) {
                     fetch(`https://${GetParentResourceName()}/ipTracer`,
                     {
