@@ -26,6 +26,7 @@ if IsDuplicityVersion() then
         end
     }
 else
+    Config.LaptopInVehicle = true -- make laptop usable or not in vehicles
     Config.UsablePositions = { -- if you want to use positions where players can open the computer
         vector3(1275.5, -1710.7, 54.8),
         vector3(1272.3, -1711.6, 54.8),

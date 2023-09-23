@@ -75,3 +75,53 @@ RegisterNetEvent("cuchi_computer:getIdentifier", function(identifier)
         identifier = identifier
     })
 end)
+
+local computerDict = "anim@scripted@ulp_missions@computerhack@heeled@"
+local computerpName = "hacking_loop"
+
+local laptopDict = "missfam6leadinoutfam_6_mcs_1"
+local laptopName = "leadin_loop_c_laptop_girl"
+local laptopPropName = joaat("prop_laptop_01a")
+local laptopProp = 0
+
+function StartAnimation(laptop)
+    local dict = computerDict
+    local anim = computerpName
+
+    if laptop then
+        dict = laptopDict
+        anim = laptopName
+
+        RequestModel(laptopPropName)
+        while not HasModelLoaded(laptopPropName) do
+            Wait(0)
+        end
+
+        laptopProp = CreateObject(laptopPropName, 0, 0, 0, true, true, true)
+        SetModelAsNoLongerNeeded(laptopPropName)
+        AttachEntityToEntity(laptopProp, PlayerPedId(), 11816, 0.0, 0.42, 0.26, 0.0, 0.0, 0.0, false, false, false, true, 2, true)
+    end
+
+    RequestAnimDict(dict)
+    while not HasAnimDictLoaded(dict) do
+        Wait(0)
+    end
+
+    TaskPlayAnim(PlayerPedId(), dict, anim, 8.0, 8.0, -1, 17, 0, false, false, false)
+
+    RemoveAnimDict(dict)
+end
+
+function StopAnimation(laptop)
+    local dict = computerDict
+    local anim = computerpName
+
+    if laptop then
+        dict = laptopDict
+        anim = laptopName
+
+        DeleteObject(laptopProp)
+    end
+
+    StopEntityAnim(PlayerPedId(), anim, dict, 0)
+end

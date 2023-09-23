@@ -3,8 +3,19 @@ local Location = nil
 local isLaptop = false
 
 function OpenUI(location)
-    Location = location or GetEntityCoords(PlayerPedId())
+    local ped = PlayerPedId()
+    Location = location or GetEntityCoords(ped)
     isLaptop = location == nil
+
+    if not Config.LaptopInVehicle then
+        local inVehicle = IsPedInAnyVehicle(ped, true)
+        if inVehicle then
+            Location = nil
+            CustomNotification(GetLocale("in_vehicle"))
+            return
+        end
+    end
+
     Framework.TriggerServerCallback("ccmp:startComputer", function(ip)
         if ip then
             SendNUIMessage({
@@ -16,6 +27,8 @@ function OpenUI(location)
             })
             SetNuiFocus(true, true)
             UIOpen = true
+
+            StartAnimation(isLaptop)
         else
             Location = nil
             CustomNotification(GetLocale("already_in_use"))
@@ -28,6 +41,7 @@ if Config.UseItem and Config.UseItem ~= "" then
 end
 
 RegisterNUICallback("exit", function(_, cb)
+    StopAnimation(isLaptop)
     SetNuiFocus(false, false)
     UIOpen = false
     TriggerServerEvent("ccmp:stopComputer", Location, isLaptop)
