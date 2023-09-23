@@ -681,7 +681,7 @@ const OpenApp = (appName, msgBox) => {
         taskbarIcon = document.createElement("button");
         taskbarIcon.id = "taskbar-"+appName;
         taskbarIcon.classList.add("taskbar-icon");
-        taskbarIcon.innerHTML = `<img src="assets/images/${msgBox ? appName.split("_")[0] : appName}.png">`;
+        taskbarIcon.innerHTML = `<img src="assets/images/${msgBox ? appName.split("_")[1] : appName}.png">`;
         taskbarIcon.onclick = () => {
             if (elem.style.visibility === "hidden" || elem.style.zIndex < 9999999) {
                 FocusApp(false, appName);
@@ -739,6 +739,16 @@ const CloseApp = (appName, callback) => {
         wasRunning = false;
 
     if (callback) callback();
+
+    let isMsgBox = appName.split("_")[0] == "msgbox";
+    if (isMsgBox) {
+        if (app)
+            app.remove(); // delete message box so it is no longer in the html
+
+        let inAppsIndex = apps.indexOf(appName);
+        if (inAppsIndex >= 0)
+            apps.splice(inAppsIndex, 1);
+    }
 
     return wasRunning;
 };
@@ -934,7 +944,7 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
     msgId += 1;
     let element = document.createElement("div");
     element.style.display = "flex";
-    let appName = type + "_" + msgId;
+    let appName = "msgbox_" + type + "_" + msgId;
     element.id = "app-" + appName;
     
     element.style.top = "50%";
@@ -957,10 +967,7 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
         let button = document.createElement("button");
         button.classList.add("msg-box-btn");
         button.innerText = GetLocale("os_close");
-        button.onclick = () => {
-            CloseApp(appName);
-            element.remove();
-        };
+        button.onclick = () => CloseApp(appName);
     
         element.appendChild(button);
     }
@@ -978,7 +985,6 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
             buttonElem.innerText = buttonData.text;
             buttonElem.onclick = () => {
                 CloseApp(appName);
-                element.remove();
                 if (buttonData.callback) 
                     buttonData.callback();
             };
@@ -986,6 +992,8 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
             (buttonsContainer || element).appendChild(buttonElem);
         });
     }
+
+    apps.push(appName);
     document.getElementById("desktop").appendChild(element);
     OpenApp(appName, true);
     document.getElementById(appName+"-quit").onclick = () => CloseApp(appName, onClose);
