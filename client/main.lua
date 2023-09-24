@@ -86,7 +86,11 @@ local laptopProp = 0
 
 local shouldStop = false
 
-function StartAnimation(laptop)
+---Start animation and loop to check coords
+---@param laptop boolean
+---@param openCoords vector3
+function StartAnimationAndCheck(laptop, openCoords)
+    shouldStop = false
     local dict = computerDict
     local anim = computerpName
 
@@ -109,9 +113,26 @@ function StartAnimation(laptop)
         Wait(0)
     end
 
+    local it = 10
     while not shouldStop do
-        TaskPlayAnim(PlayerPedId(), dict, anim, 8.0, 8.0, -1, 17, 0, false, false, false)
-        Wait(2000)
+        local ped = PlayerPedId()
+        local coords = GetEntityCoords(ped)
+
+        local distance = #(coords - openCoords)
+        -- max distance of 2m for computers and 10m for laptops
+        if (not laptop and distance > 2) or distance > 10 then
+            SendNUIMessage({
+                type = "force-close"
+            })
+        end
+
+        if it >= 10 then -- only each 2000ms
+            TaskPlayAnim(PlayerPedId(), dict, anim, 8.0, 8.0, -1, 17, 0, false, false, false)
+            it = 0
+        end
+
+        it += 1
+        Wait(200)
     end
 
     RemoveAnimDict(dict)

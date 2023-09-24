@@ -28,7 +28,7 @@ function OpenUI(location)
             SetNuiFocus(true, true)
             UIOpen = true
 
-            StartAnimation(isLaptop)
+            StartAnimationAndCheck(isLaptop, Location)
         else
             Location = nil
             CustomNotification(GetLocale("already_in_use"))

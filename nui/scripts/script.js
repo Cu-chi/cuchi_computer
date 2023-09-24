@@ -126,6 +126,9 @@ window.addEventListener("message", (event) => {
     else if (event.data.type === "identifier") {
         identifier = event.data.identifier
     }
+    else if (event.data.type === "force-close") {
+        ShutdownComputer(undefined, true);
+    }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1006,9 +1009,10 @@ const MessageBox = (type, title, message, buttons, onClose, onMinimize) => {
 /**
  * Closes the interface
  * @param {HTMLElement} [exitBtn] if triggered from the exit button
+ * @param {boolean} [forced] forced shutdown
  */
-const ShutdownComputer = (exitBtn) => {
-    Load(true, GetLocale("os_shuttingdown"), 1500, () => {
+const ShutdownComputer = (exitBtn, forced) => {
+    Load(true, forced ? GetLocale("os_shutdown_forced") : GetLocale("os_shuttingdown"), 1500, () => {
         document.body.style.display = "none";
         Load(false);
         fetch(`https://${GetParentResourceName()}/exit`,
