@@ -84,6 +84,8 @@ local laptopName = "leadin_loop_c_laptop_girl"
 local laptopPropName = joaat("prop_laptop_01a")
 local laptopProp = 0
 
+local shouldStop = false
+
 function StartAnimation(laptop)
     local dict = computerDict
     local anim = computerpName
@@ -107,12 +109,16 @@ function StartAnimation(laptop)
         Wait(0)
     end
 
-    TaskPlayAnim(PlayerPedId(), dict, anim, 8.0, 8.0, -1, 17, 0, false, false, false)
+    while not shouldStop do
+        TaskPlayAnim(PlayerPedId(), dict, anim, 8.0, 8.0, -1, 17, 0, false, false, false)
+        Wait(2000)
+    end
 
     RemoveAnimDict(dict)
 end
 
 function StopAnimation(laptop)
+    shouldStop = true
     local dict = computerDict
     local anim = computerpName
 
