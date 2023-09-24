@@ -54,7 +54,7 @@ if #Config.UsablePositions > 0 then
 
             if nearestDistance and nearestDistance < 2.0 then
                 CustomDrawMarker(Config.UsablePositions[nearestIndex])
-                CustomHelpNotification("~INPUT_CONTEXT~ to start computer")
+                CustomHelpNotification(GetLocale("start_computer"))
 
                 if IsControlJustPressed(0, 51) then
                     OpenUI(Config.UsablePositions[nearestIndex])
