@@ -21,5 +21,6 @@ server_scripts {
 ui_page "nui/index.html"
 
 files {
+    "assets/screen.gif", -- 1:1 format for better result (256x256px forced)
     "nui/**/*"
 }

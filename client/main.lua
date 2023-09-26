@@ -1,4 +1,6 @@
 Framework = nil
+CurrentResourceName = GetCurrentResourceName()
+local duiObj = nil
 
 SetTimeout(0, function()
     local success, result
@@ -25,11 +27,27 @@ SetTimeout(0, function()
             Framework.TriggerServerCallback = Framework.Functions.TriggerCallback
         end
     else
-        print("^1Error loading the framework.\n-> Check if you entered the good framework value and its resource name in ^7"..GetCurrentResourceName().."/config.lua")
+        print("^1Error loading the framework.\n-> Check if you entered the good framework value and its resource name in ^7"..CurrentResourceName.."/config.lua")
     end
 
     TriggerServerEvent("cuchi_computer:getIdentifier")
 end)
+
+if Config.UseItem and Config.UseItem ~= "" then
+    CreateThread(function()
+        Wait(10000) -- needed wait (todo: find a better way..)
+        local txd = CreateRuntimeTxd("cuchi_computer")
+        duiObj = CreateDui("https://cfx-nui-"..CurrentResourceName.."/assets/screen.gif", 256, 256)
+
+        while not IsDuiAvailable(duiObj) do
+            Wait(0)
+        end
+
+        local dui = GetDuiHandle(duiObj)
+        CreateRuntimeTextureFromDuiHandle(txd, "screen", dui)
+        AddReplaceTexture("prop_laptop_lester2", "script_rt_tvscreen", "cuchi_computer", "screen")
+    end)
+end
 
 if #Config.UsablePositions > 0 then
     CreateThread(function()
@@ -81,7 +99,7 @@ local computerpName = "hacking_loop"
 
 local laptopDict = "missfam6leadinoutfam_6_mcs_1"
 local laptopName = "leadin_loop_c_laptop_girl"
-local laptopPropName = joaat("prop_laptop_01a")
+local laptopPropName = joaat("prop_laptop_lester2")
 local laptopProp = 0
 
 local shouldStop = false
@@ -148,7 +166,21 @@ function StopAnimation(laptop)
         anim = laptopName
 
         DeleteObject(laptopProp)
+        laptopProp = 0
     end
 
     StopEntityAnim(PlayerPedId(), anim, dict, 0)
 end
+
+AddEventHandler("onResourceStop", function(resourceName)
+    if resourceName == CurrentResourceName then
+        if laptopProp ~= 0 then
+            DeleteObject(laptopProp)
+            ClearPedTasks(PlayerPedId())
+
+            if duiObj then
+                DestroyDui(duiObj)
+            end
+        end
+    end
+end)
