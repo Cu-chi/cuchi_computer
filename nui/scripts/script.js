@@ -834,12 +834,13 @@ const MakeElementDraggable = (element) => {
 
             let newTop = element.offsetTop - pos2;
             let newLeft = element.offsetLeft - pos1;
-
-            //                                                   screen height - 5% of itself because taskbar is 5% height
-            if (newTop >= 0 && newTop + element.offsetHeight <= (screen.height - 0.05 * screen.height)) 
+            
+            // prevent window to be behind the taskbar 
+            // screen height - 10% of itself because taskbar is 5% height + 5% of safety to let the title bar visible
+            if (newTop >= 0 && newTop <= (window.innerHeight - 0.10 * window.innerHeight)) 
                 element.style.top = newTop + "px";
-            if (newLeft >= 0 && newLeft + element.offsetWidth <= screen.width) 
-                element.style.left = newLeft + "px";
+
+            element.style.left = newLeft + "px";
         };
     };
 };

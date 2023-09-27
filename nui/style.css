@@ -63,6 +63,8 @@ input::selection {
 }
 
 #taskbar {
+    position: sticky;
+    z-index: 99999999;
     background-color: var(--lighter-color);
     height: 5%;
     font-weight: 300;
@@ -95,12 +97,14 @@ input::selection {
 }
 
 #taskbar #left {
+    top: 50%;
     height: 5%;
     display: flex;
     align-items: center;
     position: absolute;
     left: 0;
     gap: 5px;
+    box-sizing: border-box;
 }
 
 #taskbar #left img {
@@ -109,6 +113,7 @@ input::selection {
 }
 
 #taskbar #right {
+    top: 50%;
     height: 5%;
     display: flex;
     align-items: center;
@@ -719,4 +724,14 @@ input::selection {
 
 #mail-refresh:disabled {
     opacity: 0.4;
+}
+
+#adresses-container {
+    overflow: auto;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-height: 400px;
+    width: 390px;
 }
