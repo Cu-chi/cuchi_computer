@@ -26,14 +26,14 @@ function RemoveIP(ip)
     RegisteredIPs[ip] = nil
 end
 
---- Get the location from the IP adress
+--- Get the location from the IP address
 ---@param ip string
 ---@return vector3 | nil
 function GetLocationFromIP(ip)
     return RegisteredIPs[ip] and RegisteredIPs[ip].location
 end
 
---- Get the IP adress from the location 
+--- Get the IP address from the location 
 ---@param targetLocation vector3
 ---@return nil|string
 function GetIPFromLocation(targetLocation)
@@ -55,7 +55,7 @@ function SetIPState(ip, used)
     end
 end
 
---- Generate a random IP adress
+--- Generate a random IP address
 ---@return string
 function GenerateRandomIP()
     local ip = ""
