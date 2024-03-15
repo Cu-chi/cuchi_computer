@@ -23,7 +23,8 @@ function OpenUI(location)
                 ip = ip,
                 laptop = isLaptop,
                 market = AppConfig.Market,
-                mailDomain = AppConfig.Mail.domain
+                mailDomain = AppConfig.Mail.domain,
+                addresses = AppConfig.Addresses
             })
             SetNuiFocus(true, true)
             UIOpen = true

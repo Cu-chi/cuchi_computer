@@ -129,4 +129,28 @@ const CommandsList = {
             });
         }
     },
+    "connect": {
+        "description": () => { return GetLocale("cmd_connect_desc"); },
+        "action": (args) => {
+            if (args.length > 0) {
+                let specifiedDomain = args[0];
+                let appExists = appAddresses[specifiedDomain] != undefined;
+                if (appExists) {
+                    let app = document.getElementById("addresses-content");
+                    let appAddr = document.getElementById("addresses-addresse");
+                    appAddr.innerText = specifiedDomain;
+                    const event = new Event(specifiedDomain);
+                    document.dispatchEvent(event);
+                    openedApp = specifiedDomain;
+
+                    OpenApp("addresses-content");
+                    AddConsoleLine("connect "+specifiedDomain, GetLocale("cmd_connect_success").replace("{1}", specifiedDomain));
+                }
+                else
+                    AddConsoleLine("connect "+specifiedDomain, GetLocale("cmd_connect_unknown"));
+            }
+            else
+                AddConsoleLine("connect", GetLocale("cmd_connect_not_specified"));
+        }
+    }
 };

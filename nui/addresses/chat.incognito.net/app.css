@@ -1,0 +1,98 @@
+#cin-connection {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+}
+
+#cin-connection > h4 {
+    margin: 0;
+    margin-top: 10px;
+}
+
+#cin-content {
+    display: none;
+    flex-direction: column;
+    overflow: auto;
+    justify-content: space-between;
+    height: 680px;
+    width: 400px;
+}
+
+#cin-connection input, #cin-content input {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-left: 4px;
+    height: 28px;
+    width: 100%;
+}
+
+#cin-connection input:focus, #cin-content input:focus {
+    outline: none;
+}
+
+#cin-connection button, #cin-content button {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px 5px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+#cin-connection button:hover, #cin-content button:hover {
+    background-color: rgba(205,205,205,0.1);
+}
+
+#cin-messages {
+    overflow: auto;
+}
+
+.cin-msg {
+    overflow: auto;
+    word-break: break-word;
+}
+
+.cin-msg p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.cin-msg > p:first-child > span:first-child {
+    font-weight: 600;
+}
+
+.cin-msg > p:first-child > span:last-child {
+    opacity: 0.6;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.cin-msg > p:first-child > span:last-child::after {
+    content: " ↴";
+}
+
+.cin-msg > p:last-child {
+    background-color: rgba(205,205,205,0.2);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#cin-send-box {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-end;
+}

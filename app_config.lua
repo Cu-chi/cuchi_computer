@@ -7,6 +7,10 @@ AppConfig = {
     Mail = {
         domain = "@fivemail.com", --> username@fivemail.com
     },
+    Addresses = {
+        "chat.incognito.net",
+        "talk.com",
+    },
     Themes = {
         {
             ["--main-color"] = "#171730",

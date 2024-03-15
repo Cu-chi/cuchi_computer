@@ -48,6 +48,10 @@ const Locales = {
         <br><span style='color:red'>GPS set.</span>`,
         cmd_iptracer_disconnected: "IP address {1} is <span style='color:red'>disconnected</span> from the network.",
         cmd_netscan_desc: "scan network.",
+        cmd_connect_desc: "access to domain.<br>    Usage: connect [domain]",
+        cmd_connect_not_specified: "You have to specify a domain name.<br>    Usage: connect [domain]",
+        cmd_connect_unknown: "Unknown domain name.",
+        cmd_connect_success: "Successfully connected to <span style='color:green'>{1}</span>.",
 
         error_market_title: "Error creating post",
         error_market_deletion_title: "Deletion error",
@@ -99,6 +103,15 @@ const Locales = {
         mail_send_error_empty: "Mail object or text is empty.",
         mail_send_error_overflow: "Mail object or text exceeds the allowed size.",
         mail_answer: "Answer",
+
+        addresses_desc: "Users should use caution when visiting listed domains, and we are not liable for any consequences.",
+        addr_chatincognitonet_connect_title: "Temporary username:",
+        addr_chatincognitonet_username: "Username",
+        addr_chatincognitonet_connect: "Connect",
+        addr_chatincognitonet_connect_taken: "Username already used",
+        addr_chatincognitonet_send: "Send",
+        addr_chatincognitonet_msg_placeholder: "message... (255 char.)",
+        addr_chatincognitonet_left: "left the chat.",
     },
     FR: {
         os_lang: "Français",
@@ -149,6 +162,10 @@ const Locales = {
         <br><span style='color:red'>GPS réglé.</span>`,
         cmd_iptracer_disconnected: "L'addresse IP {1} est <span style='color:red'>déconnectée</span> du réseau.",
         cmd_netscan_desc: "scanner le réseau.",
+        cmd_connect_desc: "accéder au domaine.<br>    Usage: connect [domaine]",
+        cmd_connect_not_specified: "Vous devez spécifier un nom de domaine.<br>    Usage: connect [domaine]",
+        cmd_connect_unknown: "Nom de domaine inconnu.",
+        cmd_connect_success: "Connecté avec succès à <span style='color:green'>{1}</span>.",
 
         error_market_title: "Erreur de création du poste",
         error_market_deletion_title: "Erreur de suppression",
@@ -200,5 +217,14 @@ const Locales = {
         mail_send_error_empty: "L'objet ou le texte du mail est vide.",
         mail_send_error_overflow: "L'objet ou le texte du mail dépasse la taille autorisée.",
         mail_answer: "Répondre",
+
+        addresses_desc: "Les utilisateurs doivent faire preuve de prudence lorsqu'ils visitent les domaines répertoriés, et nous ne sommes pas responsables des conséquences.",
+        addr_chatincognitonet_connect_title: "Pseudo temporaire :",
+        addr_chatincognitonet_username: "Pseudo",
+        addr_chatincognitonet_connect: "Se connecter",
+        addr_chatincognitonet_connect_taken: "Pseudo déjà utilisé",
+        addr_chatincognitonet_send: "Envoyer",
+        addr_chatincognitonet_msg_placeholder: "message... (255 caractères)",
+        addr_chatincognitonet_left: "a quitté le chat.",
     },
 }

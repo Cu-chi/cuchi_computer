@@ -727,7 +727,7 @@ input::selection {
     opacity: 0.4;
 }
 
-#adresses-container {
+#addresses-container {
     overflow: auto;
     display: flex;
     justify-content: space-evenly;
@@ -735,4 +735,25 @@ input::selection {
     gap: 10px;
     max-height: 400px;
     width: 390px;
+}
+
+#addresses-description {
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 0;
+    max-width: fit-content;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.addresses-info {
+    margin: 10px;
+    flex-basis: 100%;
+    text-align: center;
+    user-select: all;
+}
+
+::selection {
+    background: rgba(255, 255, 255, 0.4);
 }

@@ -21,14 +21,14 @@ const Applications = {
     <div id="console-text"></div>
 </div>`
     },
-    "adresses": {
+    "addresses": {
         usable: true,
-        width: 380,
-        height: 640,
         appCode: `
-<div id="app-adresses" class="application">
-    <h1 id="app-adresses-title"><button id="adresses-quit" class="app-exit"></button><button id="adresses-minimize" class="app-minimize"></button>Adresses</h1>
-    <div id="adresses-text"></div>
+<div id="app-addresses" class="application">
+    <h1 id="app-addresses-title"><button id="addresses-quit" class="app-exit"></button><button id="addresses-minimize" class="app-minimize"></button>Addresses</h1>
+    <p id="addresses-description">Description .... some warning before accessing address</p>
+    <div id="addresses-container">
+    </div>
 </div>`
     },
     "informations": {
@@ -144,4 +144,14 @@ const Applications = {
     </div>
 </div>`
     },
+    "addresses-content": {
+        usable: true,
+        hide: true,
+        appCode: `
+<div id="app-addresses-content" class="application">
+    <h1 id="app-addresses-content-title"><button id="addresses-content-quit" class="app-exit"></button><button id="addresses-content-minimize" class="app-minimize"></button><span id="addresses-addresse"></span></h1>
+    <div id="addresses-content"></div>
+</div>        
+`
+    }
 };

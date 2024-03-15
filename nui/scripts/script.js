@@ -11,6 +11,9 @@ let mailsList = null;
 let mailAccount = "";
 let answeringTo = null;
 let AppsZIndex = {};
+let appAddresses = {};
+let addressesContentLoaded = false;
+let openedApp = "";
 
 window.addEventListener("message", (event) => {
     if (event.data.type === "show") {
@@ -67,6 +70,33 @@ window.addEventListener("message", (event) => {
 
             document.getElementById("market-deletion-delete").innerText = GetLocale("os_delete");
             document.getElementById("market-deletion-cancel").innerText = GetLocale("os_cancel");
+        }
+
+        if (Applications["addresses"].usable && !Applications["addresses"].hide && !addressesContentLoaded) {
+            document.getElementById("addresses-description").innerText = GetLocale("addresses_desc");
+            let container = document.getElementById("addresses-container");
+            
+            const addresses = event.data.addresses;
+            addresses.map(addr => {
+                appAddresses[addr] = false;
+
+                let p = document.createElement("p");
+                p.className = "addresses-info";
+                p.innerHTML = `<u>${addr}</u>`
+                container.appendChild(p);
+
+                // load addresses' js & css files
+                let js = document.createElement("script");
+                js.src = `addresses/${addr}/app.js`
+                document.body.append(js);
+
+                let css = document.createElement("link");
+                css.rel = "stylesheet";
+                css.href = `addresses/${addr}/app.css`
+                document.body.append(css);
+            })
+
+            addressesContentLoaded = true;
         }
 
         Load(true, GetLocale("os_session"), 100, () => {
@@ -200,11 +230,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let unusableApps = [];
     Object.entries(Applications).forEach(entry => {
         const [appName, appData] = entry;
-        if (Applications[appName].hide)
-            return;
-
-        let appNameCapitalized = appName.charAt(0).toUpperCase() + appName.slice(1);
-        desktop.innerHTML += `<button id="${appName}" class="desktop-icon"><img src="assets/images/${appName}.png">${appNameCapitalized}</button>`;
+        if (!Applications[appName].hide)
+        {
+            let appNameCapitalized = appName.charAt(0).toUpperCase() + appName.slice(1);
+            desktop.innerHTML += `<button id="${appName}" class="desktop-icon"><img src="assets/images/${appName}.png">${appNameCapitalized}</button>`;
+        }
 
         if (appData.usable) {
             apps.push(appName); // made an array since adding onclick event while be only applied for the last element with the object foreach (weird)
@@ -216,7 +246,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     apps.forEach(app => {
-        document.getElementById(app).onclick = () => OpenApp(app);
+        if (!Applications[app].hide)
+            document.getElementById(app).onclick = () => OpenApp(app);
+
         document.getElementById(app+"-quit").onclick = () => CloseApp(app);
         document.getElementById(app+"-minimize").onclick = () => MinimizeApp(app);
 
@@ -707,9 +739,9 @@ const OpenApp = (appName, msgBox) => {
     FocusApp(false, appName);
 
     if (!wasOpen) {
-        if (appName == "console") 
+        if (appName === "console") 
             ClearConsole();
-        else if (appName == "mail") {
+        else if (appName === "mail") {
             mailCreation = false;
             document.getElementById("mail-create").innerText = GetLocale("mail_create");
             document.getElementById("mail-signout").style.display = "initial";
@@ -751,6 +783,11 @@ const CloseApp = (appName, callback) => {
         let inAppsIndex = apps.indexOf(appName);
         if (inAppsIndex >= 0)
             apps.splice(inAppsIndex, 1);
+    }
+    else if (appName === "addresses-content") {
+        const event = new Event("addressesApplicationClose:" + openedApp);
+        document.dispatchEvent(event);
+        openedApp = "";
     }
 
     return wasRunning;

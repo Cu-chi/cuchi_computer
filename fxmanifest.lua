@@ -5,17 +5,20 @@ version "0.13.48-beta"
 
 shared_scripts {
     "config.lua",
-    "app_config.lua"
+    "app_config.lua",
+    "shared/functions.lua",
 }
 
 client_scripts {
     "client/locales/*.lua",
-    "client/*.lua"
+    "client/*.lua",
+    "client/addresses/*.lua" -- TODO: allow asset escrow
 }
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
-    "server/*.lua"
+    "server/*.lua",
+    "server/addresses/*.lua" -- TODO: allow asset escrow
 }
 
 ui_page "nui/index.html"
