@@ -922,6 +922,28 @@ const OnConsoleCommand = (e, consoleInput) => {
         let cursorPosition = cmd ? cmd.length : 0;
         consoleInput.setSelectionRange(cursorPosition, cursorPosition);
     }
+    else if (e.key === "Tab") {
+        e.preventDefault();
+        const [cmd, ...args] = consoleInput.value.split(" ");
+
+        if (args.length > 0)
+            return;
+
+        let nbStartingBy = 0;
+        let lastStartingBy = "";
+        for (const command in CommandsList) {
+            if (command.startsWith(cmd)) {
+                nbStartingBy++;
+                lastStartingBy = command;
+            }
+        }
+
+        if (nbStartingBy === 1) {
+            consoleInput.value = lastStartingBy;
+            let cmdLength = lastStartingBy.length;
+            consoleInput.setSelectionRange(cmdLength, cmdLength);
+        }
+    }
 };
 
 /**
