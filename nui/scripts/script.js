@@ -903,18 +903,24 @@ const OnConsoleCommand = (e, consoleInput) => {
         cmdHistIndex = 0;
     }
     else if (e.key === "ArrowUp") {
+        e.preventDefault();
         let newIndex = cmdHistory.length - (cmdHistIndex + 1);
         if (newIndex > 0) cmdHistIndex += 1;
 
         let cmd = cmdHistory[newIndex > 0 ? newIndex : 0];
         consoleInput.value = cmd || "";
+        let cursorPosition = cmd ? cmd.length : 0;
+        consoleInput.setSelectionRange(cursorPosition, cursorPosition);
     }
     else if (e.key === "ArrowDown") {
+        e.preventDefault();
         let newIndex = cmdHistory.length - 1 - (cmdHistIndex - 1);
         if (newIndex < cmdHistory.length) cmdHistIndex -= 1;
 
         let cmd = cmdHistory[newIndex < cmdHistory.length ? newIndex : cmdHistory.length];
         consoleInput.value = cmd || "";
+        let cursorPosition = cmd ? cmd.length : 0;
+        consoleInput.setSelectionRange(cursorPosition, cursorPosition);
     }
 };
 
