@@ -9,7 +9,7 @@
 
 let ConsoleVersion = "0.0.0";
 let ComputerType = "desktop";
-const ConsolePrefix = () => { return "<span style='color: grey'>user@"+ComputerType+"</span>:<span style='color: green'>~</span># "; };
+const ConsolePrefix = () => { return "<span style='color: grey'>admin@"+ComputerType+"</span>:<span style='color: green'>~</span>$ "; };
 const CommandsList = {
     "help": {
         "description": () => { return GetLocale("cmd_help_desc"); },
