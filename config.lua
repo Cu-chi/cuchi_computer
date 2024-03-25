@@ -10,8 +10,8 @@ Config.FrameworkOptionalExportName = "" -- if you changed the function's name to
 Config.Locale = "EN"
 
 Config.UseItem = "laptop" -- set the item that will be used to display the interface (to disable it, let it empty)
-if IsDuplicityVersion() then
 
+if IsDuplicityVersion() then
     Config.Functions = {
         ---Function that will return an identifier for the specified player
         ---@param src string
