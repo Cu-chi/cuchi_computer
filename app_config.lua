@@ -9,7 +9,6 @@ AppConfig = {
     },
     Addresses = {
         "chat.incognito.net",
-        "talk.com",
     },
     Themes = {
         {
