@@ -1,7 +1,13 @@
 fx_version "cerulean"
 game "gta5"
 lua54 "yes"
-version "0.13.48-beta"
+use_experimental_fxv2_oal "yes"
+
+version "0.14.0-beta"
+name "cuchi_computer"
+description "Usable computer"
+author "Cu-chi"
+repository "https://github.com/Cu-chi/cuchi_computer"
 
 shared_scripts {
     "config.lua",
@@ -12,13 +18,13 @@ shared_scripts {
 client_scripts {
     "client/locales/*.lua",
     "client/*.lua",
-    "client/addresses/*.lua" -- TODO: allow asset escrow
+    "client/addresses/*.lua"
 }
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
     "server/*.lua",
-    "server/addresses/*.lua" -- TODO: allow asset escrow
+    "server/addresses/*.lua"
 }
 
 ui_page "nui/index.html"
