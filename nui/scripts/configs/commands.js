@@ -136,7 +136,6 @@ const CommandsList = {
                 let specifiedDomain = args[0];
                 let appExists = appAddresses[specifiedDomain] != undefined;
                 if (appExists) {
-                    let app = document.getElementById("addresses-content");
                     let appAddr = document.getElementById("addresses-addresse");
                     appAddr.innerText = specifiedDomain;
                     const event = new Event(specifiedDomain);
