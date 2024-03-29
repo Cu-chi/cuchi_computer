@@ -29,6 +29,8 @@ else
     print("^1Error loading the framework.\n-> Check if you entered the good framework value and its resource name in ^7"..GetCurrentResourceName().."/config.lua\nNote that this resource ^1must^7 be started after your framework resource.")
 end
 
+math.randomseed(os.time())
+
 if Config.UseItem and Config.UseItem ~= "" then
     Framework.RegisterUsableItem("laptop", function(src)
         TriggerClientEvent("cuchi_computer:useItem", src)
@@ -41,7 +43,7 @@ end)
 
 RegisterNetEvent("ccmp:stopComputer", function(location, laptop)
     local ip = GetIPFromLocation(location)
-    print(ip)
+
     if ip then
         if not laptop then
             SetIPState(ip, false)
