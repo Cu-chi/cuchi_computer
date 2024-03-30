@@ -305,13 +305,9 @@ const CommandsList = {
                                 .replace("{1}", neededArgs["-ip"])
                                 .replace("{2}", neededArgs["-port"]));
                         else if (data === "no")
-                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_no")
-                                .replace("{1}", neededArgs["-ip"])
-                                .replace("{2}", neededArgs["-port"]));
+                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_no"));
                         else if (data === "delay")
-                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_delay")
-                                .replace("{1}", neededArgs["-ip"])
-                                .replace("{2}", neededArgs["-port"]));
+                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_delay"));
                         else
                             AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_good")
                                 .replace("{1}", data));
