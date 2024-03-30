@@ -9,6 +9,7 @@ AppConfig = {
     },
     Addresses = {
         "chat.incognito.net",
+        "selldata.com", -- linked with data heist
     },
     Themes = {
         {

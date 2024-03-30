@@ -1,6 +1,7 @@
 Framework = nil
 CurrentResourceName = GetCurrentResourceName()
 local duiObj = nil
+local doingDataHeist = false
 
 SetTimeout(0, function()
     local success, result
@@ -49,6 +50,8 @@ if Config.UseItem and Config.UseItem ~= "" then
     end)
 end
 
+math.randomseed(GetCloudTimeAsInt())
+
 if #Config.UsablePositions > 0 then
     CreateThread(function()
         while true do
@@ -84,6 +87,167 @@ if #Config.UsablePositions > 0 then
 
             ::skip::
         end
+    end)
+end
+
+if Config.DataHeists.Enabled then
+    CreateThread(function()
+        for coords, radius in pairs(Config.DataHeists.Areas) do
+            local area = AddBlipForRadius(coords.x, coords.y, coords.z, radius + 0.0)
+            SetBlipHighDetail(area, true)
+            SetBlipColour(area, 40)
+            SetBlipAlpha(area, 180)
+
+            local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+
+            SetBlipSprite(blip, 310)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale(blip, 0.8)
+            SetBlipColour(blip, 49)
+            SetBlipAsShortRange(blip, true)
+
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentString(GetLocale("data_heist"))
+            EndTextCommandSetBlipName(blip)
+        end
+    end)
+
+    function GetDataHeistAtCoords(coords)
+        local nearest
+        local nearestDistance
+        for heistCoords, radius in pairs(Config.DataHeists.Areas) do
+            local distance = #(coords - heistCoords)
+            if distance <= radius then
+                if not nearest or nearestDistance > distance then
+                    nearest = heistCoords
+                    nearestDistance = distance
+                end
+            end
+        end
+        return nearest
+    end
+
+    local heistIP = ""
+    local heistPort = ""
+    local curHeistCoords
+    local canBreach = false
+
+    local commands = {
+
+        ---@param cb function
+        ["detect"] = function(_, cb)
+            local ped = PlayerPedId()
+            local coords = GetEntityCoords(ped)
+            curHeistCoords = GetDataHeistAtCoords(coords)
+
+            if not curHeistCoords then
+                cb(false)
+                return
+            end
+
+            DataHeistAreaCheck(curHeistCoords)
+            canBreach = false
+            heistIP = ""
+
+            for _, v in ipairs({ -- get unique ip address from coords
+            curHeistCoords.x,
+            curHeistCoords.y,
+            curHeistCoords.z,
+            curHeistCoords.y-curHeistCoords.x,
+            }) do
+                if heistIP ~= "" then
+                    heistIP = heistIP.."."
+                end
+                heistIP = heistIP..(10 + (math.floor(v) % 200))
+            end
+
+            cb(heistIP)
+        end,
+
+        ---@param cb function
+        ["scan"] = function(data, cb)
+            if data["-ports"] == heistIP then
+                heistPort = (1000 + (math.floor(curHeistCoords.x+curHeistCoords.y) % 64535))..""
+                cb(heistPort)
+            else
+                cb(false)
+            end
+        end,
+
+        ---@param cb function
+        ["infiltrate"] = function(data, cb)
+            if data["-ip"] == heistIP and data["-port"] == heistPort then
+                canBreach = true
+                cb(true)
+            else
+                cb(false)
+            end
+        end,
+
+        ---@param cb function
+        ["breach"] = function(data, cb)
+            if data["-ip"] == heistIP and data["-port"] == heistPort then
+                if not canBreach then
+                    return cb("no")
+                end
+
+                Framework.TriggerServerCallback("ccmp:dataHeist", function(result)
+                    cb(result)
+                end, curHeistCoords)
+            else
+                cb(false)
+            end
+        end,
+    }
+
+    RegisterNUICallback("dataHeist", function(data, cb)
+        commands[data.cmd](data, cb)
+    end)
+
+    RegisterNUICallback("sellData", function(data, cb)
+        if curHeistCoords then
+            Framework.TriggerServerCallback("ccmp:dataHeistClaim", function(result, reward)
+                if result then
+                    StopDataHeist()
+                end
+
+                cb({
+                    ok = result,
+                    reward = reward
+                })
+            end, curHeistCoords, data.path)
+        else
+            cb({})
+        end
+    end)
+
+    function StopDataHeist()
+        heistIP = ""
+        heistPort = ""
+        curHeistCoords = nil
+        canBreach = false
+        doingDataHeist = false
+    end
+
+    function DataHeistAreaCheck(heistCoords)
+        CreateThread(function()
+            local ped = PlayerPedId()
+            local radius = Config.DataHeists.Areas[heistCoords]
+            while doingDataHeist do
+                local coords = GetEntityCoords(ped)
+                local distance = #(coords - heistCoords)
+                if distance > radius then
+                    StopDataHeist()
+                    break
+                end
+                Wait(100)
+            end
+        end)
+    end
+
+    RegisterNetEvent("ccmp:dataHeistCall", function(gps)
+        SetNewWaypoint(gps.x, gps.y)
+        CustomNotification(GetLocale("data_heist_call"))
     end)
 end
 

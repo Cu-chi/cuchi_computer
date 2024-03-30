@@ -11,6 +11,27 @@ Config.Locale = "EN"
 
 Config.UseItem = "laptop" -- set the item that will be used to display the interface (to disable it, let it empty)
 
+Config.DataHeists = {
+    Enabled = true,
+    DisplayArea = false, -- display area on the map
+    Reward = { 10000, 20000 }, -- random between [1] and [2]
+    TypeOfDelay = "each", -- "each": one delay for each area OR "all": one delay for all areas
+    Delay = 60, -- in minutes
+    JobsToCall = { "police", "sheriff" }, -- jobs to send call when a heist is triggered
+    Areas = {
+        --[coords as vector3] = areaRadius in meters
+        -- fleeca
+        [vector3(149.9, -1040.46, 29.37)] = 14,
+        [vector3(314.23, -278.83, 54.17)] = 14,
+        [vector3(-350.8, -49.57, 49.04)] = 14,
+        [vector3(-1213.0, -330.39, 37.79)] = 14,
+        [vector3(246.64, 223.2, 106.29)] = 14,
+
+        -- arcadius tower (area in parking)
+        [vector3(-160.274, -606.16, 32.424)] = 50
+    }
+}
+
 if IsDuplicityVersion() then
     Config.Functions = {
         ---Function that will return an identifier for the specified player
@@ -27,7 +48,7 @@ if IsDuplicityVersion() then
     }
 else
     Config.LaptopInVehicle = true -- make laptop usable or not in vehicles
-    Config.UsablePositions = { -- if you want to use positions where players can open the computer
+    Config.UsablePositions = { -- positions where players can open a computer free to use
         vector3(1275.5, -1710.7, 54.8),
         vector3(1272.3, -1711.6, 54.8),
     }

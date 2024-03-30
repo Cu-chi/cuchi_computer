@@ -1,0 +1,49 @@
+#selldata {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    width: 400px;
+}
+
+#selldata > h4 {
+    margin: 0;
+    margin-top: 10px;
+}
+
+#selldata-path {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 300;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding-left: 4px;
+    height: 28px;
+    width: 100%;
+}
+
+#selldata-path:focus {
+    outline: none;
+}
+
+#selldata-sell {
+    background-color: rgba(255,255,255,0.4);
+    color: white;
+    font-weight: 400;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 5px 5px;
+    transition: background-color 0.1s ease-in-out;
+}
+
+#selldata-sell:hover {
+    background-color: rgba(205,205,205,0.1);
+}

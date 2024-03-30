@@ -52,6 +52,24 @@ const Locales = {
         cmd_connect_not_specified: "You have to specify a domain name.<br>    Usage: connect [domain]",
         cmd_connect_unknown: "Unknown domain name.",
         cmd_connect_success: "Successfully connected to <span style='color:green'>{1}</span>.",
+        cmd_detect_desc: "detect ip of network from your actual position.<br>    Usual usage: detect -ip",
+        cmd_detect_arg: "You have to specify the detection type.<br>    Usual usage: detect -ip",
+        cmd_detect_none_detected: "No IP detected near your location.",
+        cmd_detect_detected: "Found address <span style='color:green'>{1}</span> at your location.",
+        cmd_scan_desc: "scan things on ip address specified.<br>    Usual usage: scan -ports [ip]",
+        cmd_scan_arg: "You have to specify what you want to scan.<br>    Usual usage: scan -ports [ip]",
+        cmd_scan_wrong: "Can't scan ports of the given IP address.",
+        cmd_scan_good: "Port <span style='color:green'>{1}</span> is open.",
+        cmd_infiltrate_desc: "find and infiltrate a service on a given port and address.<br>    Usual usage: infiltrate -ip [ip] -port [open-port]",
+        cmd_infiltrate_arg: "You have to specify the ip and the port.<br>    Usual usage: infiltrate -ip [ip] -port [open-port]",
+        cmd_infiltrate_wrong: "Can't find any service to infiltrate on {1}:{2}",
+        cmd_infiltrate_good: "Service on {1}:{2} <span style='color:green'>infiltrated</span>.",
+        cmd_breach_desc: "breach data of infiltrated service.<br>    Usual usage: breach -ip [ip] -port [open-port]",
+        cmd_breach_arg: "You have to specify the ip and the port.<br>    Usual usage: breach -ip [ip] -port [open-port]",
+        cmd_breach_bad: "Can't find any service to breach on {1}:{2}",
+        cmd_breach_no: "You have to infiltrate the service before breaching it.",
+        cmd_breach_good: "Service has been breached, writing data to:<br><span style='color:crimson'>{1}</span>",
+        cmd_breach_delay: "You need to wait before doing a breach on this service.",
 
         error_market_title: "Error creating post",
         error_market_deletion_title: "Deletion error",
@@ -112,6 +130,11 @@ const Locales = {
         addr_chatincognitonet_send: "Send",
         addr_chatincognitonet_msg_placeholder: "message... (255 char.)",
         addr_chatincognitonet_left: "left the chat.",
+        addr_selldata_title: "Sell data",
+        addr_selldata_path: "Path to data...",
+        addr_selldata_sell: "Sell",
+        addr_selldata_bad: "The data doesn't exist at this path or can't access to the path.",
+        addr_selldata_sold: "Data sold for ${1}.",
     },
     FR: {
         os_lang: "Français",
@@ -150,17 +173,17 @@ const Locales = {
         cmd_taskkilled: "L'application '{1}.exe' a été tuée.",
         cmd_taskkill_error: "L'application '{1}.exe' n'est pas en cours d'exécution.",
         cmd_taskkill_not_specified: "Vous devez spécifier une application.<br>    Usage: taskkill [app]",
-        cmd_iptracer_desc: "obtenir des informations sur l'addresse IP spécifiée.<br>    Usage: ip-tracer [IPv4]",
-        cmd_iptracer_not_specified: "Vous devez spécifier une addresse IP.<br>    Usage: ip-tracer [IPv4]",
-        cmd_iptracer_error: "L'addresse IP est incorrecte, elle doit ressembler à 11.22.33.44.",
-        cmd_iptracer_result: `addresse IP > <span style='color:green'>{1}</span>
+        cmd_iptracer_desc: "obtenir des informations sur l'adresse IP spécifiée.<br>    Usage: ip-tracer [IPv4]",
+        cmd_iptracer_not_specified: "Vous devez spécifier une adresse IP.<br>    Usage: ip-tracer [IPv4]",
+        cmd_iptracer_error: "L'adresse IP est incorrecte, elle doit ressembler à 11.22.33.44.",
+        cmd_iptracer_result: `adresse IP > <span style='color:green'>{1}</span>
         <br>Date & Heure > <span style='color:green'>{2}</span>
         <br>Zone > <span style='color:green'>{3}</span>
         <br>Latitude > <span style='color:green'>{4}</span>
         <br>Longitude > <span style='color:green'>{5}</span>
         <br>Position > <span style='color:green'>{6}</span>
         <br><span style='color:red'>GPS réglé.</span>`,
-        cmd_iptracer_disconnected: "L'addresse IP {1} est <span style='color:red'>déconnectée</span> du réseau.",
+        cmd_iptracer_disconnected: "L'adresse IP {1} est <span style='color:red'>déconnectée</span> du réseau.",
         cmd_netscan_desc: "scanner le réseau.",
         cmd_connect_desc: "accéder au domaine.<br>    Usage: connect [domaine]",
         cmd_connect_not_specified: "Vous devez spécifier un nom de domaine.<br>    Usage: connect [domaine]",
@@ -192,7 +215,7 @@ const Locales = {
         mail_signin: "S'identifier",
         mail_signup: "S'inscrire",
         mail_save: "Sauvegarder les entrées pour la prochaine fois.",
-        mail_preview: "Votre addresse mail sera {1}.",
+        mail_preview: "Votre adresse mail sera {1}.",
         mail_passwords_different: "Les mots de passe sont différents.",
         mail_username_taken: "Ce nom d'utilisateur est déjà utilisé.",
         mail_account_created: "Compte créé !",

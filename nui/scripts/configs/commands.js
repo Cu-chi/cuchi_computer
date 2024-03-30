@@ -151,5 +151,178 @@ const CommandsList = {
             else
                 AddConsoleLine("connect", GetLocale("cmd_connect_not_specified"));
         }
+    },
+    "detect": {
+        "description": () => { return GetLocale("cmd_detect_desc"); },
+        "action": (args) => {
+            if (args.length > 0) {
+                if (args[0] === "-ip") {
+                    fetch(`https://${GetParentResourceName()}/dataHeist`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            cmd: "detect",
+                        })
+                    }).then(response => response.json()).then(data => {
+                        if (!data)
+                            AddConsoleLine("detect "+args[0], GetLocale("cmd_detect_none_detected"));
+                        else
+                            AddConsoleLine("detect "+args[0], GetLocale("cmd_detect_detected") 
+                                .replace("{1}", data));
+                    });
+                }
+                else
+                    AddConsoleLine("detect "+args[0], GetLocale("cmd_detect_arg"));
+            }
+            else
+                AddConsoleLine("detect", GetLocale("cmd_detect_arg"));
+        }
+    },
+    "scan": {
+        "description": () => { return GetLocale("cmd_scan_desc"); },
+        "action": (args) => {
+            if (args.length > 0) {
+                const neededArgs = {
+                    "-ports": ""
+                };
+
+                let nextArg;
+                for (const arg of args) {
+                    if (nextArg) {
+                        neededArgs[nextArg] = arg;
+                        nextArg = undefined;
+                        continue;
+                    }
+
+                    if (arg in neededArgs) 
+                        nextArg = arg;
+                };
+
+                if (neededArgs["-ports"] !== "") {
+                    fetch(`https://${GetParentResourceName()}/dataHeist`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            "cmd": "scan",
+                            "-ports": neededArgs["-ports"]
+                        })
+                    }).then(response => response.json()).then(data => {
+                        if (!data)
+                            AddConsoleLine("scan "+(args.join(" ")), GetLocale("cmd_scan_wrong"));
+                        else
+                            AddConsoleLine("scan "+(args.join(" ")), GetLocale("cmd_scan_good")
+                                .replace("{1}", data));
+                    });
+                }
+                else
+                    AddConsoleLine("scan "+(args.join(" ")), GetLocale("cmd_scan_arg"));
+            }
+            else
+                AddConsoleLine("scan", GetLocale("cmd_scan_arg"));
+        }
+    },
+    "infiltrate": {
+        "description": () => { return GetLocale("cmd_infiltrate_desc"); },
+        "action": (args) => {
+            if (args.length > 0) {
+                const neededArgs = {
+                    "-ip": "",
+                    "-port": ""
+                };
+
+                let nextArg;
+                for (const arg of args) {
+                    if (nextArg) {
+                        neededArgs[nextArg] = arg;
+                        nextArg = undefined;
+                        continue;
+                    }
+
+                    if (arg in neededArgs) 
+                        nextArg = arg;
+                };
+
+                if (neededArgs["-ip"] !== "" && neededArgs["-port"] !== "") {
+                    fetch(`https://${GetParentResourceName()}/dataHeist`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            "cmd": "infiltrate",
+                            "-ip": neededArgs["-ip"],
+                            "-port": neededArgs["-port"]
+                        })
+                    }).then(response => response.json()).then(data => {
+                        if (!data)
+                            AddConsoleLine("infiltrate "+(args.join(" ")), GetLocale("cmd_infiltrate_wrong")
+                                .replace("{1}", neededArgs["-ip"])
+                                .replace("{2}", neededArgs["-port"]));
+                        else
+                            AddConsoleLine("infiltrate "+(args.join(" ")), GetLocale("cmd_infiltrate_good")
+                                .replace("{1}", neededArgs["-ip"])
+                                .replace("{2}", neededArgs["-port"]));
+                    });
+                }
+                else
+                    AddConsoleLine("infiltrate "+(args.join(" ")), GetLocale("cmd_infiltrate_arg"));
+            }
+            else
+                AddConsoleLine("infiltrate", GetLocale("cmd_infiltrate_arg"));
+        }
+    },
+    "breach": {
+        "description": () => { return GetLocale("cmd_breach_desc"); },
+        "action": (args) => {
+            if (args.length > 0) {
+                const neededArgs = {
+                    "-ip": "",
+                    "-port": ""
+                };
+
+                let nextArg;
+                for (const arg of args) {
+                    if (nextArg) {
+                        neededArgs[nextArg] = arg;
+                        nextArg = undefined;
+                        continue;
+                    }
+
+                    if (arg in neededArgs) 
+                        nextArg = arg;
+                };
+
+                if (neededArgs["-ip"] !== "" && neededArgs["-port"] !== "") {
+                    fetch(`https://${GetParentResourceName()}/dataHeist`,
+                    {
+                        method: "POST",
+                        body: JSON.stringify({
+                            "cmd": "breach",
+                            "-ip": neededArgs["-ip"],
+                            "-port": neededArgs["-port"]
+                        })
+                    }).then(response => response.json()).then(data => {
+                        if (!data)
+                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_bad")
+                                .replace("{1}", neededArgs["-ip"])
+                                .replace("{2}", neededArgs["-port"]));
+                        else if (data === "no")
+                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_no")
+                                .replace("{1}", neededArgs["-ip"])
+                                .replace("{2}", neededArgs["-port"]));
+                        else if (data === "delay")
+                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_delay")
+                                .replace("{1}", neededArgs["-ip"])
+                                .replace("{2}", neededArgs["-port"]));
+                        else
+                            AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_good")
+                                .replace("{1}", data));
+
+                    });
+                }
+                else
+                    AddConsoleLine("breach "+(args.join(" ")), GetLocale("cmd_breach_arg"));
+            }
+            else
+                AddConsoleLine("breach", GetLocale("cmd_breach_arg"));
+        }
     }
 };
