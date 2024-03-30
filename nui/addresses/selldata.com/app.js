@@ -30,9 +30,6 @@ document.addEventListener("selldata.com", () => {
         }).then(response => response.json()).then(data => {
             sellBtn.disabled = false;
 
-            if (data.no)
-                return MessageBox("error", "selldata.com", GetLocale("addr_selldata_bad"));
-
             if (data.ok)
                 MessageBox("info", "selldata.com", GetLocale("addr_selldata_sold").replace("{1}", data.reward));
             else

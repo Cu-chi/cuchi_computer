@@ -13,18 +13,26 @@ document.addEventListener("chat.incognito.net", () => {
         <input id="cin-message-input" placeholder="" type="text" maxlength="255">
         <button id="cin-btn"></button>
     </div>
-</div>`
+</div>`;
 
     document.getElementById("cin-title").innerText = GetLocale("addr_chatincognitonet_connect_title");
-    document.getElementById("cin-connect").innerText = GetLocale("addr_chatincognitonet_connect");
-    document.getElementById("cin-connection-username").placeholder = GetLocale("addr_chatincognitonet_username");
-    document.getElementById("cin-btn").innerText = GetLocale("addr_chatincognitonet_send");
+
+    let connectBtn = document.getElementById("cin-connect");
+    connectBtn.innerText = GetLocale("addr_chatincognitonet_connect");
+
+    let usernameElem = document.getElementById("cin-connection-username");
+    usernameElem.placeholder = GetLocale("addr_chatincognitonet_username");
+
+    let sendBtn = document.getElementById("cin-btn");
+    sendBtn.innerText = GetLocale("addr_chatincognitonet_send");
     document.getElementById("cin-message-input").placeholder = GetLocale("addr_chatincognitonet_msg_placeholder");
 
     let username = "";
-    document.getElementById("cin-connect").onclick = () => {
-        document.getElementById("cin-connect").disabled = true;
-        username = document.getElementById("cin-connection-username").value;
+    let connectionElem = document.getElementById("cin-connection");
+    let contentElem = document.getElementById("cin-content");
+    connectBtn.onclick = () => {
+        connectBtn.disabled = true;
+        username = usernameElem.value;
         fetch(`https://${GetParentResourceName()}/cinConnect`,
         {
             method: "POST",
@@ -34,12 +42,12 @@ document.addEventListener("chat.incognito.net", () => {
         }).then(response => response.json()).then(data => {
 
             if (!data.username) {
-                document.getElementById("cin-connect").disabled = false;
+                connectBtn.disabled = false;
                 return MessageBox("error", "chat.incognito.net", GetLocale("addr_chatincognitonet_connect_taken"));
             }
 
-            document.getElementById("cin-connection").style.display = "none";
-            document.getElementById("cin-content").style.display = "flex";
+            connectionElem.style.display = "none";
+            contentElem.style.display = "flex";
         });
     };
 
@@ -53,14 +61,14 @@ document.addEventListener("chat.incognito.net", () => {
             })
         });
         input.value = "";
-    }
+    };
 
     let input = document.getElementById("cin-message-input");
-    document.getElementById("cin-btn").addEventListener("click", () => SendMessage());
+    sendBtn.addEventListener("click", () => SendMessage());
 
     input.addEventListener("keypress" , (e) => {
         if (e.key === "Enter") SendMessage();
-    })
+    });
 
     let messagesContainer = document.getElementById("cin-messages");
     window.addEventListener("message", (event) => {
