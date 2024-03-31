@@ -13,6 +13,7 @@ FiveM computers and laptops with features that are enriching roleplay on your se
 1. Download the [latest version](https://github.com/Cu-chi/cuchi_cameraEditor/releases/latest/download/cuchi_computer.zip)
 2. Make sure to create all SQL tables (`tables.sql`)
 3. Set your framework and configure the resource via the `config.lua` file
+4. (using item) Make sure to create the item and set it as usable
 
 # Documentation 📕
 You can find full documentation [here](https://docs.cu-chi.fr/docs/cuchi_computer/configuration)
