@@ -2,6 +2,7 @@ Framework = nil
 CurrentResourceName = GetCurrentResourceName()
 local duiObj = nil
 local doingDataHeist = false
+local laptopPropName = joaat("prop_laptop_lester2")
 
 SetTimeout(0, function()
     local success, result
@@ -36,7 +37,12 @@ end)
 
 if Config.UseItem and Config.UseItem ~= "" then
     CreateThread(function()
-        Wait(10000) -- needed wait (todo: find a better way..)
+        -- request the model so we can replace the texture
+        RequestModel(laptopPropName)
+        while not HasModelLoaded(laptopPropName) do
+            Wait(0)
+        end
+
         local txd = CreateRuntimeTxd("cuchi_computer")
         duiObj = CreateDui("https://cfx-nui-"..CurrentResourceName.."/assets/screen.gif", 256, 256)
 
@@ -47,6 +53,8 @@ if Config.UseItem and Config.UseItem ~= "" then
         local dui = GetDuiHandle(duiObj)
         CreateRuntimeTextureFromDuiHandle(txd, "screen", dui)
         AddReplaceTexture("prop_laptop_lester2", "script_rt_tvscreen", "cuchi_computer", "screen")
+
+        SetModelAsNoLongerNeeded(laptopPropName)
     end)
 end
 
@@ -263,7 +271,6 @@ local computerpName = "hacking_loop"
 
 local laptopDict = "missfam6leadinoutfam_6_mcs_1"
 local laptopName = "leadin_loop_c_laptop_girl"
-local laptopPropName = joaat("prop_laptop_lester2")
 local laptopProp = 0
 
 local shouldStop = false
