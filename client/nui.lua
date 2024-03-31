@@ -37,6 +37,14 @@ function OpenUI(location)
     end, Location)
 end
 
+exports("isComputerOpen", function()
+    return UIOpen
+end)
+
+exports("isComputerALaptop", function()
+    return isLaptop
+end)
+
 if Config.UseItem and Config.UseItem ~= "" then
     RegisterNetEvent("cuchi_computer:useItem", OpenUI)
 end
