@@ -16,7 +16,12 @@ FiveM computers and laptops with features that are enriching roleplay on your se
 4. (using item) Make sure to create the item and set it as usable
 
 # Documentation 📕
-You can find full documentation [here](https://docs.cu-chi.fr/docs/cuchi_computer/configuration)
+You can find full documentation [here](https://docs.cu-chi.fr/docs/cuchi_computer/setup)
+
+Guides:  
+- [**How to create an application**](https://docs.cu-chi.fr/docs/cuchi_computer/guides/application)  
+- [**How to create an address**](https://docs.cu-chi.fr/docs/cuchi_computer/guides/address)  
+- [**How to create a command**](https://docs.cu-chi.fr/docs/cuchi_computer/guides/command)  
 
 # Links 🔗
 [preview](https://www.youtube.com/channel/UCldFcBy3xVoTSmhr-e0u32w)  
