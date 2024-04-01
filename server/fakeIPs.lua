@@ -14,6 +14,7 @@ function RegisterNewIP(location)
         return genIP
     else
         if not RegisteredIPs[existingIP].state then
+            RegisteredIPs[existingIP].state = true
             return existingIP
         end
         return false
