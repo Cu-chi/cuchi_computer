@@ -319,6 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("mail-connection").style.display = "flex";
                     document.getElementById("mail-signup").style.display = "none";
                     document.getElementById("mail-loader").style.display = "none";
+                    signUpBtn.disabled = false;
                 }
                 else {
                     signupError.style.display = "block";
