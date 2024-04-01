@@ -79,7 +79,7 @@ document.addEventListener("chat.incognito.net", () => {
             const dateFormat = GetLocale("date_format");
             messageContainer.innerHTML = `
 <p><span>${event.data.username}</span><span>${date.toLocaleTimeString(dateFormat)}</span></p>
-<p>${event.data.message}</p>`;
+<p>${event.data.message || GetLocale("addr_chatincognitonet_left")}</p>`;
 
             messagesContainer.appendChild(messageContainer);
             messagesContainer.scrollTo(0, messagesContainer.scrollHeight);

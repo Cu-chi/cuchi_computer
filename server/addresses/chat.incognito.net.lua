@@ -42,7 +42,6 @@ function IsUsernameFree(usernameWanted)
 end
 
 function SendToChat(username, message)
-    -- addr_chatincognitonet_left
     for id, _ in pairs(PlayersInChat) do
         TriggerClientEvent("ccmp:cin:chat", id, username, message)
     end
