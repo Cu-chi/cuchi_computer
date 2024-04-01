@@ -23,6 +23,32 @@ Guides:
 - [**How to create an address**](https://docs.cu-chi.fr/docs/cuchi_computer/guides/address)  
 - [**How to create a command**](https://docs.cu-chi.fr/docs/cuchi_computer/guides/command)  
 
+# Features & Advantages ✨
+
+- Mails application with account creation and real mail system
+- Market application that allow players to create post
+- **Data Heist**: *detect, infiltrate, breach, sell data*! Immersive cybercrime
+- Create **applications**/**addresses** and **console commands** for **your** needs and add a layer of innovation that transforms your server experience.
+- IP address
+- Customizable by the player (themes, language)
+- Console system with **multiple commands** such as:
+    - ip-tracer to find someone's location from their IP address
+    - netscan to scan the network
+    - a connect command to go on a domain
+    - some basic commands:
+        - shutdown
+        - taskkill
+        - start
+        - and more...
+    - and more...
+- Addresses available via the console (including a **darkchat** by default)
+- Maintened & open-source
+- Secure against NUI abuse
+- Optimized
+- Customizable by developers
+- Support on [discord](https://discord.gg/fvRFgRXkkx)/[twitter](https://twitter.com/cuch_i)/[cfx.re thread](https://forum.cfx.re/u/cuchii/summary)
+- [Documentation detailed](https://docs.cu-chi.fr/docs/cuchi_computer/setup)
+
 # Links 🔗
 [preview](https://www.youtube.com/channel/UCldFcBy3xVoTSmhr-e0u32w)  
 [cfx.re thread](https://forum.cfx.re/u/cuchii/summary)  
