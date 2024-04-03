@@ -25,8 +25,8 @@ Guides:
 
 # Features & Advantages ✨
 
-- Mails application with account creation and real mail system
-- Market application that allow players to create post
+- **Mails application** with account creation and real mail system
+- **Market application** that allow players to create post
 - **Data Heist**: *detect, infiltrate, breach, sell data*! Immersive cybercrime
 - Create **applications**/**addresses** and **console commands** for **your** needs and add a layer of innovation that transforms your server experience.
 - IP address
@@ -50,7 +50,7 @@ Guides:
 - [Documentation detailed](https://docs.cu-chi.fr/docs/cuchi_computer/setup)
 
 # Links 🔗
-[preview](https://www.youtube.com/channel/UCldFcBy3xVoTSmhr-e0u32w)  
+[preview](https://youtu.be/V6BV3gB8dpA)  
 [cfx.re thread](https://forum.cfx.re/u/cuchii/summary)  
 [support discord](https://discord.gg/fvRFgRXkkx)  
 [ko-fi](https://ko-fi.com/M4M7W2F0B)  
