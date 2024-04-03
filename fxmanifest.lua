@@ -3,7 +3,7 @@ game "gta5"
 lua54 "yes"
 use_experimental_fxv2_oal "yes"
 
-version "0.15.0-beta"
+version "1.0.0"
 name "cuchi_computer"
 description "Usable computer"
 author "Cu-chi"
