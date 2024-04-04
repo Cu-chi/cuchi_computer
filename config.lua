@@ -7,7 +7,7 @@ Config.Framework = "esx" -- esx/qbcore
 Config.FrameworkResourceName = "es_extended" -- the framework resource name (e.g.: "es_extended" or "qb-core")
 Config.FrameworkOptionalExportName = "" -- if you changed the function's name to get the object, place the new here
 
-Config.Locale = "EN" -- EN/FR/ES/DA
+Config.Locale = "EN" -- EN/FR/ES/DA/DE
 
 Config.UseItem = "laptop" -- set the item that will be used to display the interface (to disable it, let it empty)
 
