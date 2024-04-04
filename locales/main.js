@@ -1,3 +1,4 @@
+let Locales = {};
 let Locale = localStorage.getItem("locale");
 if (!Locale)
     Locale = "EN";

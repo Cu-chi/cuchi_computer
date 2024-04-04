@@ -16,7 +16,8 @@ shared_scripts {
 }
 
 client_scripts {
-    "locales/*.lua",
+    "locales/main.lua",
+    "locales/lua/*.lua",
     "client/*.lua",
     "client/addresses/*.lua"
 }
@@ -30,7 +31,8 @@ server_scripts {
 ui_page "nui/index.html"
 
 files {
-    "locales/*.js",
+    "locales/main.js",
+    "locales/ui/*.js",
     "assets/screen.gif", -- 1:1 format for better result (256x256px forced)
     "nui/**/*"
 }
