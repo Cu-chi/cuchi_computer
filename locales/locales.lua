@@ -12,5 +12,12 @@ Locales = {
         in_vehicle = "Les ordinateurs portables ne peuvent pas être utilisés dans un véhicule.",
         data_heist = "Vol de données",
         data_heist_call = "Vol de données en cours, GPS réglé sur la position localisée.",
-    }
+    },
+    ES = {
+        start_computer =  "~INPUT_CONTEXT~ para iniciar el ordenador",
+        already_in_use =  "Este ordenador ya está en uso.",
+        in_vehicle =  "Las portátiles no pueden usarse en un vehículo.",
+        data_heist =  "Robo de Datos",
+        data_heist_call =  "Robo de Datos en progreso, GPS configurado a la posición localizada."
+    },
 }
