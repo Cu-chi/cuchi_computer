@@ -19,5 +19,5 @@ Locales = {
         in_vehicle =  "Las portátiles no pueden usarse en un vehículo.",
         data_heist =  "Robo de Datos",
         data_heist_call =  "Robo de Datos en progreso, GPS configurado a la posición localizada."
-    },
+    }
 }
