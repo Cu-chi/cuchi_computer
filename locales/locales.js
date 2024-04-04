@@ -274,7 +274,7 @@ const Locales = {
         addr_selldata_sold: "Données vendues pour {1}$.",
     },
     ES: {
-        "os_lang": "Inglés",
+        "os_lang": "Español",
         "os_language": "Idioma",
         "os_language_selection": "Selecciona el idioma para configurar el sistema.",
         "os_cancel": "Cancelar",
