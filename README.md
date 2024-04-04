@@ -41,17 +41,19 @@ Guides:
         - start
         - and more...
     - and more...
+- Console basic QoL things such as autocomplete with tab or history with arrow up and down
 - Addresses available via the console (including a **darkchat** by default)
 - Maintened & open-source
 - Secure against NUI abuse
 - Optimized
 - Customizable by developers
-- Support on [discord](https://discord.gg/fvRFgRXkkx)/[twitter](https://twitter.com/cuch_i)/[cfx.re thread](https://forum.cfx.re/u/cuchii/summary)
+- Support on [discord](https://discord.gg/fvRFgRXkkx)/[twitter](https://twitter.com/cuch_i)/[cfx.re thread](https://forum.cfx.re/t/free-computers-usable-computers-with-attention-to-detail/5224167)
 - [Documentation detailed](https://docs.cu-chi.fr/docs/cuchi_computer/setup)
+- No libraries used for the UI (pure JS, pure CSS)
 
 # Links 🔗
 [preview](https://youtu.be/V6BV3gB8dpA)  
-[cfx.re thread](https://forum.cfx.re/u/cuchii/summary)  
+[cfx.re thread](https://forum.cfx.re/t/free-computers-usable-computers-with-attention-to-detail/5224167)  
 [support discord](https://discord.gg/fvRFgRXkkx)  
 [ko-fi](https://ko-fi.com/M4M7W2F0B)  
 [twitter](https://twitter.com/cuch_i)  
