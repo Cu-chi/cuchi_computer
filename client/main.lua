@@ -98,7 +98,7 @@ if #Config.UsablePositions > 0 then
     end)
 end
 
-if Config.DataHeists.Enabled then
+if Config.DataHeists.Enabled and Config.DataHeists.DisplayArea then
     CreateThread(function()
         for coords, radius in pairs(Config.DataHeists.Areas) do
             local area = AddBlipForRadius(coords.x, coords.y, coords.z, radius + 0.0)
