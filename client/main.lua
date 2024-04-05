@@ -99,26 +99,28 @@ if #Config.UsablePositions > 0 then
 end
 
 if Config.DataHeists.Enabled then
-    CreateThread(function()
-        for coords, radius in pairs(Config.DataHeists.Areas) do
-            local area = AddBlipForRadius(coords.x, coords.y, coords.z, radius + 0.0)
-            SetBlipHighDetail(area, true)
-            SetBlipColour(area, 40)
-            SetBlipAlpha(area, 180)
+    if Config.DataHeists.DisplayArea then
+        CreateThread(function()
+            for coords, radius in pairs(Config.DataHeists.Areas) do
+                local area = AddBlipForRadius(coords.x, coords.y, coords.z, radius + 0.0)
+                SetBlipHighDetail(area, true)
+                SetBlipColour(area, 40)
+                SetBlipAlpha(area, 180)
 
-            local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
+                local blip = AddBlipForCoord(coords.x, coords.y, coords.z)
 
-            SetBlipSprite(blip, 310)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale(blip, 0.8)
-            SetBlipColour(blip, 49)
-            SetBlipAsShortRange(blip, true)
+                SetBlipSprite(blip, 310)
+                SetBlipDisplay(blip, 4)
+                SetBlipScale(blip, 0.8)
+                SetBlipColour(blip, 49)
+                SetBlipAsShortRange(blip, true)
 
-            BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString(GetLocale("data_heist"))
-            EndTextCommandSetBlipName(blip)
-        end
-    end)
+                BeginTextCommandSetBlipName("STRING")
+                AddTextComponentString(GetLocale("data_heist"))
+                EndTextCommandSetBlipName(blip)
+            end
+        end)
+    end
 
     function GetDataHeistAtCoords(coords)
         local nearest
