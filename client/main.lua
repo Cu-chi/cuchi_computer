@@ -261,6 +261,53 @@ if Config.DataHeists.Enabled then
     end)
 end
 
+local propsLength = #Config.UseProps
+if propsLength > 0 then
+    CreateThread(function()
+        local propsList = Config.UseProps
+
+        if Config.TargetSystem then
+            exports["ox_target"]:addModel(propsList, {
+                label = GetLocale("target_computer"),
+                distance = 2.0,
+                onSelect = function(data)
+                    OpenUI(GetEntityCoords(data.entity))
+                end
+            })
+
+            return
+        end
+
+        while true do -- only when not using target system
+            if UIOpen then
+                Wait(500)
+                goto skip
+            end
+
+            local playerPedId = PlayerPedId()
+            local playerCoords = GetEntityCoords(playerPedId)
+
+            local near = false
+            for i = 1, propsLength, 1 do
+                local entity = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, 2.0, propsList[i], false, false, false)
+                if entity ~= 0 then
+                    CustomHelpNotification(GetLocale("start_computer"))
+
+                    if IsControlJustPressed(0, 51) then
+                        OpenUI(GetEntityCoords(entity))
+                    end
+
+                    near = true
+                    break
+                end
+            end
+
+            Wait(near and 0 or 500)
+            ::skip::
+        end
+    end)
+end
+
 RegisterNetEvent("cuchi_computer:getIdentifier", function(identifier)
     SendNUIMessage({
         type = "identifier",

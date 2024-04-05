@@ -4,4 +4,5 @@ Locales["DE"] = {
     in_vehicle = "Laptops können nicht im Fahrzeug verwendet werden.",
     data_heist = "Datenraub",
     data_heist_call = "Datenraub im Gange, GPS auf die Position gesetzt.",
+    target_computer = "Benutzen Sie den Computer"
 }

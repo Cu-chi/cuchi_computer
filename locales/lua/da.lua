@@ -4,4 +4,5 @@ Locales["DA"] = {
     in_vehicle = "Bærbare computere kan ikke bruges i et køretøj.",
     data_heist = "Datakup",
     data_heist_call = "Datakup i gang, GPS indstillet til at finde position.",
+    target_computer = "Brug computeren"
 }

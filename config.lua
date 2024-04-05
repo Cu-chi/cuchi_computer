@@ -48,6 +48,12 @@ if IsDuplicityVersion() then
     }
 else
     Config.LaptopInVehicle = true -- make laptop usable or not in vehicles
+
+    Config.UseProps = { -- list of props (empty to disable props)
+        -- joaat("prop_laptop_01a")
+    }
+    Config.TargetSystem = false -- if true then you must have ox_target, if false prop interactions will be based on a zone check
+
     Config.UsablePositions = { -- positions where players can open a computer free to use
         vector3(1275.5, -1710.7, 54.8),
         vector3(1272.3, -1711.6, 54.8),
