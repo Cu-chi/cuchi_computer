@@ -49,10 +49,90 @@ if IsDuplicityVersion() then
 else
     Config.LaptopInVehicle = true -- make laptop usable or not in vehicles
 
-    Config.UseProps = { -- list of props (empty to disable props)
-        -- joaat("prop_laptop_01a")
+    Config.UseProps = { -- list of props
+        -- included is a list of all basegame laptop/computer/monitor props
+        -- remove any that you don't want to use, remove all to disable
+
+        -- laptops
+        joaat("prop_laptop_01a"),
+        joaat("p_cs_laptop_02"),
+        joaat("hei_prop_hst_laptop"),
+        joaat("xm_prop_x17_laptop_agent14_01"),
+        joaat("prop_laptop_jimmy"),
+        joaat("gr_prop_gr_laptop_01b"),
+        joaat("as_prop_as_laptop_01a"),
+        joaat("h4_prop_club_laptop_dj"),
+        joaat("h4_prop_h4_laptop_01a"),
+        joaat("h4_prop_club_laptop_dj_02"),
+        joaat("bkr_ware05_laptop3"),
+        joaat("p_laptop_02_s"),
+        joaat("sf_prop_sf_laptop_01a"),
+        joaat("prop_laptop_lester2"),
+        joaat("xm_prop_x17_laptop_mrsr"),
+        joaat("tr_prop_tr_laptop_jimmy"),
+        joaat("bkr_ware05_laptop1"),
+        joaat("bkr_prop_clubhouse_laptop_01a"),
+        joaat("v_ind_ss_laptop"),
+        joaat("m23_1_prop_m31_laptop_01a"),
+        joaat("ex_prop_ex_laptop_01a"),
+        joaat("prop_laptop_lester"),
+        joaat("ba_prop_club_laptop_dj"),
+        joaat("xm_prop_x17_laptop_avon"),
+        joaat("bkr_prop_clubhouse_laptop_01b"),
+        joaat("sf_prop_sf_laptop_01b"),
+        joaat("gr_prop_gr_laptop_01a"),
+        joaat("sf_int1_laptop_armoury"),
+        joaat("ba_prop_club_laptop_dj_02"),
+        joaat("m23_2_prop_m32_laptoplscm_01a"),
+        joaat("gr_prop_gr_laptop_01c"),
+        joaat("ch_prop_laptop_01a"),
+        joaat("bkr_ware05_laptop2"),
+        joaat("bkr_ware05_pclatopbasic2"),
+        joaat("p_amb_lap_top_02"),
+        -- computers
+        joaat("h4_prop_battle_club_computer_01"),
+        joaat("xm_office_computer"),
+        joaat("ba_prop_battle_club_computer_01"),
+        joaat("h4_prop_battle_club_computer_02"),
+        joaat("xm_prop_x17_computer_01"),
+        joaat("xm_prop_x17_computer_02"),
+        joaat("bkr_ware05_pcupgrade2"),
+        -- monitors
+        joaat("ex_prop_trailer_monitor_01"),
+        joaat("sf_prop_sf_monitor_s_02a"),
+        joaat("v_serv_ct_monitor05"),
+        joaat("sf_prop_sf_monitor_b_02a"),
+        joaat("sm_prop_smug_monitor_01"),
+        joaat("prop_monitor_03b"),
+        joaat("v_res_lest_monitor"),
+        joaat("v_serv_ct_monitor04"),
+        joaat("ch_prop_ch_monitor_01a"),
+        joaat("prop_monitor_02"),
+        joaat("xm_int02_security_monitor"),
+        joaat("prop_monitor_01c"),
+        joaat("prop_monitor_01b"),
+        joaat("v_res_monitorwidelarge"),
+        joaat("v_serv_ct_monitor01"),
+        joaat("prop_monitor_li"),
+        joaat("prop_ld_monitor_01"),
+        joaat("sf_prop_sf_monitor_01a"),
+        joaat("prop_monitor_01a"),
+        joaat("v_res_monitor"),
+        joaat("v_serv_ct_monitor02"),
+        joaat("v_serv_ct_monitor07"),
+        joaat("hei_prop_hei_bank_mon"),
+        joaat("vw_prop_vw_trailer_monitor_01"),
+        joaat("vw_prop_vw_monitor_01"),
+        joaat("prop_monitor_w_large"),
+        joaat("ex_prop_monitor_01_ex"),
+        joaat("v_serv_ct_monitor06"),
+        joaat("tr_prop_tr_monitor_01a"),
+        joaat("prop_monitor_04a"),
+        joaat("tr_prop_tr_monitor_01b"),
+        joaat("sf_prop_sf_monitor_stu_01a")
     }
     Config.TargetSystem = false -- if true then you must have ox_target, if false prop interactions will be based on a zone check
+    Config.TargetType = "qb" -- "ox"/"qb" for ox_target or qb-target
 
     Config.UsablePositions = { -- positions where players can open a computer free to use
         vector3(1275.5, -1710.7, 54.8),
