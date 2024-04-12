@@ -287,7 +287,7 @@ if propsLength > 0 then
                             label = GetLocale("target_computer"),
                         },
                     },
-                    distance = 2.5
+                    distance = 2.0
                 })
                 return
             end

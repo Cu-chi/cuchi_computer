@@ -131,8 +131,8 @@ else
         joaat("tr_prop_tr_monitor_01b"),
         joaat("sf_prop_sf_monitor_stu_01a")
     }
-    Config.TargetSystem = false -- if true then you must have ox_target, if false prop interactions will be based on a zone check
-    Config.TargetType = "qb" -- "ox"/"qb" for ox_target or qb-target
+    Config.TargetSystem = false -- if true then you must have ox_target or qb-target, if false prop interactions will be based on a zone check
+    Config.TargetType = "ox" -- "ox"/"qb" for ox_target or qb-target
 
     Config.UsablePositions = { -- positions where players can open a computer free to use
         vector3(1275.5, -1710.7, 54.8),
