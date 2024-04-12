@@ -267,15 +267,30 @@ if propsLength > 0 then
         local propsList = Config.UseProps
 
         if Config.TargetSystem then
-            exports["ox_target"]:addModel(propsList, {
-                label = GetLocale("target_computer"),
-                distance = 2.0,
-                onSelect = function(data)
-                    OpenUI(GetEntityCoords(data.entity))
-                end
-            })
+            if Config.TargetType == "ox" then
+                exports["ox_target"]:addModel(propsList, {
+                    label = GetLocale("target_computer"),
+                    distance = 2.0,
+                    onSelect = function(data)
+                        OpenUI(GetEntityCoords(data.entity))
+                    end
+                })
+                return
 
-            return
+            else
+                exports['qb-target']:AddTargetModel(propsList, {
+                    options = {
+                        {
+                            type = "client",
+                            event = "cuchi_computer:openUi",
+                            icon = "fa-solid fa-computer-mouse",
+                            label = GetLocale("target_computer"),
+                        },
+                    },
+                    distance = 2.0
+                })
+                return
+            end
         end
 
         while true do -- only when not using target system
@@ -307,6 +322,11 @@ if propsLength > 0 then
         end
     end)
 end
+
+-- qb target event
+RegisterNetEvent("cuchi_computer:openUi", function(data)
+    OpenUI(GetEntityCoords(data.entity))
+end)
 
 RegisterNetEvent("cuchi_computer:getIdentifier", function(identifier)
     SendNUIMessage({

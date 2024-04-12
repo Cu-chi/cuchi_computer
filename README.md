@@ -11,7 +11,7 @@ FiveM computers and laptops with features that are enriching roleplay on your se
 # Fast Installation ⚡
 **Dependencies:** [oxmysql](https://github.com/overextended/oxmysql), [esx](https://github.com/esx-framework/esx_core) or [qb-core](https://github.com/qbcore-framework/qb-core) framework  
 **Optional dependencies:** 
- - [ox_target](https://github.com/overextended/ox_target): to be able to target props
+ - [ox_target](https://github.com/overextended/ox_target) / [qb-target](https://github.com/qbcore-framework/qb-target): to be able to target props
 
 1. Download the [latest version](https://github.com/Cu-chi/cuchi_cameraEditor/releases/latest/download/cuchi_computer.zip)
 2. Make sure to create all SQL tables (`tables.sql`)
