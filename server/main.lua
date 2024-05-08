@@ -33,7 +33,7 @@ end
 math.randomseed(os.time())
 
 if Config.UseItem and Config.UseItem ~= "" then
-    Framework.RegisterUsableItem("laptop", function(src, item)
+    Framework.RegisterUsableItem(Config.UseItem, function(src, item)
         if Config.Framework == "qbcore" then
             local Player = Framework.GetPlayerFromId(src)
             if Player.Functions.GetItemByName(item.name) ~= nil then
