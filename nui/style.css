@@ -757,3 +757,12 @@ input::selection {
 ::selection {
     background: rgba(255, 255, 255, 0.4);
 }
+#browser-wrapper {
+    height: 100%;
+}
+
+#browser-wrapper iframe {
+    height: 100%;
+    width: 100%;
+    border: none;
+}

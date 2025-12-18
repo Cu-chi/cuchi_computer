@@ -153,5 +153,17 @@ const Applications = {
     <div id="addresses-content"></div>
 </div>        
 `
-    }
+    },
+    "browser": {
+        usable: true,
+        width: 960,
+        height: 630,
+        appCode: `
+<div id="app-browser" class="application">
+    <h1 id="app-browser-title"><button id="browser-quit" class="app-exit"></button><button id="browser-minimize" class="app-minimize"></button>Browser</h1>
+    <div id="browser-wrapper">
+        <iframe id="browser-iframe" src=""></iframe>
+    </div>
+</div>`
+    },
 };

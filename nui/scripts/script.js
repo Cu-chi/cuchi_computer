@@ -658,6 +658,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
+
+    // browser
+    if (Applications["browser"].usable && !Applications["browser"].hide) {
+        let browserIframe = document.getElementById("browser-iframe");
+        browserIframe.addEventListener("message", (event) => {
+            console.log("got event ("+browserIframe.contentWindow.location.href+") -> ", event)
+        })
+    }
 })
 
 /**
@@ -750,6 +758,10 @@ const OpenApp = (appName, msgBox) => {
             document.getElementById("mail-creator").style.display = "none";
             document.getElementById("mail-reader").style.display = "none";
             document.getElementById("mail-container").style.display = "flex";
+        }
+        else if (appName === "browser") {
+            let iframe = document.getElementById("browser-iframe");
+            iframe.src = "https://www.google.com/webhp?igu=1";
         }
     }
 
